@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/9e8d5d0c-e0ab-4694-96d7-c0b5d838983d/resourceGroups/restaurantmanager18_group/providers/Microsoft.Web/sites/restaurantmanager18",
+    "appService.deploySubpath": "."
+}
