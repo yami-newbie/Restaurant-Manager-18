@@ -25,3 +25,4 @@ yarn-error.log*
 # Firebase Hosting
 .firebase
 firebase-debug.log
+firebase/
