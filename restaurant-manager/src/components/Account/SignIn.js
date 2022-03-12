@@ -1,14 +1,13 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { auth } from "../../firebase";
+import accountService from '../../services/account.service'
 
 function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const login = async () => {
+  const login = async (e) => {
+    e.preventDefault();
     try {
-      const user = await signInWithEmailAndPassword(auth, username, password);
-      console.log(user);
+      await accountService.login({username: username, password: password})
     } catch (err) {
       console.log(err.message);
     }

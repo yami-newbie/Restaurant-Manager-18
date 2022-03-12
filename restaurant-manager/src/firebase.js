@@ -9,8 +9,7 @@ import { getFirestore } from 'firebase/firestore'
 const firebaseConfig = {
   apiKey: "AIzaSyBTQVYCtG03UrL-sg8x0_xb8TZItG2BWaM",
   authDomain: "quanlynhahang-b44c4.firebaseapp.com",
-  databaseURL:
-    "https://quanlynhahang-b44c4-default-rtdb.asia-southeast1.firebasedatabase.app",
+  databaseURL: "https://quanlynhahang-b44c4-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "quanlynhahang-b44c4",
   storageBucket: "quanlynhahang-b44c4.appspot.com",
   messagingSenderId: "993636431615",
@@ -20,7 +19,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+const auth = getAuth(app); // app.auth
 
 const db = getFirestore(app);
 
