@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import AccountService from '../../services/account.service'
+import { useAuth } from "../services/firebase";
 
 function SignUp() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const register = (e) => {
+  const auth = useAuth();
+
+  const register = async (e) => {
     e.preventDefault();
     try {
-      AccountService.register({
-        username: username, 
-        password: password, 
-        displayName: displayName
+      await auth.signup({
+        email: email,
+        password: password,
+        displayName: displayName,
       });
     } catch (err) {
       console.log(err.message);
@@ -20,12 +22,15 @@ function SignUp() {
   
   return (
     <div>
+      <div>
+        DisplayName: {auth.user?.displayName}    
+      </div>
       <form onSubmit={register}>
         <div>
           <input
             placeholder="Username"
             onChange={(e) => {
-              setUsername(e.target.value);
+              setEmail(e.target.value);
             }}
           />
         </div>

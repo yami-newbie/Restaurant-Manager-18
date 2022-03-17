@@ -4,15 +4,15 @@ import {
     sendPasswordResetEmail,
     updateProfile
 } from 'firebase/auth'
-import {auth} from '../firebase';
+import {auth} from './firebase';
 
 class AccountService {
   login = (user) => {
-    signInWithEmailAndPassword(auth, user.username, user.password);
+    return signInWithEmailAndPassword(auth, user.username, user.password);
   };
 
   register = async (newUser) => {
-    await createUserWithEmailAndPassword(
+    return await createUserWithEmailAndPassword(
       auth,
       newUser.username,
       newUser.password
