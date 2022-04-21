@@ -1,22 +1,27 @@
 import { React } from 'react'
 import SignUp from './components/SignUp';
-import { ProvideAuth, useAuth } from './services/firebase';
 import SignIn from './components/SignIn';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomePage from './pages/HomePage';
+import { ProvideAuth } from './services/account.service';
+import { ThemeProvider } from '@emotion/react';
+import theme from "./theme/theme.json";
+import { createTheme } from '@mui/material';
 
 function App() {
-  const auth = useAuth();
+  const newTheme = createTheme(theme);
   return (
-    <ProvideAuth>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/" element={<HomePage />} />
-        </Routes>
-      </BrowserRouter>
-    </ProvideAuth>
+    <ThemeProvider theme={newTheme}>
+      <ProvideAuth>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/" element={<HomePage />} />
+          </Routes>
+        </BrowserRouter>
+      </ProvideAuth>
+    </ThemeProvider>
   );
 }
 

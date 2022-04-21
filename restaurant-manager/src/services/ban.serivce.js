@@ -18,30 +18,39 @@ const temp = {
 
 const BanRef = collection(db, "Ban");
 
-class BanDataService {
-  addBan = async (newBan) => {
+function BanDataService() {
+
+  const addBan = async (newBan) => {
     return await addDoc(BanRef, newBan);
   };
 
-  updateBan = async (id, updateBan) => {
+  const updateBan = async (id, updateBan) => {
     const docBan = doc(db, "Ban", id);
     return await updateDoc(docBan, updateBan);
   };
 
-  deleteBan = async (id) => {
+  const deleteBan = async (id) => {
     const BanDoc = doc(db, "Ban", id);
     return await deleteDoc(BanDoc);
   };
 
-  getAllBan = async () => {
+  const getAllBan = async () => {
     return await getDocs(BanRef);
   };
 
-  getBan = async (id) => {
+  const getBan = async (id) => {
     const BanDoc = doc(db, "Ban", id);
     return await getDoc(BanDoc);
   };
+
+  return {
+    updateBan,
+    addBan,
+    deleteBan,
+    getAllBan,
+    getBan
+  }
 }
 
-export default new BanDataService();
+export default BanDataService;
 

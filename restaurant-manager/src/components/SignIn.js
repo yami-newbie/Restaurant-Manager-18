@@ -1,11 +1,15 @@
-import { useState } from "react";
-import HomePage from "../pages/HomePage";
-import { useAuth } from "../services/firebase";
+import { useEffect, useState } from "react";
+import { useAuth } from "../services/account.service";
 
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [displayEmail, setDisplayEmail] = useState('');
   const auth = useAuth();
+
+  useEffect(() => {
+    setDisplayEmail(auth.user?.email);
+  }, [auth])
 
   const login = async (e) => {
     e.preventDefault();
@@ -13,24 +17,16 @@ function SignIn() {
       await auth.signin({
         email: email,
         password: password,
-      });
-      return true;
+      })
     } catch (err) {
       console.log(err.message);
-      return false;
     }
   };
   return (
     <div>
       <div>
-        <button
-          onClick={async () => {
-            auth.signout();
-          }}
-        >
-          Log Out
-        </button>
-        <p>DisplayName: {auth.user?.displayName}</p>
+        <button onClick={async () => auth.signout()}>Log Out</button>
+        <p>DisplayName: {displayEmail}</p>
       </div>
       <div>
         <button

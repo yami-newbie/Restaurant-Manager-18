@@ -17,29 +17,37 @@ const temp = {
 
 const DichVuRef = collection(db, "DichVu");
 
-class DichVuDataService {
-  addDichVu = async (newDichVu) => {
+function DichVuDataService() {
+  const addDichVu = async (newDichVu) => {
     return await addDoc(DichVuRef, newDichVu);
   };
 
-  updateDichVu = async (id, updateDichVu) => {
+  const updateDichVu = async (id, updateDichVu) => {
     const docDichVu = doc(db, "DichVu", id);
     return await updateDoc(docDichVu, updateDichVu);
   };
 
-  deleteDichVu = async (id) => {
+  const deleteDichVu = async (id) => {
     const DichVuDoc = doc(db, "DichVu", id);
     return await deleteDoc(DichVuDoc);
   };
 
-  getAllDichVu = async () => {
+  const getAllDichVu = async () => {
     return await getDocs(DichVuRef);
   };
 
-  getDichVu = async (id) => {
+  const getDichVu = async (id) => {
     const DichVuDoc = doc(db, "DichVu", id);
     return await getDoc(DichVuDoc);
   };
+
+  return {
+    addDichVu,
+    updateDichVu,
+    deleteDichVu,
+    getAllDichVu,
+    getDichVu
+  }
 }
 
-export default new DichVuDataService();
+export default DichVuDataService;
