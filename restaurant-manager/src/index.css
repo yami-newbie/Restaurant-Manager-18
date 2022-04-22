@@ -14,7 +14,45 @@ code {
 
 .app-header
 {
-  background-color: white;
+  display: flex;
+  background-color: #ffffff;
   width: 100%;
-  height: 100px;
+  height: 50px;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+.app-header .app-icon
+{
+  height: 100%;
+  width: 100px; 
+  margin-left: 20px;
+}
+
+.app-header .app-item
+{
+  margin-right: 20px;
+}
+
+.app-footer
+{
+  display: grid;
+  grid-template-columns: 2fr, 1fr, 1fr;
+  background-color: #ffffff;
+  width: 100%;
+}
+.app-footer .about
+{
+  display: flex;
+  flex-direction: column;
+}
+
+.homepage
+{
+
+}
+.footer
+{
+  display: flex;
+  align-items: flex-end;
 }
