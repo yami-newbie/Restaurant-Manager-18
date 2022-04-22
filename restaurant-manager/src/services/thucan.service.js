@@ -17,29 +17,37 @@ const temp = {
 
 const ThucAnRef = collection(db, "ThucAn");
 
-class ThucAnDataService {
-  addThucAn = async (newThucAn) => {
+function ThucAnDataService() {
+  const addThucAn = async (newThucAn) => {
     return await addDoc(ThucAnRef, newThucAn);
   };
 
-  updateThucAn = async (id, updateThucAn) => {
+  const updateThucAn = async (id, updateThucAn) => {
     const docThucAn = doc(db, "ThucAn", id);
     return await updateDoc(docThucAn, updateThucAn);
   };
 
-  deleteThucAn = async (id) => {
+  const deleteThucAn = async (id) => {
     const ThucAnDoc = doc(db, "ThucAn", id);
     return await deleteDoc(ThucAnDoc);
   };
 
-  getAllThucAn = async () => {
+  const getAllThucAn = async () => {
     return await getDocs(ThucAnRef);
   };
 
-  getThucAn = async (id) => {
+  const getThucAn = async (id) => {
     const ThucAnDoc = doc(db, "ThucAn", id);
     return await getDoc(ThucAnDoc);
   };
+
+  return {
+    addThucAn,
+    updateThucAn,
+    deleteThucAn,
+    getAllThucAn,
+    getThucAn
+  }
 }
 
 export default new ThucAnDataService();

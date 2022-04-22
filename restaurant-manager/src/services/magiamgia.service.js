@@ -18,29 +18,37 @@ const temp = {
 
 const MaGiamGiaRef = collection(db, "MaGiamGia");
 
-class MaGiamGiaDataService {
-  addMaGiamGia = async (newMaGiamGia) => {
+function MaGiamGiaDataService() {
+  const addMaGiamGia = async (newMaGiamGia) => {
     return await addDoc(MaGiamGiaRef, newMaGiamGia);
   };
 
-  updateMaGiamGia = async (id, updateMaGiamGia) => {
+  const updateMaGiamGia = async (id, updateMaGiamGia) => {
     const docMaGiamGia = doc(db, "MaGiamGia", id);
     return await updateDoc(docMaGiamGia, updateMaGiamGia);
   };
 
-  deleteMaGiamGia = async (id) => {
+  const deleteMaGiamGia = async (id) => {
     const MaGiamGiaDoc = doc(db, "MaGiamGia", id);
     return await deleteDoc(MaGiamGiaDoc);
   };
 
-  getAllMaGiamGia = async () => {
+  const getAllMaGiamGia = async () => {
     return await getDocs(MaGiamGiaRef);
   };
 
-  getMaGiamGia = async (id) => {
+  const getMaGiamGia = async (id) => {
     const MaGiamGiaDoc = doc(db, "MaGiamGia", id);
     return await getDoc(MaGiamGiaDoc);
   };
+
+  return {
+    addMaGiamGia,
+    updateMaGiamGia,
+    deleteMaGiamGia,
+    getAllMaGiamGia,
+    getMaGiamGia
+  }
 }
 
 export default new MaGiamGiaDataService();

@@ -1,15 +1,13 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../services/firebase";
-import Header from "../components/AppHeader";
-import Footer from "../components/AppFooter"
+import AppHeader from "../components/AppHeader";
+import { useAuth } from "../services/account.service";
 
 function HomePage() {
     const auth = useAuth();
 
     return (
       <div>
-        <Header/>
-        {auth.user ? (
+        {/* {auth.user ? (
           <div>
             <div>HomePage</div>
             <button onClick={() => auth.signout()}>Sign Out</button>
@@ -21,11 +19,8 @@ function HomePage() {
               <Link to="/signin">Sign In</Link>
             </button>
           </div>
-        )}
-        <div className="footer">
-          <Footer/>
-        </div>
-        
+        )} */}
+        <AppHeader />
       </div>
     );
 }

@@ -13,28 +13,36 @@ const temp = {
 
 const HoaDonRef = collection(db, "HoaDon");
 
-class HoaDonDataService {
-    addHoaDon = async (newHoaDon) => {
-        return await addDoc(HoaDonRef, newHoaDon);
-    }
+function HoaDonDataService() {
+    const addHoaDon = async (newHoaDon) => {
+      return await addDoc(HoaDonRef, newHoaDon);
+    };
 
-    updateHoaDon = async (id, updateHoaDon) => {
-        const hoadonDoc = doc(db, "HoaDon", id);
-        return await updateDoc(hoadonDoc, updateHoaDon);
-    }
+    const updateHoaDon = async (id, updateHoaDon) => {
+      const hoadonDoc = doc(db, "HoaDon", id);
+      return await updateDoc(hoadonDoc, updateHoaDon);
+    };
 
-    deleteHoaDon = async (id) => {
-        const hoadonDoc = doc(db, "HoaDon", id);
-        return await deleteDoc(hoadonDoc);
-    }
+    const deleteHoaDon = async (id) => {
+      const hoadonDoc = doc(db, "HoaDon", id);
+      return await deleteDoc(hoadonDoc);
+    };
 
-    getAllHoaDon = async () => {
-        return await getDocs(HoaDonRef);
-    }
+    const getAllHoaDon = async () => {
+      return await getDocs(HoaDonRef);
+    };
 
-    getHoaDon = async (id) => {
-        const hoadonDoc = doc(db, "HoaDon", id);
-        return await getDoc(hoadonDoc);
+    const getHoaDon = async (id) => {
+      const hoadonDoc = doc(db, "HoaDon", id);
+      return await getDoc(hoadonDoc);
+    };
+
+    return {
+        addHoaDon,
+        updateHoaDon,
+        deleteHoaDon,
+        getAllHoaDon,
+        getHoaDon
     }
 }
 

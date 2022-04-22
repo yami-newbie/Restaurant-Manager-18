@@ -11,29 +11,37 @@ const temp = {
 
 const StaffRef = collection(db, "NhanVien")
 
-class NhanVienDataService {
+function NhanVienDataService() {
     
-    addNhanVien = async (newStaff) => {
-        return await addDoc(StaffRef, newStaff)
-    }
+    const addNhanVien = async (newStaff) => {
+      return await addDoc(StaffRef, newStaff);
+    };
 
-    updateNhanVien = async (id, updateStaff) => {
-        const docStaff = doc(db, "NhanVien", id);
-        return await updateDoc(docStaff, updateStaff);
-    }
+    const updateNhanVien = async (id, updateStaff) => {
+      const docStaff = doc(db, "NhanVien", id);
+      return await updateDoc(docStaff, updateStaff);
+    };
 
-    deleteNhanVien = async (id) => {
-        const staffDoc = doc(db, "NhanVien", id);
-        return await deleteDoc(staffDoc);
-    }
+    const deleteNhanVien = async (id) => {
+      const staffDoc = doc(db, "NhanVien", id);
+      return await deleteDoc(staffDoc);
+    };
 
-    getAllNhanVien = async () => {
-        return await getDocs(StaffRef);
-    }
+    const getAllNhanVien = async () => {
+      return await getDocs(StaffRef);
+    };
 
-    getNhanVien = async (id) => {
-        const staffDoc = doc(db, "NhanVien", id);
-        return await getDoc(staffDoc)
+    const getNhanVien = async (id) => {
+      const staffDoc = doc(db, "NhanVien", id);
+      return await getDoc(staffDoc);
+    };
+
+    return {
+        addNhanVien,
+        updateNhanVien,
+        deleteNhanVien,
+        getAllNhanVien,
+        getNhanVien
     }
 }
 
