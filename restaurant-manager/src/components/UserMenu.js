@@ -5,6 +5,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import React from "react";
 import { useAuth } from '../services/account.service';
+
 function UserMenu({ anchorElUser, handleCloseUserMenu }) {
     const auth = useAuth();
     return (

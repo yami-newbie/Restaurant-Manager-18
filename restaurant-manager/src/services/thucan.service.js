@@ -13,6 +13,7 @@ const temp = {
   Gia: Number(0),
   LoaiThucAn: String(""),
   TenThucAn: String(""),
+  ImgSrc: String(""),
 };
 
 const ThucAnRef = collection(db, "ThucAn");

@@ -7,19 +7,25 @@ import { ProvideAuth } from './services/account.service';
 import { ThemeProvider } from '@emotion/react';
 import theme from "./theme/theme.json";
 import { createTheme } from '@mui/material';
+import OrderTable from './pages/OrderTablePage';
+import Dashboard from './components/Dashboard';
+import { Box } from '@mui/system';
 
 function App() {
   const newTheme = createTheme(theme);
   return (
     <ThemeProvider theme={newTheme}>
       <ProvideAuth>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/" element={<HomePage />} />
-          </Routes>
-        </BrowserRouter>
+        <Box sx={{display: "flex"}}>
+          <Dashboard />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/" element={<OrderTable />} />
+            </Routes>
+          </BrowserRouter>
+        </Box>
       </ProvideAuth>
     </ThemeProvider>
   );
