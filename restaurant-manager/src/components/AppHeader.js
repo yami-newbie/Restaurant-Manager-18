@@ -1,7 +1,17 @@
-import React, {  Fragment, useEffect, useState } from 'react'
-import { AppBar, Avatar, Button, CssBaseline, GlobalStyles, Grid, Link, List, ListItemText, Stack, Toolbar, Typography } from "@mui/material"
-import { useAuth } from '../services/account.service';
-import UserMenu from './UserMenu';
+import React, { Fragment, useEffect, useState } from "react";
+import {
+  AppBar,
+  Avatar,
+  Button,
+  CssBaseline,
+  GlobalStyles,
+  Link,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import { useAuth } from "../services/account.service";
+import UserMenu from "./UserMenu";
 
 function AppHeader() {
   const auth = useAuth();
@@ -13,11 +23,11 @@ function AppHeader() {
       email: "test@gmail.com",
       password: "123456",
     });
-  }
+  };
 
   useEffect(() => {
-    setIsLogin(auth.user? true : false);
-  }, [auth])
+    setIsLogin(auth.user ? true : false);
+  }, [auth]);
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(false);
@@ -97,4 +107,4 @@ function AppHeader() {
   );
 }
 
-export default AppHeader
+export default AppHeader;

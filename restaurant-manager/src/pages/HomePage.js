@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
+import DishDetails from "../components/DishDetails";
+import ListDish from "../components/ListDish";
 import { useAuth } from "../services/account.service";
 
 function HomePage() {
@@ -21,6 +23,7 @@ function HomePage() {
           </div>
         )} */}
         <AppHeader />
+        <ListDish />
       </div>
     );
 }
