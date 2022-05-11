@@ -1,23 +1,20 @@
-import { List, ListItem } from '@mui/material'
+import { Grid } from '@mui/material'
 import React from 'react'
-import DishDetails from './DishDetails'
+import DishListItem from "./DishListItem";
 
-function ListDish({listDish = [1, 2, 3, 4]}) {
-    console.log(listDish);
-
+function ListDish({ listDish = [1, 2, 3, 4, 1, 1, 1, 1, 1, 1] }) {
+  
   return (
-    <List sx={{width: "500px"}}>
-        {
-            listDish.map((dish, index) => {
-                return (
-                  <ListItem key={index}>
-                    <DishDetails />
-                  </ListItem>
-                );
-            })
-        }
-    </List>
-  )
+    <Grid container spacing={2} sx={{ m: 5 }}>
+      {listDish.map((dish, index) => {
+        return (
+          <Grid item key={index}>
+            <DishListItem />
+          </Grid>
+        );
+      })}
+    </Grid>
+  );
 }
 
 export default ListDish

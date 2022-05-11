@@ -46,7 +46,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: "flex", height: 720 }}>
+    <Box sx={{ display: "flex", height: "100%" }}>
       <ThemeProvider
         theme={createTheme({
           components: {

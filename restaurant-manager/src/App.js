@@ -1,4 +1,4 @@
-import { React } from 'react'
+import { React, useEffect, useState } from 'react'
 import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
@@ -16,23 +16,29 @@ import QuanLyMaGiamGia from "./pages/TrangQuanLy/MaGiamGia";
 import ThongKeHoaDon from './pages/ThongKe/HoaDon';
 
 function App() {
+  const [height, setHeight] = useState(window.innerHeight - 0.05)
   const newTheme = createTheme(theme);
+  window.onresize=() =>{
+    setHeight(window.innerHeight - 0.05)
+  }
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", height: height}}>
       <ThemeProvider theme={newTheme}>
         <ProvideAuth>
           <BrowserRouter>
             <Dashboard />
-            <Routes>
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/" element={<TrangChu />} />
-              <Route path="/table" element={<QuanLyBan />} />
-              <Route path="/dish" element={<QuanLyMonAn />} />
-              <Route path="/order" element={<QuanLyHoaDon />} />
-              <Route path="/coupon" element={<QuanLyMaGiamGia />} />
-              <Route path="/thongke/order" element={<ThongKeHoaDon />} />
-            </Routes>
+            <Box sx={{ overflow: "auto", width: "100%" }}>
+              <Routes>
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/" element={<TrangChu />} />
+                <Route path="/table" element={<QuanLyBan />} />
+                <Route path="/dish" element={<QuanLyMonAn />} />
+                <Route path="/order" element={<QuanLyHoaDon />} />
+                <Route path="/coupon" element={<QuanLyMaGiamGia />} />
+                <Route path="/thongke/order" element={<ThongKeHoaDon />} />
+              </Routes>
+            </Box>
           </BrowserRouter>
         </ProvideAuth>
       </ThemeProvider>
