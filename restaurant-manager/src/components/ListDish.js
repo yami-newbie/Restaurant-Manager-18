@@ -2,14 +2,14 @@ import { Grid } from '@mui/material'
 import React from 'react'
 import DishListItem from "./DishListItem";
 
-function ListDish({ listDish = [1, 2, 3, 4, 1, 1, 1, 1, 1, 1] }) {
+function ListDish({ listDish = [] }) {
   
   return (
-    <Grid container spacing={2} sx={{ m: 5 }}>
+    <Grid container spacing={2} sx={{ m: 2 }}>
       {listDish.map((dish, index) => {
         return (
           <Grid item key={index}>
-            <DishListItem />
+            <DishListItem dish={dish}/>
           </Grid>
         );
       })}

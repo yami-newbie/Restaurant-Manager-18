@@ -1,9 +1,22 @@
-import { AppBar, Button, Card, Dialog, DialogContent, Grid, IconButton, InputAdornment, InputLabel, Paper, Stack, styled, TextField, Toolbar, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import ListDishOrder from './ListDishOrder'
+import {
+  AppBar,
+  Button,
+  Card,
+  Dialog,
+  DialogContent,
+  Grid,
+  IconButton,
+  Paper,
+  Stack,
+  TextField,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
+import ListDishOrder from "./ListDishOrder";
 import CloseIcon from "@mui/icons-material/Close";
-import { Box } from '@mui/system';
-import { formatter } from '../services/uilts/formatPrice';
+import { Box } from "@mui/system";
+import { formatter } from "../services/uilts/formatPrice";
 
 function OrderDetail({
   open = false,
@@ -12,7 +25,7 @@ function OrderDetail({
 }) {
   const [name, setName] = useState("Khách hàng A");
   const [phoneNumber, setPhoneNumber] = useState("Số điện thoại");
-  
+
   return (
     <Dialog
       PaperProps={{
@@ -131,4 +144,4 @@ function OrderDetail({
   );
 }
 
-export default OrderDetail
+export default OrderDetail;

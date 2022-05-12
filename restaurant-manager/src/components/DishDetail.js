@@ -1,42 +1,123 @@
-import { Avatar, Badge, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Paper, Stack, styled, TextField, Tooltip, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import { green } from '@mui/material/colors';
-
-const SmallAvatar = styled(Avatar)(({ theme }) => ({
-  width: 22,
-  height: 22,
-  border: `2px solid ${theme.palette.background.paper}`,
-}));
-
+import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { useDishService } from '../services/thucan.service';
+const srcDefault =
+  "https://firebasestorage.googleapis.com/v0/b/quanlynhahang-b44c4.appspot.com/o/images%2Fmeal-food.png?alt=media&token=f3f76cc9-c74d-4b08-9de9-b408e7745c42";
 function DishDetail({
   onClose = null,
   open = false,
-  dish = {
-    imgUrl: "/avatar/94702183_p0.jpg",
-    name: "Món ví dụ",
-    price: 150000,
-    description: "Giới thiệu linh tinh về món ăn :v",
-    enable: true,
-  },
+  dish = null,
+  update = false,
+  add = false,
 }) {
   const sizeImg = 100;
-  const [selected, setSelected] = useState(true);
-  const [imgUrl, setImgUrl] = useState(dish.imgUrl);
-  const [price, setPrice] = useState(dish.price);
-  const [name, setName] = useState(dish.name);
-  const [description, setDescription] = useState(dish.description);
+  const [Enable, setSelected] = useState(true);
+  const [ImgSrc, setImgSrc] = useState();
+  const [Gia, setPrice] = useState();
+  const [TenThucAn, setName] = useState();
+  const [GioiThieu, setDescription] = useState();
+  const [id, setId] = useState();
+  const [file, setFile] = useState();
+
+  const service = useDishService();
+
+  useEffect(() => {
+    if (open === false) {
+      if (dish && dish.data) {
+        const data = dish.data;
+        setName(data.TenThucAn);
+        setImgSrc(data.ImgSrc);
+        setPrice(data.Gia);
+        setSelected(data.Enable);
+        setDescription(data.GioiThieu);
+      }else if(add){
+        setName("");
+        setImgSrc("");
+        setPrice(0);
+        setSelected(true);
+        setDescription("");
+      }
+    }
+  }, [open, dish]);
+
+  useEffect(() => {
+    if (dish && dish.data) {
+      const data = dish.data;
+      setId(dish.id);
+      setName(data.TenThucAn);
+      setImgSrc(data.ImgSrc);
+      setPrice(data.Gia);
+      setSelected(data.Enable);
+      setDescription(data.GioiThieu);
+    }
+  }, [dish]);
+
+  const onUpdate = () => {
+    if (dish && dish.data) {
+      if (ImgSrc !== dish.data.ImgSrc) {
+        service.uploadImg(file).then((res) => {
+          const after = {
+            TenThucAn: TenThucAn,
+            ImgSrc: res,
+            Gia: Number(Gia),
+            Enable: Enable,
+            GioiThieu: GioiThieu,
+          };
+          const newDish = { ...dish.data, ...after };
+          service.updateThucAn(id, newDish);
+        });
+      } else {
+        const after = {
+          TenThucAn: TenThucAn,
+          Gia: Number(Gia),
+          Enable: Enable,
+          GioiThieu: GioiThieu,
+        };
+        const newDish = { ...dish.data, ...after };
+        service.updateThucAn(id, newDish);
+      }
+    }
+    onClose();
+  };
+
+  const onAdd = () => {
+    if (ImgSrc !== "") {
+      service.uploadImg(file).then((res) => {
+        const newDish = {
+          Rating: 0,
+          TenThucAn: TenThucAn,
+          ImgSrc: res,
+          Gia: Number(Gia),
+          Enable: Enable,
+          GioiThieu: GioiThieu,
+        };
+        service.addThucAn(newDish);
+      });
+    } else {
+      const newDish = {
+        TenThucAn: TenThucAn,
+        Rating: 0,
+        ImgSrc: srcDefault,
+        Gia: Number(Gia),
+        Enable: Enable,
+        GioiThieu: GioiThieu,
+      };
+      service.addThucAn(newDish);
+    }
+    onClose();
+  };
 
   const onSelectChange = (e) => {
     setSelected(e.target.value);
   };
 
   const onChangeImg = (e) => {
-    var file = e.target.files[0];
+    var _file = e.target.files[0];
+    setFile(_file);
     var reader = new FileReader();
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(_file);
     reader.onloadend = (e) => {
-      setImgUrl(e.target.result);
+      setImgSrc(e.target.result);
     };
   };
 
@@ -61,7 +142,7 @@ function DishDetail({
             <label htmlFor="load-file">
               <Avatar
                 sx={{ width: sizeImg, height: sizeImg, cursor: "pointer" }}
-                src={imgUrl}
+                src={ImgSrc}
               />
             </label>
             <input
@@ -89,7 +170,7 @@ function DishDetail({
           <Stack spacing={2}>
             <TextField
               variant="standard"
-              value={name}
+              value={TenThucAn}
               fullWidth
               label="Tên món ăn"
               onChange={(e) => {
@@ -98,7 +179,8 @@ function DishDetail({
             />
             <TextField
               variant="standard"
-              value={price}
+              type="number"
+              value={Gia}
               fullWidth
               label="Giá"
               onChange={(e) => {
@@ -108,7 +190,7 @@ function DishDetail({
             <TextField
               variant="standard"
               select
-              value={selected}
+              value={Enable}
               onChange={onSelectChange}
               fullWidth
               label="Trạng thái"
@@ -119,7 +201,7 @@ function DishDetail({
             <TextField
               variant="outlined"
               fullWidth
-              value={description}
+              value={GioiThieu}
               multiline
               rows={5}
               label="Giới thiệu"
@@ -131,7 +213,9 @@ function DishDetail({
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Hủy</Button>
-          <Button onClick={onClose}>Xác nhận</Button>
+          <Button onClick={() => (update ? onUpdate() : onAdd())}>
+            Xác nhận
+          </Button>
         </DialogActions>
       </Paper>
     </Dialog>

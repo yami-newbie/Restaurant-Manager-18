@@ -1,34 +1,51 @@
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, IconButton, Rating, Switch, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Rating, Switch, Typography } from '@mui/material'
 import { Box } from '@mui/system';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DeleteIcon from "@mui/icons-material/Delete";
 import DishDetail from './DishDetail';
 import EditIcon from "@mui/icons-material/Edit";
 import { formatter } from '../services/uilts/formatPrice';
+import { useDishService } from '../services/thucan.service';
 
-function DishListItem({
-  dish = {
-    name: "Món ví dụ",
-    price: 150000,
-    rating: 2,
-    enable: true,
-    imgSrc: "/avatar/94702183_p0.jpg",
-  },
-}) {
-  const [value, setValue] = useState(dish.rating);
-  const [open, setOpen] = useState(false);
-  const [checked, setChecked] = useState(dish.enable)
+function DishListItem({ dish }) {
+  const [value, setValue] = useState(0);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [name, setName] = useState();
+  const [price, setPrice] = useState(0);
+  const [imgSrc, setImgSrc] = useState();
+  const [dishData, setDishData] = useState();
+  const [id, setId] = useState();
+
+  const dataService = useDishService();
+
+  useEffect(() => {
+    if(dish){
+      const data = dish.data;
+      setChecked(data.Enable);
+      setName(data.TenThucAn);
+      setImgSrc(data.ImgSrc);
+      setValue(data.Rating);
+      setPrice(data.Gia);
+      setDishData(dish);
+      setId(dish.id);
+    }
+  }, [dish])
+
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpenDetail(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenDetail(false);
   };
 
   const onCheckedChange = (e) => {
-    setChecked(e.target.checked);
-  }
+    if(id){
+      dataService.updateThucAn(id, { ...dish.data, Enable: e.target.checked });
+    }
+  };
 
   return (
     <Box
@@ -54,13 +71,18 @@ function DishListItem({
             component="div"
             variant="h6"
           >
-            {dish.name}
+            {name}
           </Typography>
           <Rating
             name="simple-controlled"
             value={value}
             onChange={(event, newValue) => {
-              setValue(newValue);
+              if (id) {
+                dataService.updateThucAn(id, {
+                  ...dish.data,
+                  Rating: newValue,
+                });
+              }
             }}
           />
           <Typography
@@ -68,11 +90,20 @@ function DishListItem({
             component="div"
             variant="h7"
           >
-            {formatter.format(dish.price)}
+            {formatter.format(price)}
           </Typography>
         </CardContent>
         <CardActions sx={{ justifyContent: "space-between", ml: 1.5 }}>
-          <IconButton color="primary" aria-label="delete">
+          <IconButton
+            onClick={() => {
+              if (dish && dish.data) {
+                setOpenConfirm(true);
+                // dataService.deleteThucAn(dish.id);
+              }
+            }}
+            color="primary"
+            aria-label="delete"
+          >
             <DeleteIcon />
           </IconButton>
           <IconButton
@@ -90,12 +121,54 @@ function DishListItem({
         sx={{
           position: "absolute",
           width: 100,
+          height: 100,
           borderRadius: "100px",
         }}
-        image={dish.imgSrc}
+        image={imgSrc}
         alt="food"
       />
-      <DishDetail open={open} onClose={handleClose} />
+      <DishDetail
+        update={true}
+        dish={dishData}
+        open={openDetail}
+        onClose={handleClose}
+      />
+      <Dialog
+        open={openConfirm}
+        onClose={() => {
+          setOpenConfirm(false);
+        }}
+      >
+        <DialogTitle sx={{ bgcolor: "rgba(28, 46, 80, 1)", color: "#FFF" }}>
+          <Typography variant="h5" component="div">
+            Xác nhận xóa món ăn
+          </Typography>
+        </DialogTitle>
+        <DialogContent sx={{ m: 2 }}>
+          <Typography variant="h6" component="div">
+            Bạn có xác nhận xóa món ăn này không?
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setOpenConfirm(false);
+            }}
+            variant="outlined"
+          >
+            Hủy
+          </Button>
+          <Button
+            onClick={() => {
+              setOpenConfirm(false);
+              dataService.deleteThucAn(dish.id);
+            }}
+            variant="contained"
+          >
+            Xác nhận
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

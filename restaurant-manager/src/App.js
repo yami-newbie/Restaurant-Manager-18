@@ -3,7 +3,6 @@ import SignUp from './components/SignUp';
 import SignIn from './components/SignIn';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import TrangChu from './pages/TrangChu';
-import { ProvideAuth } from './services/account.service';
 import { ThemeProvider } from '@emotion/react';
 import theme from "./theme/theme.json";
 import { createTheme } from '@mui/material';
@@ -14,6 +13,7 @@ import QuanLyMonAn from "./pages/TrangQuanLy/MonAn";
 import QuanLyHoaDon from "./pages/TrangQuanLy/HoaDon";
 import QuanLyMaGiamGia from "./pages/TrangQuanLy/MaGiamGia";
 import ThongKeHoaDon from './pages/ThongKe/HoaDon';
+import AppProvider from './components/AppProvider';
 
 function App() {
   const [height, setHeight] = useState(window.innerHeight - 0.05)
@@ -24,7 +24,7 @@ function App() {
   return (
     <Box sx={{ display: "flex", height: height }}>
       <ThemeProvider theme={newTheme}>
-        <ProvideAuth>
+        <AppProvider>
           <BrowserRouter>
             <Dashboard />
             <Box sx={{ overflow: "hidden", width: "100%", bgcolor: "#f0f2f5" }}>
@@ -40,7 +40,7 @@ function App() {
               </Routes>
             </Box>
           </BrowserRouter>
-        </ProvideAuth>
+        </AppProvider>
       </ThemeProvider>
     </Box>
   );
