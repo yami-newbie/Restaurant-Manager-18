@@ -1,9 +1,18 @@
 import { Box, Paper, TextField } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ListOrder from '../../components/ListOrder';
+import {useOrderService} from "../../services/hoadon.service";
 
 function QuanLyHoaDon({ list = [1, 1, 1, 1, 1, 1] }) {
   const [search, setSearch] = useState();
+  const [listOrder, setListOrder] = useState([]);
+  const dataService = useOrderService();
+
+  useEffect(() => {
+    setListOrder(dataService.orders);
+
+  }, [dataService]);
+
   return (
     <Box>
       <Box>
@@ -20,7 +29,7 @@ function QuanLyHoaDon({ list = [1, 1, 1, 1, 1, 1] }) {
       </Box>
       <Box sx={{ overflow: "auto", height: window.innerHeight }}>
         <Box sx={{ mx: 2, mt: 2 }}>
-          <ListOrder list={list} />
+          <ListOrder list={listOrder} />
         </Box>
       </Box>
     </Box>

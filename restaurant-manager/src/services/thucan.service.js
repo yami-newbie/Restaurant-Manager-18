@@ -20,15 +20,15 @@ const temp = {
   ImgSrc: String(""),
 };
 
-const dishContext = createContext();
+const context = createContext();
 
 export const useDishService = () => {
-  return useContext(dishContext);
+  return useContext(context);
 };
 
 export default function ProviderDishService({ children }) {
   const auth = ThucAnDataService();
-  return <dishContext.Provider value={auth}>{children}</dishContext.Provider>;
+  return <context.Provider value={auth}>{children}</context.Provider>;
 }
 
 const ThucAnRef = collection(db, "ThucAn");
@@ -63,7 +63,9 @@ function ThucAnDataService() {
 
   const getThucAn = async (id) => {
     const ThucAnDoc = doc(db, "ThucAn", id);
-    return await getDoc(ThucAnDoc);
+    return await getDoc(ThucAnDoc).then(res =>{
+      return {id: res.id, data: res.data()}
+    });
   };
 
   const uploadImg = (file) => {

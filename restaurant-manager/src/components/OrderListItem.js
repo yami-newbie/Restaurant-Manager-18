@@ -1,8 +1,10 @@
 import { Card, CardActionArea, CardActions, CardContent, IconButton, Stack, styled, Tooltip, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import CreditScoreRoundedIcon from "@mui/icons-material/CreditScoreRounded";
 import OrderDetail from './OrderDetail';
+import { formatter } from '../services/uilts/formatPrice';
+import { Timestamp } from 'firebase/firestore';
 
 const CardActionAreaCustom = styled(CardActionArea)({
   "&:hover": {
@@ -17,8 +19,12 @@ const IconButtonCustom = styled(IconButton)({
   },
 });
 
-function OrderListItem() {
+function OrderListItem({order}) {
   const [open, setOpen] = useState(false);
+  const [orderId, setOrderId] = useState();
+  const [name, setName] = useState();
+  const [time, setTime] = useState();
+  const [total, setTotal] = useState();
 
   const openOrderDetail = () => {
     setOpen(true);
@@ -27,6 +33,20 @@ function OrderListItem() {
   const closeOrderDetail = () => {
     setOpen(false);
   }
+
+  const generalId = (id) => {
+    return '# ' + String(id).substring(0, 10) + '...';
+  }
+
+  useEffect(() => {
+    if(order) {
+      setOrderId(order.id);
+      const data = order.data;
+      setName(data.TenKhachHang);
+      setTime(new Timestamp(data.ThoiGian.seconds, data.ThoiGian.nanoseconds).toDate().toLocaleString("vi"));
+      setTotal(data.TongTien);
+    }
+  }, [order])
 
   return (
     <>
@@ -41,15 +61,15 @@ function OrderListItem() {
           <CardContent>
             <Typography
               sx={{ fontWeight: "bolder !important" }}
-              variant="h5"
+              variant="h6"
               component="div"
             >
-              Order Id
+              {generalId(orderId)}
             </Typography>
-            <Typography>Tên khách hàng</Typography>
-            <Typography>{Date()}</Typography>
+            <Typography>{name}</Typography>
+            <Typography>{time}</Typography>
             <Typography sx={{ fontWeight: "bolder !important" }}>
-              Total
+              {formatter.format(total)}
             </Typography>
           </CardContent>
         </CardActionAreaCustom>
@@ -69,7 +89,7 @@ function OrderListItem() {
           </Stack>
         </CardActions>
       </Card>
-      <OrderDetail open={open} onClose={closeOrderDetail}/>
+      <OrderDetail order={order} open={open} onClose={closeOrderDetail} />
     </>
   );
 }

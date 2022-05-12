@@ -12,19 +12,38 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ListDishOrder from "./ListDishOrder";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box } from "@mui/system";
 import { formatter } from "../services/uilts/formatPrice";
+import { useCT_OrderService } from "../services/ct_hoadon.service";
 
 function OrderDetail({
   open = false,
   onClose = null,
-  listDish = [1, 1, 1, 1, 1],
+  order,
 }) {
-  const [name, setName] = useState("Khách hàng A");
-  const [phoneNumber, setPhoneNumber] = useState("Số điện thoại");
+  const [name, setName] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
+  const [listDish, setListDish] = useState([]);
+  const [orderId, setOrderId] = useState();
+  const [nameStaff, setNameStaff] = useState();
+  const [total, setTotal] = useState();
+
+  const ct_dataService = useCT_OrderService();
+
+  useEffect(() => {
+    if(order){
+      setListDish(ct_dataService.getCT_HoaDonByIdHoaDon(order.id));
+      const data = order.data;
+      setName(data.TenKhachHang);
+      setPhoneNumber(data.SoDienThoai);
+      setNameStaff(data.NhanVien);
+      setTotal(data.TongTien);
+      setOrderId(order.id);
+    }
+  }, [ct_dataService, order])
 
   return (
     <Dialog
@@ -81,7 +100,7 @@ function OrderDetail({
                     variant="h5"
                     component="div"
                   >
-                    {formatter.format(2000000)}
+                    {formatter.format(total)}
                   </Typography>
                 </Box>
               </Card>
@@ -119,10 +138,10 @@ function OrderDetail({
                     Thông tin hoá đơn
                   </Typography>
                   <Stack spacing={3}>
-                    <TextField label="Mã hóa đơn" value="FDFER7" />
+                    <TextField label="Mã hóa đơn" value={orderId} />
                     <TextField
                       label="Tên nhân viên"
-                      value="Nhân viên A"
+                      value={nameStaff}
                       fullWidth
                     />
                     <Stack direction="row" spacing={3}>

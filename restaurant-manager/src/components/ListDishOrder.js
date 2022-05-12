@@ -5,10 +5,10 @@ import DishInOrderItem from './DishInOrderItem'
 function ListDishOrder({list}) {
   return (
     <List sx={{ overflow: "auto", maxHeight: 460 }}>
-      {list.map((dish, index) => {
+      {list.map((ct, index) => {
         return (
           <ListItem key={index}>
-            <DishInOrderItem />
+            <DishInOrderItem ct={ct} />
           </ListItem>
         );
       })}

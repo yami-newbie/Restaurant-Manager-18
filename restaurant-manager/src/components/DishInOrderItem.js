@@ -1,23 +1,52 @@
-import { Avatar, Box, Button, Card, CardActions, CardContent, Grid, IconButton, Rating, Stack, Typography, useTheme } from '@mui/material'
-import React, { useState } from 'react'
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Grid,
+  IconButton,
+  Rating,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded";
 import { formatter } from "../services/uilts/formatPrice";
+import { useDishService } from "../services/thucan.service";
 
-function DishInOrderItem({
-  dish = {
-    name: "Món ví dụ",
-    price: 150000,
-    imgUrl: "/avatar/94702183_p0.jpg",
-    amount: 1,
-    rating: 2,
-  },
-}) {
-  const [amount, setAmount] = useState(dish.amount);
+function DishInOrderItem({ ct }) {
+  const [amount, setAmount] = useState();
+  const [name, setName] = useState();
+  const [rating, setRating] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [imgSrc, setImgSrc] = useState();
+  const dataService = useDishService();
+
+  useEffect(() => {
+    if (ct) {
+      const data = ct.data;
+      setAmount(data.SoLuong);
+      dataService.getThucAn(data.IDThucAn).then((res) => {
+        console.log(res);
+        if (res && res.data) {
+          const data = res.data;
+          setName(data.TenThucAn);
+          setRating(data.Rating);
+          setPrice(ct.data.Gia);
+          setImgSrc(data.ImgSrc);
+        }
+      });
+    }
+  }, [ct]);
 
   const AddAmount = () => {
     setAmount(amount + 1);
   };
+
   const RemoveAmount = () => {
     if (amount > 1) setAmount(amount - 1);
   };
@@ -26,7 +55,7 @@ function DishInOrderItem({
       <CardContent
         sx={{ width: "100%", display: "flex", alignItems: "center" }}
       >
-        <Avatar sx={{ width: "64px", height: "64px", mr: 2 }} src={dish.imgUrl} />
+        <Avatar sx={{ width: "64px", height: "64px", mr: 2 }} src={imgSrc} />
         <Grid
           container
           columns={{ xs: 5, md: 10, sm: 5 }}
@@ -44,9 +73,9 @@ function DishInOrderItem({
                 component="div"
                 sx={{ fontWeight: "bolder !important" }}
               >
-                {dish.name}
+                {name}
               </Typography>
-              <Rating readOnly value={dish.rating} />
+              <Rating readOnly value={rating} />
             </Box>
           </Grid>
           <Grid item xs={5} md={5} sm={5}>
@@ -58,7 +87,7 @@ function DishInOrderItem({
               }}
             >
               <Typography variant="h7" component="div">
-                {formatter.format(dish.price)}
+                {formatter.format(price)}
               </Typography>
               <Stack
                 sx={{ alignItems: "center", justifyContent: "right" }}
@@ -79,7 +108,7 @@ function DishInOrderItem({
                 variant="h7"
                 component="div"
               >
-                {formatter.format(dish.price * amount)}
+                {formatter.format(price * amount)}
               </Typography>
             </Box>
           </Grid>
@@ -89,4 +118,4 @@ function DishInOrderItem({
   );
 }
 
-export default DishInOrderItem
+export default DishInOrderItem;
