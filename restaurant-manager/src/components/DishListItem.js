@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import DeleteIcon from "@mui/icons-material/Delete";
 import DishDetail from './DishDetail';
 import EditIcon from "@mui/icons-material/Edit";
+import { formatter } from '../services/uilts/formatPrice';
 
 function DishListItem({
   dish = {
@@ -29,10 +30,6 @@ function DishListItem({
     setChecked(e.target.checked);
   }
 
-  var formatter = new Intl.NumberFormat("vi", {
-    style: "currency",
-    currency: "VND",
-  });
   return (
     <Box
       sx={{

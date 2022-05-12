@@ -18,16 +18,16 @@ import ThongKeHoaDon from './pages/ThongKe/HoaDon';
 function App() {
   const [height, setHeight] = useState(window.innerHeight - 0.05)
   const newTheme = createTheme(theme);
-  window.onresize=() =>{
+  window.onresize=() => {
     setHeight(window.innerHeight - 0.05)
   }
   return (
-    <Box sx={{ display: "flex", height: height}}>
+    <Box sx={{ display: "flex", height: height }}>
       <ThemeProvider theme={newTheme}>
         <ProvideAuth>
           <BrowserRouter>
             <Dashboard />
-            <Box sx={{ overflow: "auto", width: "100%" }}>
+            <Box sx={{ overflow: "hidden", width: "100%", bgcolor: "#f0f2f5" }}>
               <Routes>
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/signin" element={<SignIn />} />

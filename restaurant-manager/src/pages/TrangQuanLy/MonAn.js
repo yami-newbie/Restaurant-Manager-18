@@ -24,7 +24,7 @@ function QuanLyMonAn() {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "80%" }}>
+    <div style={{ display: "flex", flexDirection: "column", width: "100%", overflowX: "hidden" }}>
       <div>
         <ListDish />
       </div>
