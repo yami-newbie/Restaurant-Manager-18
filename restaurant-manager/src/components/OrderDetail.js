@@ -18,32 +18,69 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Box } from "@mui/system";
 import { formatter } from "../services/uilts/formatPrice";
 import { useCT_OrderService } from "../services/ct_hoadon.service";
+import { useOrderService } from "../services/hoadon.service";
 
 function OrderDetail({
   open = false,
   onClose = null,
   order,
+  onCancel
 }) {
   const [name, setName] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
   const [listDish, setListDish] = useState([]);
   const [orderId, setOrderId] = useState();
   const [nameStaff, setNameStaff] = useState();
+  const [state, setState] = useState();
   const [total, setTotal] = useState();
 
   const ct_dataService = useCT_OrderService();
+  const order_dataService = useOrderService();
 
   useEffect(() => {
     if(order){
       setListDish(ct_dataService.getCT_HoaDonByIdHoaDon(order.id));
       const data = order.data;
       setName(data.TenKhachHang);
+      setState(data.ThanhToan);
       setPhoneNumber(data.SoDienThoai);
       setNameStaff(data.NhanVien);
       setTotal(data.TongTien);
       setOrderId(order.id);
     }
   }, [ct_dataService, order])
+
+  useEffect(() => {
+    if(listDish) {
+      var _total = 0;
+      // console.log(listDish);
+      listDish.map(dish => _total += dish.data.Gia * dish.data.SoLuong)
+      setTotal(_total);
+    }
+  }, [listDish])
+
+  const Save = () => {
+    if(order){
+      order_dataService.updateHoaDon(order.id, {
+        ...order.data,
+        TenKhachHang: name,
+        SoDienThoai: phoneNumber,
+      })
+    }
+    onClose();
+  }
+
+  const onPayment = () => {
+    if (order) {
+      order_dataService.updateHoaDon(order.id, {
+        ...order.data,
+        TenKhachHang: name,
+        SoDienThoai: phoneNumber,
+        ThanhToan: true,
+      });
+    }
+    onClose();
+  };
 
   return (
     <Dialog
@@ -67,7 +104,7 @@ function OrderDetail({
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
             Chi tiết hóa đơn
           </Typography>
-          <Button autoFocus color="inherit" onClick={onClose}>
+          <Button autoFocus color="inherit" onClick={Save}>
             lưu
           </Button>
         </Toolbar>
@@ -81,7 +118,7 @@ function OrderDetail({
                 <Typography sx={{ mb: 1 }} variant="h5" component="div">
                   Danh sách món đã gọi
                 </Typography>
-                <ListDishOrder list={listDish} />
+                <ListDishOrder list={listDish} setList={setListDish} />
                 <Box
                   sx={{
                     display: "flex",
@@ -145,10 +182,15 @@ function OrderDetail({
                       fullWidth
                     />
                     <Stack direction="row" spacing={3}>
-                      <Button sx={{ width: "50%" }} variant="outlined">
-                        Huỷ
+                      <Button onClick={onCancel} sx={{ width: "50%" }} variant="outlined">
+                        Huỷ đơn
                       </Button>
-                      <Button sx={{ width: "50%" }} variant="contained">
+                      <Button
+                        onClick={onPayment}
+                        disabled={state}
+                        sx={{ width: "50%" }}
+                        variant="contained"
+                      >
                         Thanh toán
                       </Button>
                     </Stack>

@@ -50,6 +50,7 @@ function CT_HoaDonDataService() {
   };
 
   const getCT_HoaDonByIdHoaDon = (id) => {
+    // console.log(ct_orders)
     return ct_orders.filter((ct) => ct.data.IDHoaDon === id);
   }
 
@@ -62,6 +63,15 @@ function CT_HoaDonDataService() {
     const CT_HoaDonDoc = doc(db, "CT_HoaDon", id);
     return await deleteDoc(CT_HoaDonDoc);
   };
+
+  const deleteCT_HoaDonByIdHoaDon = async (idHoaDon) => {
+    const listCt = getCT_HoaDonByIdHoaDon(idHoaDon);
+
+    if(listCt.length > 0) {
+      listCt.map(ct => deleteCT_HoaDon(ct.id));
+    }
+
+  }
 
   const getAllCT_HoaDon = async () => {
     return await getDocs(CT_HoaDonRef);
@@ -80,5 +90,6 @@ function CT_HoaDonDataService() {
     getAllCT_HoaDon,
     getCT_HoaDon,
     getCT_HoaDonByIdHoaDon,
+    deleteCT_HoaDonByIdHoaDon,
   };
 }

@@ -1,10 +1,12 @@
-import { Card, CardActionArea, CardActions, CardContent, IconButton, Stack, styled, Tooltip, Typography } from '@mui/material'
+import { Button, Card, CardActionArea, CardActions, CardContent, Dialog, DialogActions, DialogTitle, IconButton, Stack, styled, Tooltip, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import CreditScoreRoundedIcon from "@mui/icons-material/CreditScoreRounded";
 import OrderDetail from './OrderDetail';
 import { formatter } from '../services/uilts/formatPrice';
 import { Timestamp } from 'firebase/firestore';
+import { useOrderService } from '../services/hoadon.service';
+import { useCT_OrderService } from '../services/ct_hoadon.service';
 
 const CardActionAreaCustom = styled(CardActionArea)({
   "&:hover": {
@@ -25,6 +27,11 @@ function OrderListItem({order}) {
   const [name, setName] = useState();
   const [time, setTime] = useState();
   const [total, setTotal] = useState();
+  const [confirmCancel, setConfirmCancel] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const order_dataService = useOrderService();
+  const ct_order_dataService = useCT_OrderService();
+
 
   const openOrderDetail = () => {
     setOpen(true);
@@ -36,6 +43,22 @@ function OrderListItem({order}) {
 
   const generalId = (id) => {
     return '# ' + String(id).substring(0, 10) + '...';
+  }
+
+  const onPayment = () => {
+    if(order) {
+      order_dataService.updateHoaDon(order.id,{
+        ...order.data,
+        ThanhToan: true,
+      })
+    }
+  }
+
+  const onCancel = () => {
+    if(order) {
+      ct_order_dataService.deleteCT_HoaDonByIdHoaDon(order.id);
+      order_dataService.deleteHoaDon(order.id)
+    }
   }
 
   useEffect(() => {
@@ -77,19 +100,55 @@ function OrderListItem({order}) {
         <CardActions sx={{ m: 1 }}>
           <Stack spacing={2} direction="column">
             <Tooltip placement="right" title="Thanh toán">
-              <IconButtonCustom color="primary">
+              <IconButtonCustom onClick={onPayment} color="primary">
                 <CreditScoreRoundedIcon />
               </IconButtonCustom>
             </Tooltip>
             <Tooltip placement="right" title="Hủy đơn">
-              <IconButtonCustom color="primary">
+              <IconButtonCustom
+                onClick={() => setOpenConfirm(true)}
+                color="primary"
+              >
                 <ClearRoundedIcon />
               </IconButtonCustom>
             </Tooltip>
           </Stack>
         </CardActions>
       </Card>
-      <OrderDetail order={order} open={open} onClose={closeOrderDetail} />
+      <OrderDetail onCancel={onCancel} order={order} open={open} onClose={closeOrderDetail} />
+      <Dialog maxWidth="xs" fullWidth open={openConfirm}>
+        <DialogTitle>
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: "bolder !important" }}
+            component="div"
+            textAlign="center"
+          >
+            Hủy đơn?
+          </Typography>
+        </DialogTitle>
+        <DialogActions>
+          <Stack sx={{ width: "100%", m: 2 }} spacing={2} direction="row">
+            <Button
+              sx={{ width: "50%" }}
+              variant="outlined"
+              onClick={() => setOpenConfirm(false)}
+            >
+              Hủy
+            </Button>
+            <Button
+              sx={{ width: "50%" }}
+              variant="contained"
+              onClick={() => {
+                onCancel();
+                setOpenConfirm(false);
+              }}
+            >
+              Xác nhận
+            </Button>
+          </Stack>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

@@ -18,7 +18,7 @@ import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutl
 import { formatter } from "../services/uilts/formatPrice";
 import { useDishService } from "../services/thucan.service";
 
-function DishInOrderItem({ ct }) {
+function DishInOrderItem({ ct, setCt }) {
   const [amount, setAmount] = useState();
   const [name, setName] = useState();
   const [rating, setRating] = useState(0);
@@ -31,7 +31,7 @@ function DishInOrderItem({ ct }) {
       const data = ct.data;
       setAmount(data.SoLuong);
       dataService.getThucAn(data.IDThucAn).then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res && res.data) {
           const data = res.data;
           setName(data.TenThucAn);
@@ -44,11 +44,27 @@ function DishInOrderItem({ ct }) {
   }, [ct]);
 
   const AddAmount = () => {
-    setAmount(amount + 1);
+    //setAmount(amount + 1);
+    setCt({
+      ...ct,
+      data: {
+        ...ct.data,
+        SoLuong: amount + 1,
+      },
+    });
   };
 
   const RemoveAmount = () => {
-    if (amount > 1) setAmount(amount - 1);
+    if (amount > 1) {
+      setCt({
+        ...ct,
+        data: {
+          ...ct.data,
+          SoLuong: amount - 1,
+        },
+      });
+      // setAmount(amount - 1);
+    }
   };
   return (
     <Card sx={{ display: "flex", width: "100%", borderRadius: 3 }}>
