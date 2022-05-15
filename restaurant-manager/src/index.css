@@ -80,3 +80,41 @@ code {
   display: flex;
   align-items: flex-end;
 }
+
+.table
+{
+  width: 100%;
+}
+
+.time-picker
+{
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 20px;
+}
+
+.time-slider
+{
+  width: 300px;
+}
+
+.date-select
+{
+  display: flex;
+  justify-content: space-around;
+}
+
+.table-select
+{
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+.button-group
+{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+}
