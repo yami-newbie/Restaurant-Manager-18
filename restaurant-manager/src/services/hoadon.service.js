@@ -1,49 +1,71 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, Timestamp, updateDoc } from "firebase/firestore";
-import db from "../firebase";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
+import { createContext, useContext, useEffect, useState } from "react";
+import { db } from "./firebase";
 
+const context = createContext();
 
-const temp = {
-    LoaiTiec: String(""),
-    MaGiamGia: String(""),
-    NhanVien: String(""),
-    TenKhachHang: String(""),
-    ThoiGian: Timestamp(),
-    TongGia: Number(),
+export const useOrderService = () => {
+  return useContext(context);
+};
+
+export default function ProviderOrderService({ children }) {
+  const value = HoaDonDataService();
+  return <context.Provider value={value}>{children}</context.Provider>;
 }
 
 const HoaDonRef = collection(db, "HoaDon");
 
 function HoaDonDataService() {
-    const addHoaDon = async (newHoaDon) => {
-      return await addDoc(HoaDonRef, newHoaDon);
-    };
+  const [orders, setOrders] = useState([]);
 
-    const updateHoaDon = async (id, updateHoaDon) => {
-      const hoadonDoc = doc(db, "HoaDon", id);
-      return await updateDoc(hoadonDoc, updateHoaDon);
-    };
+  useEffect(() => {
+    const unsubscribe = onSnapshot(HoaDonRef, (snapshot) => {
+      setOrders(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
+    });
 
-    const deleteHoaDon = async (id) => {
-      const hoadonDoc = doc(db, "HoaDon", id);
-      return await deleteDoc(hoadonDoc);
+    return () => {
+      unsubscribe();
     };
+  }, []);
 
-    const getAllHoaDon = async () => {
-      return await getDocs(HoaDonRef);
-    };
+  const addHoaDon = async (newHoaDon) => {
+    return await addDoc(HoaDonRef, newHoaDon);
+  };
 
-    const getHoaDon = async (id) => {
-      const hoadonDoc = doc(db, "HoaDon", id);
-      return await getDoc(hoadonDoc);
-    };
+  const updateHoaDon = async (id, updateHoaDon) => {
+    const hoadonDoc = doc(db, "HoaDon", id);
+    return await updateDoc(hoadonDoc, updateHoaDon);
+  };
 
-    return {
-        addHoaDon,
-        updateHoaDon,
-        deleteHoaDon,
-        getAllHoaDon,
-        getHoaDon
-    }
+  const deleteHoaDon = async (id) => {
+    const hoadonDoc = doc(db, "HoaDon", id);
+    return await deleteDoc(hoadonDoc);
+  };
+
+  const getAllHoaDon = async () => {
+    return await getDocs(HoaDonRef);
+  };
+
+  const getHoaDon = async (id) => {
+    const hoadonDoc = doc(db, "HoaDon", id);
+    return await getDoc(hoadonDoc);
+  };
+
+  return {
+    orders,
+    addHoaDon,
+    updateHoaDon,
+    deleteHoaDon,
+    getAllHoaDon,
+    getHoaDon,
+  };
 }
-
-export default new HoaDonDataService();
