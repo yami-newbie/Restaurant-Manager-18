@@ -27,7 +27,7 @@ function OrderListItem({order}) {
   const [name, setName] = useState();
   const [time, setTime] = useState();
   const [total, setTotal] = useState();
-  const [confirmCancel, setConfirmCancel] = useState(false);
+  // const [confirmCancel, setConfirmCancel] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
   const order_dataService = useOrderService();
   const ct_order_dataService = useCT_OrderService();
@@ -79,7 +79,7 @@ function OrderListItem({order}) {
           justifyContent: "space-between",
           borderRadius: "1.5rem",
         }}
-      >
+      > 
         <CardActionAreaCustom onClick={openOrderDetail} sx={{ padding: 2 }}>
           <CardContent>
             <Typography
@@ -115,7 +115,8 @@ function OrderListItem({order}) {
           </Stack>
         </CardActions>
       </Card>
-      <OrderDetail onCancel={onCancel} order={order} open={open} onClose={closeOrderDetail} />
+      <OrderDetail onCancel={() => {setOpenConfirm(true)}} order={order} open={open} onClose={closeOrderDetail} />
+
       <Dialog maxWidth="xs" fullWidth open={openConfirm}>
         <DialogTitle>
           <Typography
@@ -142,6 +143,7 @@ function OrderListItem({order}) {
               onClick={() => {
                 onCancel();
                 setOpenConfirm(false);
+                closeOrderDetail();
               }}
             >
               Xác nhận
