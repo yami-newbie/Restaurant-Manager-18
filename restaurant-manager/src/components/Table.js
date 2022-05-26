@@ -177,7 +177,7 @@ function Table() {
       </div>
       <div className='table-select'>
         <div>
-          <Grid container spacing={2}>
+          <Grid container >
             {tablestate.map((table, index) => (
               <Grid item xs={4}>
                 {

@@ -118,3 +118,38 @@ code {
   justify-content: center;
   padding-top: 100px;
 }
+
+.table-manager
+{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.table-view
+{
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.table-table
+{
+  width: 80%;
+}
+.food-detail
+{
+  width: 200px;
+  height: 200px;
+}
+.closebutton
+{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+  padding-right: 5px;
+}
+.day-select
+{
+  display: flex;
+  flex-direction: row;
+}
