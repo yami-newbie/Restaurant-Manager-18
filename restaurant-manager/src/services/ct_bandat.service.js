@@ -8,12 +8,25 @@ import {
   getDocs,
   Timestamp,
 } from "firebase/firestore";
-import db from "../firebase";
+import { createContext, useContext, useEffect, useState } from "react";
+import { db } from "./firebase";
 
 const temp = {
+  ID: String(""),
   IdDatBan: String(""),
   Ban: String(""),
 };
+
+const context = createContext();
+
+export const useCT_OrderService = () => {
+  return useContext(context);
+};
+
+export default function ProviderCTTableService({ children }) {
+  const value = CT_BanDatDataService();
+  return <context.Provider value={value}>{children}</context.Provider>;
+}
 
 const CT_BanDatRef = collection(db, "CT_BanDat");
 
@@ -49,5 +62,3 @@ function CT_BanDatDataService(){
     getCT_BanDat
   }
 }
-
-export default CT_BanDatDataService;

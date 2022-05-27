@@ -6,6 +6,7 @@ import TrangChu from './pages/TrangChu';
 import { ThemeProvider } from '@emotion/react';
 import theme from "./theme/theme.json";
 import { createTheme } from '@mui/material';
+import TablePage from './pages/TablePage';
 import Dashboard from './components/Dashboard';
 import { Box } from '@mui/system';
 import QuanLyBan from './pages/TrangQuanLy/Ban';
