@@ -7,6 +7,7 @@ import {
   deleteDoc,
   getDocs,
   Timestamp,
+  onSnapshot,
 } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -19,7 +20,7 @@ const temp = {
 
 const context = createContext();
 
-export const useCT_OrderService = () => {
+export const useCT_TableService = () => {
   return useContext(context);
 };
 
@@ -30,7 +31,20 @@ export default function ProviderCTTableService({ children }) {
 
 const CT_BanDatRef = collection(db, "CT_BanDat");
 
-function CT_BanDatDataService(){
+function CT_BanDatDataService() {
+  const [ct_tables, setCT_Tables] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(CT_BanDatRef, (snapshot) => {
+      setCT_Tables(
+        snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
+      );
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   const addCT_BanDat = async (newCT_BanDat) => {
     return await addDoc(CT_BanDatRef, newCT_BanDat);
   };
@@ -55,10 +69,11 @@ function CT_BanDatDataService(){
   };
 
   return {
+    ct_tables,
     addCT_BanDat,
     updateCT_BanDat,
     deleteCT_BanDat,
     getAllCT_BanDat,
-    getCT_BanDat
-  }
+    getCT_BanDat,
+  };
 }
