@@ -24,8 +24,7 @@ export const useCT_OrderService = () => {
   return useContext(context);
 };
 
-export default function ProviderTableService({children}) 
-{
+export default function ProviderDatBanService({ children }) {
   const value = DatBanDataService();
   return <context.Provider value={value}>{children}</context.Provider>;
 }
