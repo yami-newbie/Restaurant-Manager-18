@@ -11,6 +11,9 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { async } from '@firebase/util';
+import SignIn from './Account/SignIn';
+import SignUp from './Account/SignUp';
+import ForgotPassword from './Account/ForgotPassword';
 
 function App() {
   const [array, setArray] = useState([]);
@@ -41,27 +44,9 @@ function App() {
 
   return (
     <div>
-      <input
-        placeholder="Color"
-        onChange={(e) => {
-          setColorname(e.target.value);
-        }}
-      />
-      <input
-        placeholder="Value"
-        onChange={(e) => {
-          setColorvalue(e.target.value);
-        }}
-      />
-      <button onClick={createColor}>Create</button>
-      {array.map((arr) => {
-        return (
-          <div>
-            <h4>Color: {arr.color}</h4>
-            <h5>Value: {arr.value}</h5>
-          </div>
-        );
-      })}
+      {/* <SignIn /> <br></br> */}
+      {/* <SignUp /> <br></br> */}
+      <ForgotPassword />
     </div>
   );
 }
