@@ -10,7 +10,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
-import db from "../firebase";
+import {db} from "./firebase";
 
 const temp = {
   IdDatBan: String(""),
