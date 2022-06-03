@@ -1,6 +1,6 @@
 import { Box, Paper, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import ListOrder from '../../components/ListOrder';
+import ListOrder from '../../components/QuanLyHoaDon/ListOrder';
 import {useOrderService} from "../../services/hoadon.service";
 
 function QuanLyHoaDon({ list = [1, 1, 1, 1, 1, 1] }) {

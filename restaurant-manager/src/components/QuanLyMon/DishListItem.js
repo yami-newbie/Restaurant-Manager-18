@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react'
 import DeleteIcon from "@mui/icons-material/Delete";
 import DishDetail from './DishDetail';
 import EditIcon from "@mui/icons-material/Edit";
-import { formatter } from '../services/uilts/formatPrice';
-import { useDishService } from '../services/thucan.service';
+import { formatter } from '../../services/uilts/formatPrice';
+import { useDishService } from '../../services/thucan.service';
 
 function DishListItem({ dish }) {
   const [value, setValue] = useState(0);

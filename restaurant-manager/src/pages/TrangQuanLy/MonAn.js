@@ -1,8 +1,8 @@
 import { Avatar, Box, Button, IconButton, Paper, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import ListDish from '../../components/ListDish'
+import ListDish from '../../components/QuanLyMon/ListDish'
 import AddIcon from '@mui/icons-material/Add';
-import DishDetail from '../../components/DishDetail';
+import DishDetail from '../../components/QuanLyMon/DishDetail';
 import { useDishService } from '../../services/thucan.service';
 
 function QuanLyMonAn() {

@@ -16,9 +16,9 @@ import React, { useEffect, useState } from "react";
 import ListDishOrder from "./ListDishOrder";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box } from "@mui/system";
-import { formatter } from "../services/uilts/formatPrice";
-import { useCT_OrderService } from "../services/ct_hoadon.service";
-import { useOrderService } from "../services/hoadon.service";
+import { formatter } from "../../services/uilts/formatPrice";
+import { useCT_OrderService } from "../../services/ct_hoadon.service";
+import { useOrderService } from "../../services/hoadon.service";
 
 function OrderDetail({
   open = false,

@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useDishService } from '../services/thucan.service';
+import { useDishService } from '../../services/thucan.service';
 const srcDefault =
   "https://firebasestorage.googleapis.com/v0/b/quanlynhahang-b44c4.appspot.com/o/images%2Fmeal-food.png?alt=media&token=f3f76cc9-c74d-4b08-9de9-b408e7745c42";
 function DishDetail({

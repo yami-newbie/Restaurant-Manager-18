@@ -1,9 +1,13 @@
 import React from 'react'
-import Table from '../../components/TableManager'
+import AppHeader from '../../components/AppHeader'
+import Table from "../../components/QuanLyBan/Table";
 
 function QuanLyBan() {
   return (
-    <Table/>
+    <div>
+        <AppHeader/>
+        <Table/>
+    </div>
   )
 }
 
