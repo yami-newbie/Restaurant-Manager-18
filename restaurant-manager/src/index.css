@@ -153,3 +153,23 @@ code {
   display: flex;
   flex-direction: row;
 }
+.mini-table
+{
+  width: 150px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+}
+.mini-table .icon-list
+{
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-end;
+  padding-bottom: 5px;
+}
+.table-list
+{
+  max-width: 90%;
+}
