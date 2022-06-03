@@ -144,8 +144,10 @@ code {
 .closebutton
 {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: row;
+  justify-content: space-between;
   margin-top: 5px;
+  padding-left: 5px;
   padding-right: 5px;
 }
 .day-select
@@ -171,5 +173,24 @@ code {
 }
 .table-list
 {
-  max-width: 90%;
+  width: 90%;
+  justify-self: center;
+}
+.tables
+{
+  padding-top: 20px;
+}
+.left-panel
+{
+  display: flex;
+  justify-content: center;
+}
+.time-group
+{
+
+}
+.time-detail
+{
+  width: 200px;
+  height: 200px;
 }

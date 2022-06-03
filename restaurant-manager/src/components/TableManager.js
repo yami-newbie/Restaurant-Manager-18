@@ -1,4 +1,4 @@
-import { Button, Card, Table, TableBody, TableCell, TextField, TableContainer, TableHead, TableRow, MenuItem, Select, InputLabel, FormControl, Divider, Grid} from '@mui/material'
+import { Button, Card, Table, TableBody, TableCell, TextField, TableContainer, TableHead, TableRow, MenuItem, Select, InputLabel, FormControl, Divider, Grid, Typography} from '@mui/material'
 import React from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import MiniTable from './MiniTable';
@@ -7,155 +7,117 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 function TableManager() {
-  const [tableList, setTableList] = React.useState([1,2,3,4,5,6]);
-  const [selected, setSelected] = React.useState(false);
-  const [day, setDay] = React.useState(1);
-  const [days, setDays] = React.useState([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]);
-  const [month, setMonth] = React.useState(1);
-  const [year, setYear] = React.useState(2022);
+  const [tableList, setTableList] = React.useState([1,2,3,4,5,6,7]);
+  const [show, setShow] = React.useState(false);
+  const [showDetail, setShowDetail] = React.useState(false);
+  const [selected, setSelected] = React.useState();
   const [value, setValue] = React.useState(new Date());
+  const [timeList, setTimeList] = React.useState([1,2]);
+  const [timeSelected, setTimeSelected] = React.useState();
   
-  let months = [];
-  for (let i=1;i<13;i++)
-  {
-    months.push(i);
-  }
-  let ngays = [];
-  const handleClick = () => {
-    setSelected(true);
-  };
   const handleClose = () => {
-    setSelected(false);
+    setShow(false);
+    setShowDetail(false);
   };
-  const dayChange = (event) => {
-    setDay(event.target.value);
+  const handleShowDetail = () => {
+    setShowDetail(true);
+
   };
-  const monthChange = (event) => {
-    setMonth(event.target.value);
-    let m = event.target.value;
-    if(m === 1||m === 3||m === 5||m === 7||m === 8||m === 10||m === 12)
-    {
-      ngays = [];
-      for (let i = 1; i<32; i++)
-      {
-        ngays.push(i);
-      }
-    }
-    else if (m !== 2)
-    {
-      ngays=[];
-      for (let i = 1; i<31; i++)
-      {
-        ngays.push(i);
-      }
-    }
-    else 
-    {
-      ngays = [];
-      for (let i = 1; i<29; i++)
-      {
-        ngays.push(i);
-      }
-    }
-    setDays(ngays);
-  };
-  const yearChange = (event) => {
-    setYear(event.target.value);
-  };
+  const handleCloseDetail = () => {
+    setShowDetail(false);
+  }
+  const handleSelect = (id) =>{
+    setShow(true);
+    setSelected(id);
+    setShowDetail(false);
+  }
   return (
-    (selected)?
+    (show)?
     (
       <div className='table-manager'>
-        <div className='table-view'>
-          <Card className='table-table'>
-            <div className='day-select'>
-              <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id = "day-label">Ngày</InputLabel>
-                <Select
-                  labelID="day-lable"
-                  value = {day}
-                  label="Ngày"
-                  onChange = {dayChange}
-                >
-                  {days.map(d=><MenuItem value = {d}>{d}</MenuItem>)}
-                </Select>
-              </FormControl>
-              <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id = "month-label">Tháng</InputLabel>
-                <Select
-                  labelId='month-label'
-                  value={month}
-                  label="Tháng"
-                  onChange={monthChange}
-                >
-                  {months.map(m=><MenuItem value = {m}>{m}</MenuItem>)}
-                </Select>
-              </FormControl>
-              <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id = "year-label">Năm</InputLabel>
-                <Select
-                  labelId='year-label'
-                  value = {year}
-                  label = "Năm"
-                  onChange={yearChange}
-                >
-                  <MenuItem value = {2022}>2022</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-            <Divider/>
-            <TableContainer>
-              <Table sx={{mindWidth: 650}} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{width:'100px'}}>ID Bàn</TableCell>
-                    <TableCell>Timeline</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {tableList.map((table)=>(
-                    <TableRow 
-                      hover
-                      role="checkbox"
-                      sx = {{'&:last-child td, &:last-child th': { border: 0 }}}
-                    >
-                      <TableCell component="th" scope="row" sx={{width:'100px'}}>
-                        {table}
-                      </TableCell>
-                      <TableCell>
-                        <Button>{table}</Button>
-                      </TableCell>
-                    </TableRow>
+        <div className='left-panel'>
+          <div className='table-list'>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                value={value}
+                onChange={(newValue) => {
+                  setValue(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            <Grid container spacing = {2} className='tables'>
+              {tableList.map((table) => (
+                <Grid item>
+                  <MiniTable id={table} booking={1} enable={true} onClick={handleSelect}/>
+                </Grid>
+              ))}
+            </Grid>
+          </div>
+        </div>
+        <div className='right-panel'>
+          {(showDetail)?(
+          <div>
+            <Card className='time-detail'>
+              <div className='closebutton'>
+                <Typography variant='subtitle1'>{selected}</Typography>
+                <CloseIcon onClick={handleClose}/>
+              </div>
+              <div className='time-group'>
+                <Grid container spacing = {2} className='tables'>
+                  {timeList.map((time)=>(
+                    <Grid item>
+                      <Button variant="text" onClick={handleShowDetail}>{time}</Button>
+                    </Grid>
                   ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Card>
-          <Card className='food-detail'>
-            <div  className='closebutton'>
+                </Grid>
+              </div>
+            </Card>
+            <Card className='food-detail'>
+              <div className='closebutton'>
+                <Typography variant='subtitle1'>{timeSelected}</Typography>
+                <CloseIcon onClick={handleCloseDetail}/>
+              </div>
+            </Card>
+          </div>
+          ):(
+          <Card className='time-detail'>
+            <div className='closebutton'>
+              <Typography variant='subtitle1'>{selected}</Typography>
               <CloseIcon onClick={handleClose}/>
             </div>
-          </Card>
+            <div className='time-group'>
+              <Grid container spacing = {2} className='tables'>
+                {timeList.map((time)=>(
+                  <Grid item>
+                    <Button variant="text" onClick={handleShowDetail}>{time}</Button>
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
+          </Card>)}
         </div>
       </div>
     ):(
-      <div className='table-list'>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            value={value}
-            onChange={(newValue) => {
-              setValue(newValue);
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-        <Grid container spacing = {2}>
-          {tableList.map((table) => (
-            <Grid item>
-              <MiniTable id={table} booking={1} enable={true}/>
-            </Grid>
-          ))}
-        </Grid>
+      <div className='table-manager'>
+        <div className='table-list'>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              value={value}
+              onChange={(newValue) => {
+                setValue(newValue);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+          <Grid container spacing = {2} className='tables'>
+            {tableList.map((table) => (
+              <Grid item>
+                <MiniTable id={table} booking={1} enable={true} onClick={handleSelect}/>
+              </Grid>
+            ))}
+          </Grid>
+        </div>
       </div>
     )
   )
