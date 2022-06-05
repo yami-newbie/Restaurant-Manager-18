@@ -6,14 +6,14 @@ import TrangChu from './pages/TrangChu';
 import { ThemeProvider } from '@emotion/react';
 import theme from "./theme/theme.json";
 import { createTheme } from '@mui/material';
-import TablePage from './pages/TablePage';
 import Dashboard from './components/Dashboard';
 import { Box } from '@mui/system';
 import QuanLyBan from './pages/TrangQuanLy/Ban';
 import QuanLyMonAn from "./pages/TrangQuanLy/MonAn";
 import QuanLyHoaDon from "./pages/TrangQuanLy/HoaDon";
 import QuanLyMaGiamGia from "./pages/TrangQuanLy/MaGiamGia";
-import ThongKeHoaDon from './pages/ThongKe/HoaDon';
+import ThongKeDoanhThu from './pages/ThongKe/DoanhThu';
+import ThongKeMonAn from './pages/ThongKe/MonAn';
 import AppProvider from './components/AppProvider';
 
 function App() {
@@ -37,7 +37,8 @@ function App() {
                 <Route path="/dish" element={<QuanLyMonAn />} />
                 <Route path="/order" element={<QuanLyHoaDon />} />
                 <Route path="/coupon" element={<QuanLyMaGiamGia />} />
-                <Route path="/thongke/order" element={<ThongKeHoaDon />} />
+                <Route path="/thongke/doanhthu" element={<ThongKeDoanhThu />} />
+                <Route path="/thongke/monan" element={<ThongKeMonAn />} />
               </Routes>
             </Box>
           </BrowserRouter>

@@ -1,9 +1,9 @@
 import React from 'react'
 
-function OrderPage() {
+function DoanhThu() {
   return (
     <div>OrderPage</div>
   )
 }
 
-export default OrderPage
+export default DoanhThu;
