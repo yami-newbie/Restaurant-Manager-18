@@ -16,6 +16,7 @@ function TableManager() {
   const [timeList, setTimeList] = React.useState([1,2]);
   const [timeSelected, setTimeSelected] = React.useState();
   
+  var tl = tableList;
   const handleClose = () => {
     setShow(false);
     setShowDetail(false);
@@ -32,78 +33,21 @@ function TableManager() {
     setSelected(id);
     setShowDetail(false);
   }
+  const handleDelete = (id) => {
+    for (var i=0; i < tl.length; i++)
+    {
+      if (tl[i]===id)
+      {
+        tl.splice(i, 1);
+        i--;
+      }
+    }
+    console.log(tl.toString());
+    setTableList(tl);
+  }
   return (
-    (show)?
-    (
-      <div className='table-manager'>
-        <div className='left-panel'>
-          <div className='table-list'>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                value={value}
-                onChange={(newValue) => {
-                  setValue(newValue);
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
-            <Grid container spacing = {2} className='tables'>
-              {tableList.map((table) => (
-                <Grid item>
-                  <MiniTable id={table} booking={1} enable={true} onClick={handleSelect}/>
-                </Grid>
-              ))}
-            </Grid>
-          </div>
-        </div>
-        <div className='right-panel'>
-          {(showDetail)?(
-          <div>
-            <Card>
-              <div className='time-detail'>
-                <div className='closebutton'>
-                  <Typography variant='subtitle1'>{selected}</Typography>
-                  <CloseIcon onClick={handleClose}/>
-                </div>
-                <div className='time-group'>
-                  <Grid container spacing = {1} className='tables'>
-                    {timeList.map((time)=>(
-                      <Grid item>
-                        <Button variant="outlined" onClick={handleShowDetail(time)}>{time}</Button>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </div>
-              </div>
-              <Divider/>
-              <div className='food-detail'>
-                <div className='closebutton'>
-                  <Typography variant='subtitle1'>{timeSelected}</Typography>
-                  <KeyboardArrowUpIcon onClick={handleCloseDetail}/>
-                </div>
-              </div>
-            </Card>
-          </div>
-          ):(
-          <Card className='time-detail'>
-            <div className='closebutton'>
-              <Typography variant='subtitle1'>{selected}</Typography>
-              <CloseIcon onClick={handleClose}/>
-            </div>
-            <div className='time-group'>
-              <Grid container spacing = {1} className='tables'>
-                {timeList.map((time)=>(
-                  <Grid item>
-                    <Button variant="outlined" onClick={handleShowDetail(time)}>{time}</Button>
-                  </Grid>
-                ))}
-              </Grid>
-            </div>
-          </Card>)}
-        </div>
-      </div>
-    ):(
-      <div className='table-manager'>
+    <div className='table-manager'>
+      <div className='left-panel'>
         <div className='table-list'>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
@@ -117,14 +61,46 @@ function TableManager() {
           <Grid container spacing = {2} className='tables'>
             {tableList.map((table) => (
               <Grid item>
-                <MiniTable id={table} booking={1} enable={true} onClick={handleSelect}/>
+                <MiniTable id={table} booking={1} enable={true} onClick={handleSelect} onDelete={handleDelete}/>
               </Grid>
             ))}
           </Grid>
         </div>
       </div>
-    )
-  )
+      {(show)?(
+        <div className='right-panel'>
+          <Card>
+            <div className='time-detail'>
+              <div className='closebutton'>
+                <Typography variant='subtitle1'>{selected}</Typography>
+                <CloseIcon onClick={handleClose}/>
+              </div>
+              <div className='time-group'>
+                <Grid container spacing = {1} className='tables'>
+                  {timeList.map((time)=>(
+                    <Grid item>
+                      <Button variant="outlined" onClick={()=>handleShowDetail(time)}>{time}</Button>
+                    </Grid>
+                  ))}
+                </Grid>
+              </div>
+            </div>
+            {(showDetail)? (
+              <div>
+                <Divider/>
+                <div className='food-detail'>
+                  <div className='closebutton'>
+                    <Typography variant='subtitle1'>{timeSelected}</Typography>
+                    <KeyboardArrowUpIcon onClick={handleCloseDetail}/>
+                  </div>
+                </div>
+              </div>
+            ):null}
+          </Card>
+        </div>
+      ):null}
+    </div>
+  );
 }
 
 export default TableManager
