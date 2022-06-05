@@ -1,19 +1,36 @@
-import { Button, Card, Table, TableBody, TableCell, TextField, TableContainer, TableHead, TableRow, MenuItem, Select, InputLabel, FormControl, Divider, Grid, Typography} from '@mui/material'
-import React from 'react'
-import CloseIcon from '@mui/icons-material/Close';
-import MiniTable from './MiniTable';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import {
+  Button,
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TextField,
+  TableContainer,
+  TableHead,
+  TableRow,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
+import React from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import MiniTable from "./MiniTable";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 function TableManager() {
-  const [tableList, setTableList] = React.useState([1,2,3,4,5,6,7]);
+  const [tableList, setTableList] = React.useState([1, 2, 3, 4, 5, 6, 7]);
   const [show, setShow] = React.useState(false);
   const [showDetail, setShowDetail] = React.useState(false);
   const [selected, setSelected] = React.useState();
   const [value, setValue] = React.useState(new Date());
-  const [timeList, setTimeList] = React.useState([1,2]);
+  const [timeList, setTimeList] = React.useState([1, 2]);
   const [timeSelected, setTimeSelected] = React.useState();
   
   var tl = tableList;
@@ -27,8 +44,8 @@ function TableManager() {
   };
   const handleCloseDetail = () => {
     setShowDetail(false);
-  }
-  const handleSelect = (id) =>{
+  };
+  const handleSelect = (id) => {
     setShow(true);
     setSelected(id);
     setShowDetail(false);
@@ -103,4 +120,4 @@ function TableManager() {
   );
 }
 
-export default TableManager
+export default TableManager;
