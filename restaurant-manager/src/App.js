@@ -15,6 +15,7 @@ import QuanLyMaGiamGia from "./pages/TrangQuanLy/MaGiamGia";
 import ThongKeDoanhThu from './pages/ThongKe/DoanhThu';
 import ThongKeMonAn from './pages/ThongKe/MonAn';
 import AppProvider from './components/AppProvider';
+import HoaDonChuaThanhToan from './pages/TrangNhanVien/HoaDonChuaThanhToan';
 
 function App() {
   const [height, setHeight] = useState(window.innerHeight - 0.05)
@@ -37,6 +38,7 @@ function App() {
                 <Route path="/dish" element={<QuanLyMonAn />} />
                 <Route path="/order" element={<QuanLyHoaDon />} />
                 <Route path="/coupon" element={<QuanLyMaGiamGia />} />
+                <Route path="/order/ongoing" element={<HoaDonChuaThanhToan />} />
                 <Route path="/thongke/doanhthu" element={<ThongKeDoanhThu />} />
                 <Route path="/thongke/monan" element={<ThongKeMonAn />} />
               </Routes>

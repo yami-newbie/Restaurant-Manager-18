@@ -1,5 +1,5 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Rating, Switch, Typography } from '@mui/material'
-import { Box } from '@mui/system';
+import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Rating, Switch, Typography } from '@mui/material'
+import { Box, styled } from '@mui/system';
 import React, { useEffect, useState } from 'react'
 import DeleteIcon from "@mui/icons-material/Delete";
 import DishDetail from './DishDetail';
@@ -65,7 +65,8 @@ function DishListItem({ dish }) {
           borderRadius: "1.5rem",
         }}
       >
-        <CardContent sx={{ mt: 7 }}>
+        <CardContent sx={{ mt: 6 }}>
+          <Divider sx={{ mb: 1 }} />
           <Typography
             sx={{ fontWeight: "bolder !important" }}
             component="div"
@@ -93,6 +94,7 @@ function DishListItem({ dish }) {
             {formatter.format(price)}
           </Typography>
         </CardContent>
+        <Divider variant="middle" />
         <CardActions sx={{ justifyContent: "space-between", ml: 1.5 }}>
           <IconButton
             onClick={() => {
