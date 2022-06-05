@@ -10,10 +10,10 @@ import ProviderDishService from "../services/thucan.service";
 
 function AppProvider({ children }) {
   return (
-    <ProviderDishService>
-      <ProviderOrderService>
-        <ProviderCTOrderService>
-          <ProviderTableService>
+    <ProviderTableService>
+      <ProviderDishService>
+        <ProviderOrderService>
+          <ProviderCTOrderService>
             <ProviderCTDatMonService>
               <ProviderDatBanService>
                 <ProviderCTTableService>
@@ -21,10 +21,10 @@ function AppProvider({ children }) {
                 </ProviderCTTableService>
               </ProviderDatBanService>
             </ProviderCTDatMonService>
-          </ProviderTableService>
-        </ProviderCTOrderService>
-      </ProviderOrderService>
-    </ProviderDishService>
+          </ProviderCTOrderService>
+        </ProviderOrderService>
+      </ProviderDishService>
+    </ProviderTableService>
   );
 }
 

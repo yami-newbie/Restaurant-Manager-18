@@ -6,8 +6,9 @@ import {
   updateDoc,
   deleteDoc,
   getDocs,
-  Timestamp,
   onSnapshot,
+  query,
+  where,
 } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -30,18 +31,27 @@ export default function ProviderTableService({ children }) {
 }
 
 const BanRef = collection(db, "Ban");
+const BanEnableRef = query(collection(db, "Ban"), where("TrangThai", "==", true));
 
 function BanDataService() {
   
   const [tables, setTables] = useState([]);
+  const [tablesEnable, setTablesEnable] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(BanRef, (snapshot) => {
+    const getTable = onSnapshot(BanRef, (snapshot) => {
       setTables(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
     });
 
+    const getTableEnable = onSnapshot(BanEnableRef, (snapshot) => {
+      setTablesEnable(
+        snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
+      );
+    });
+
     return () => {
-      unsubscribe();
+      getTable();
+      getTableEnable();
     };
   }, []);
 
@@ -70,6 +80,7 @@ function BanDataService() {
 
   return {
     tables,
+    tablesEnable,
     updateBan,
     addBan,
     deleteBan,
