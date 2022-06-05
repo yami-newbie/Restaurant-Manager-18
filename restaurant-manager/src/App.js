@@ -15,6 +15,7 @@ import QuanLyHoaDon from "./pages/TrangQuanLy/HoaDon";
 import QuanLyMaGiamGia from "./pages/TrangQuanLy/MaGiamGia";
 import ThongKeHoaDon from './pages/ThongKe/HoaDon';
 import AppProvider from './components/AppProvider';
+import BookTable from './pages/BookTable';
 
 function App() {
   const [height, setHeight] = useState(window.innerHeight - 0.05)
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/order" element={<QuanLyHoaDon />} />
                 <Route path="/coupon" element={<QuanLyMaGiamGia />} />
                 <Route path="/thongke/order" element={<ThongKeHoaDon />} />
+                <Route path="/ordertable" element={<BookTable/>}/>
               </Routes>
             </Box>
           </BrowserRouter>

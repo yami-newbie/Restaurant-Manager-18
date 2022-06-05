@@ -84,13 +84,14 @@ code {
 .table
 {
   width: 100%;
+  padding-top: 20px;
+  padding-left: 20px;
 }
 
 .time-picker
 {
   display: flex;
-  justify-content: flex-end;
-  padding-top: 20px;
+  flex-direction: column;
 }
 
 .time-slider
@@ -193,4 +194,71 @@ code {
 {
   width: 200px;
   height: 200px;
+}
+.half-circle {
+  width: 20px;
+  height: 10px; /* as the half of the width */
+  background-color: yellow;
+  border-top-left-radius: 11px;  /* 100px of height + 10px of border */
+  border-top-right-radius: 11px; /* 100px of height + 10px of border */
+  border: 1px solid gray;
+  border-bottom: 0;
+}
+.half-table {
+  width: 30px;
+  height: 30px;
+  border: 1px solid gray;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.half-circle-rev {
+  width: 20px;
+  height: 10px; /* as the half of the width */
+  background-color: yellow;
+  border-bottom-left-radius: 11px;  /* 100px of height + 10px of border */
+  border-bottom-right-radius: 11px; /* 100px of height + 10px of border */
+  border: 1px solid gray;
+  border-top: 0;
+}
+.full-table
+{
+  width: 60px;
+  height: 30px;
+  border: 1px solid gray;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.table .button-list
+{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+.table-icon
+{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+.table-icon .dt
+{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.border
+{
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }

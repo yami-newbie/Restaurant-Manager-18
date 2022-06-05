@@ -32,6 +32,7 @@ function TableManager() {
   const [value, setValue] = React.useState(new Date());
   const [timeList, setTimeList] = React.useState([1, 2]);
   const [timeSelected, setTimeSelected] = React.useState();
+  const [, updateState] = React.useState();
   
   var tl = tableList;
   const handleClose = () => {
@@ -61,6 +62,7 @@ function TableManager() {
     }
     console.log(tl.toString());
     setTableList(tl);
+    updateState({})
   }
   return (
     <div className='table-manager'>
@@ -90,7 +92,12 @@ function TableManager() {
             <div className='time-detail'>
               <div className='closebutton'>
                 <Typography variant='subtitle1'>{selected}</Typography>
-                <CloseIcon onClick={handleClose}/>
+                <CloseIcon onClick={handleClose} sx={{'&:hover':{cursor:'pointer', backgroundColor:'#f7f7f7'}}}/>
+              </div>
+              <div>
+                <Typography variant="subtitle1">
+                  Loại bàn:
+                </Typography>
               </div>
               <div className='time-group'>
                 <Grid container spacing = {1} className='tables'>
@@ -108,7 +115,7 @@ function TableManager() {
                 <div className='food-detail'>
                   <div className='closebutton'>
                     <Typography variant='subtitle1'>{timeSelected}</Typography>
-                    <KeyboardArrowUpIcon onClick={handleCloseDetail}/>
+                    <KeyboardArrowUpIcon onClick={handleCloseDetail} sx={{'&:hover':{cursor:'pointer', backgroundColor:'#f7f7f7'}}}/>
                   </div>
                 </div>
               </div>

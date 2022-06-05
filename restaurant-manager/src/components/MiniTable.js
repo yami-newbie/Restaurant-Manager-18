@@ -1,9 +1,10 @@
-import { Card, Typography, Switch, ListItem, ListItemIcon, ListItemText, Divider, List, ListItemButton } from '@mui/material'
+import { Card, Typography, Switch, MenuItem, ListItemIcon, ListItemText, Divider, MenuList, ListItemButton } from '@mui/material'
 import React, { useState } from 'react'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import DetailsIcon from '@mui/icons-material/Details';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { Menu } from '@material-ui/core';
 
 function MiniTable(props) {
   const {id, booking, enable, onClick, onDelete} = props;
@@ -25,48 +26,34 @@ function MiniTable(props) {
     <Card className='mini-table'>
       {(show)?(
         <div>
-          <List>
-            <ListItem disablePadding>
-              <ListItemButton onClick={handleClick}>
-                <ListItemIcon>
-                  <DetailsIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Chi tiết"/>
-              </ListItemButton>
-            </ListItem>
+          <MenuList>
+            <MenuItem disablePadding onClick={handleClick}>
+              <ListItemIcon>
+                <DetailsIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Chi tiết"/>
+            </MenuItem>
             <Divider/>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <EditIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Sửa"/>
-              </ListItemButton>
-            </ListItem>
+            <MenuItem disablePadding>
+              <ListItemIcon>
+                <EditIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Sửa"/>
+            </MenuItem>
             <Divider/>
-            <ListItem disablePadding>
-              <ListItemButton onClick={handleDelete}>
-                <ListItemIcon>
-                  <DeleteIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Xóa"/>
-              </ListItemButton>
-            </ListItem>
+            <MenuItem disablePadding onClick={back}>
+              <ListItemIcon>
+                <ArrowBackIosIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Trở lại"/>
+            </MenuItem>
             <Divider/>
-            <ListItem disablePadding>
-              <ListItemButton onClick={back}>
-                <ListItemIcon>
-                  <ArrowBackIosIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Trở lại"/>
-              </ListItemButton>
-            </ListItem>
-          </List>
+          </MenuList>
         </div>
       ):(
         <div 
           onClick={click}
-          style={{width:'100%', height:'100%', '&:hover':{cursor:'pointer'}}}
+          style={{width:'100%', height:'100%', padding:"10px", '&:hover':{cursor:'pointer'}}}
         >
           <Typography variant="h5">
             {id}
