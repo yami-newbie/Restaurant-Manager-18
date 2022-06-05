@@ -1,17 +1,7 @@
 import {
   Button,
   Card,
-  Table,
-  TableBody,
-  TableCell,
   TextField,
-  TableContainer,
-  TableHead,
-  TableRow,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
   Divider,
   Grid,
   Typography,
@@ -22,6 +12,7 @@ import MiniTable from "./MiniTable";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 function TableManager() {
   const [tableList, setTableList] = React.useState([1, 2, 3, 4, 5, 6, 7]);
@@ -36,8 +27,9 @@ function TableManager() {
     setShow(false);
     setShowDetail(false);
   };
-  const handleShowDetail = () => {
+  const handleShowDetail = (time) => {
     setShowDetail(true);
+    setTimeSelected(time);
   };
   const handleCloseDetail = () => {
     setShowDetail(false);
@@ -45,9 +37,9 @@ function TableManager() {
   const handleSelect = (id) => {
     setShow(true);
     setSelected(id);
-    setShowDetail(false);
+    // setShowDetail(false);
   };
-  return show ? (
+  return (
     <div className="table-manager">
       <div className="left-panel">
         <div className="table-list">
@@ -61,8 +53,8 @@ function TableManager() {
             />
           </LocalizationProvider>
           <Grid container spacing={2} className="tables">
-            {tableList.map((table) => (
-              <Grid item>
+            {tableList.map((table, index) => (
+              <Grid item key={index}>
                 <MiniTable
                   id={table}
                   booking={1}
@@ -74,79 +66,47 @@ function TableManager() {
           </Grid>
         </div>
       </div>
-      <div className="right-panel">
-        {showDetail ? (
+      {show ? (
+        <div className="right-panel">
           <div>
-            <Card className="time-detail">
+            <div className="time-detail">
               <div className="closebutton">
                 <Typography variant="subtitle1">{selected}</Typography>
                 <CloseIcon onClick={handleClose} />
               </div>
               <div className="time-group">
-                <Grid container spacing={2} className="tables">
-                  {timeList.map((time) => (
-                    <Grid item>
-                      <Button variant="text" onClick={handleShowDetail}>
+                <Grid container spacing={1} className="tables">
+                  {timeList.map((time, index) => (
+                    <Grid item key={index}>
+                      <Button
+                        variant="outlined"
+                        onClick={() => handleShowDetail(time)}
+                      >
                         {time}
                       </Button>
                     </Grid>
                   ))}
                 </Grid>
               </div>
-            </Card>
-            <Card className="food-detail">
-              <div className="closebutton">
-                <Typography variant="subtitle1">{timeSelected}</Typography>
-                <CloseIcon onClick={handleCloseDetail} />
+            </div>
+            {showDetail ? (
+              <div>
+                <Card>
+                  <Divider />
+                  <div className="food-detail">
+                    <div className="closebutton">
+                      <Typography variant="subtitle1">
+                        {timeSelected}
+                      </Typography>
+                      <KeyboardArrowUpIcon onClick={handleCloseDetail} />
+                    </div>
+                  </div>
+                </Card>
               </div>
-            </Card>
+            ) : null}
           </div>
-        ) : (
-          <Card className="time-detail">
-            <div className="closebutton">
-              <Typography variant="subtitle1">{selected}</Typography>
-              <CloseIcon onClick={handleClose} />
-            </div>
-            <div className="time-group">
-              <Grid container spacing={2} className="tables">
-                {timeList.map((time) => (
-                  <Grid item>
-                    <Button variant="text" onClick={handleShowDetail}>
-                      {time}
-                    </Button>
-                  </Grid>
-                ))}
-              </Grid>
-            </div>
-          </Card>
-        )}
-      </div>
-    </div>
-  ) : (
-    <div className="table-manager">
-      <div className="table-list">
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            value={value}
-            onChange={(newValue) => {
-              setValue(newValue);
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-        <Grid container spacing={2} className="tables">
-          {tableList.map((table) => (
-            <Grid item>
-              <MiniTable
-                id={table}
-                booking={1}
-                enable={true}
-                onClick={handleSelect}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </div>
+        </div>
+      ) : null}
     </div>
   );
 }
