@@ -96,7 +96,6 @@ function BanDataService() {
     addBan,
     deleteBan,
     getAllBan,
-    getBan,
-    ban
+    getBan
   }
 }

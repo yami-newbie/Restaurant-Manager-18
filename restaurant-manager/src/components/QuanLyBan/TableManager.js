@@ -6,14 +6,17 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import MiniTable from "./MiniTable";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import BanDataService from "../../services/ban.serivce";
+import { useTableService } from "../../services/ban.serivce";
+import { CT_DatBanService } from "../../services/ct_datban.service";
+import { useCT_OrderService } from "../../services/datban.service";
+import { async } from "@firebase/util";
 
 function TableManager() {
   const [tableList, setTableList] = React.useState([]);
@@ -24,14 +27,57 @@ function TableManager() {
   const [timeList, setTimeList] = React.useState([1, 2]);
   const [timeSelected, setTimeSelected] = React.useState();
   const [, updateState] = React.useState();
-  
-  const table = BanDataService();
-  useEffect(()=>{
-    if(table.ban)
-    {
-      setTableList(table.ban);
+  const orders = useRef([]);
+  const [loadDone, setLoadDone] = useState(null);
+
+  const tables = useTableService();
+  const ct_datban = CT_DatBanService();
+  const datban = useCT_OrderService();
+
+  const getOrderByDate = (date) => {
+    const orderID = datban.getDatBanByDate(date);
+    console.log("orderID", orderID);
+    if (orderID?.length === 0 && datban.datban?.length > 0) {
+      setLoadDone(true);
     }
-  },[table])
+    orderID?.map((oid, index) => ct_datban.getCT_DatBanByID_DB(oid.id).then(res => {
+      orders.current = [...res, ...orders.current];
+      if (index === orderID.length - 1) {
+        setLoadDone(true);
+      }
+    }))
+
+  }  // di buoi nua bam nut di :v nhung t van cay :v chac la xong ???
+
+  useEffect(() => {
+    console.log(loadDone);
+    if (loadDone) {
+      setTableList(tableList.map(e => ({ ...e, count: getCount(e.data.TenBan) })))
+      setLoadDone(false);
+      orders.current = [];
+    }
+  }, [loadDone])
+
+  const getCount = (id) => {
+    if (orders.current)
+      return orders.current?.filter(e => e.data.ID_Ban === id).length;
+  }
+
+  useEffect(() => {
+    if (value)
+      getOrderByDate(value.toLocaleDateString());
+  }, [value])
+
+  useEffect(() => {
+    if (tables && tables.tables.length > 0) {
+      setTableList(tables.tables);
+      if (loadDone === null) {
+        getOrderByDate(new Date().toLocaleDateString())
+        setLoadDone(false);
+      }
+    }
+  }, [tables])
+
   var tl = tableList;
   const handleClose = () => {
     setShow(false);
@@ -50,10 +96,8 @@ function TableManager() {
     setShowDetail(false);
   }
   const handleDelete = (id) => {
-    for (var i=0; i < tl.length; i++)
-    {
-      if (tl[i]===id)
-      {
+    for (var i = 0; i < tl.length; i++) {
+      if (tl[i] === id) {
         tl.splice(i, 1);
         i--;
       }
@@ -75,22 +119,23 @@ function TableManager() {
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
-          <Grid container spacing = {2} className='tables'>
-            {tableList.map((table) => (
-              <Grid item>
-                <MiniTable id={table.data.TenBan} booking={1} enable={true} onClick={handleSelect} onDelete={handleDelete}/>
+
+          <Grid container spacing={2} className='tables'>
+            {tableList.map((table, i) => (
+              <Grid item key={i}>
+                <MiniTable id={table.data.TenBan} booking={table.count} enable={true} onClick={handleSelect} onDelete={handleDelete} />
               </Grid>
             ))}
           </Grid>
         </div>
       </div>
-      {(show)?(
+      {(show) ? (
         <div className='right-panel'>
           <Card>
             <div className='time-detail'>
               <div className='closebutton'>
                 <Typography variant='subtitle1'>{selected}</Typography>
-                <CloseIcon onClick={handleClose} sx={{'&:hover':{cursor:'pointer', backgroundColor:'#f7f7f7'}}}/>
+                <CloseIcon onClick={handleClose} sx={{ '&:hover': { cursor: 'pointer', backgroundColor: '#f7f7f7' } }} />
               </div>
               <div>
                 <Typography variant="subtitle1">
@@ -98,29 +143,29 @@ function TableManager() {
                 </Typography>
               </div>
               <div className='time-group'>
-                <Grid container spacing = {1} className='tables'>
-                  {timeList.map((time)=>(
+                <Grid container spacing={1} className='tables'>
+                  {timeList.map((time) => (
                     <Grid item>
-                      <Button variant="outlined" onClick={()=>handleShowDetail(time)}>{time}</Button>
+                      <Button variant="outlined" onClick={() => handleShowDetail(time)}>{time}</Button>
                     </Grid>
                   ))}
                 </Grid>
               </div>
             </div>
-            {(showDetail)? (
+            {(showDetail) ? (
               <div>
-                <Divider/>
+                <Divider />
                 <div className='food-detail'>
                   <div className='closebutton'>
                     <Typography variant='subtitle1'>{timeSelected}</Typography>
-                    <KeyboardArrowUpIcon onClick={handleCloseDetail} sx={{'&:hover':{cursor:'pointer', backgroundColor:'#f7f7f7'}}}/>
+                    <KeyboardArrowUpIcon onClick={handleCloseDetail} sx={{ '&:hover': { cursor: 'pointer', backgroundColor: '#f7f7f7' } }} />
                   </div>
                 </div>
               </div>
-            ):null}
+            ) : null}
           </Card>
         </div>
-      ):null}
+      ) : null}
     </div>
   );
 }

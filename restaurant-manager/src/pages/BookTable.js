@@ -5,8 +5,9 @@ import Table2 from '../components/TableIcon/Table2';
 import Table4 from '../components/TableIcon/Table4';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import BanDataService from '../services/ban.serivce';
+import {useTableService} from '../services/ban.serivce';
 import { CT_DatBanService } from '../services/ct_datban.service';
+import { useCT_OrderService } from '../services/datban.service';
 
 function BookTable() {
     const [tableid, setTableid] = useState([1,2,3,4,5,6]);
@@ -18,12 +19,13 @@ function BookTable() {
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
-    const table = BanDataService();
-    const datban = CT_DatBanService();
+    const table = useTableService();
+    const datban = useCT_OrderService();
+    const ct_datban = CT_DatBanService();
     useEffect(()=>{
-        if(table.ban)
+        if(table.tables)
         {
-        setTableList(table.ban);
+        setTableList(table.tables);
         }
     },[table])
     const select = useRef(selected);
@@ -46,9 +48,12 @@ function BookTable() {
         forceUpdate();
     }
     const handleConfirm = () => {
-        selected.map((sl)=>{
-            datban.addCT_DatBan({id: sl, time: time, day: day});
-        })
+        datban.addDatBan({time: time, day: day.toLocaleDateString()}).then((data)=>{
+            selected.map((sl)=>{
+                ct_datban.addCT_DatBan({ID_DatBan: data.id, ID_Ban: sl});
+            })
+        });
+        
     }
 
     const draw = (type, name, id) => {

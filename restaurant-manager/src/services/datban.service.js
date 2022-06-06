@@ -8,6 +8,8 @@ import {
     getDocs,
     Timestamp,
     onSnapshot,
+    query,
+    where,
 } from "firebase/firestore";
 import { list } from "firebase/storage";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -33,7 +35,7 @@ const DatBanRef = collection(db, "DatBan");
 
 function DatBanDataService()
 {
-  const [datban, setDatban] = useState([]);
+  const [datban, setDatban] = useState();
 
   useEffect(() => {
     const unsubscribe = onSnapshot(DatBanRef, (snapshot) => {
@@ -67,6 +69,11 @@ function DatBanDataService()
     const DatBanDoc = doc(db, "DatBan", id);
     return await getDoc(DatBanDoc);
   };
+  const getDatBanByDate = (date) => {
+    // console.log("datban",datban, date)
+    const value = datban?.filter((e) => (e.data.day === date));
+    return value;
+  }
   const deleteDatBanByID = async (id) => {
     const listDB = getDatBanByID(id);
 
@@ -83,6 +90,7 @@ function DatBanDataService()
     getAllDatBan,
     getDatBan,
     getDatBanByID,
+    getDatBanByDate,
     deleteDatBanByID
   }
 }

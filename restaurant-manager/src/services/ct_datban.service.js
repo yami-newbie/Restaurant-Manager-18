@@ -7,6 +7,9 @@ import {
   deleteDoc,
   getDocs,
   Timestamp,
+  query,
+  onSnapshot,
+  where
 } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -31,6 +34,8 @@ export default function ProviderCTTableService({ children }) {
 const CT_DatBanRef = collection(db, "CT_DatBan");
 
 function CT_DatBanDataService(){
+
+
   const addCT_DatBan = async (newCT_DatBan) => {
     return await addDoc(CT_DatBanRef, newCT_DatBan);
   };
@@ -53,12 +58,21 @@ function CT_DatBanDataService(){
     const CT_DatBanDoc = doc(db, "CT_DatBan", id);
     return await getDoc(CT_DatBanDoc);
   };
+  
+  const getCT_DatBanByID_DB = (id) => {
+    const getByIDDB = query(CT_DatBanRef, where("ID_DatBan", "==", id))
+    return getDocs(getByIDDB).then(res => res.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
+    // return onSnapshot(getByIDDB, (snapshot) => {
+    //   return(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
+    // });
+  }
 
   return {
     addCT_DatBan,
     updateCT_DatBan,
     deleteCT_DatBan,
     getAllCT_DatBan,
+    getCT_DatBanByID_DB,
     getCT_DatBan
   }
 }
