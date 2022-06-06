@@ -1,0 +1,274 @@
+.logIn {
+    width: 450px;
+    height: 600px;
+    background-color: yellow;
+    border-radius: 30px;
+}
+
+/* ::placeholder {
+    color: 808080;
+    padding-left: 20px;
+  } */
+
+.logInone {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.logInone p {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #808080;
+}
+
+.logIntwo {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logIntwo p {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #000000;
+}
+
+.logInthree {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.logInthreeOne {
+    width: 350px;
+    height: 80px;
+}
+
+.logInthreeOne p {
+    width: 150px;
+    height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #000000;
+    padding-left: 20px;
+    padding-bottom: 5px;
+}
+
+.logInthreeOne input {
+    width: 326px;
+    height: 46px;
+    border: solid 2px #808080;
+    border-radius: 20px;
+    padding-left: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #000000;
+}
+
+.logInfour {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.logInfourOne {
+    width: 350px;
+    height: 80px;
+}
+
+.logInfourTwo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.logInfourTwo p {
+    width: 150px;
+    height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+    font-family: 'Roboto';
+    padding-left: 20px;
+    padding-bottom: 5px;
+}
+
+.logInfourTwo a {
+    width: 175px;
+    height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #000000;
+    padding-bottom: 5px;
+}
+
+.logInfourOne input {
+    width: 326px;
+    height: 46px;
+    border: solid 2px #808080;
+    border-radius: 20px;
+    padding-left: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #000000;
+}
+
+.logInfive {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.logInfive button {
+    width: 350px;
+    height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #FFFFFF;
+    border-radius: 30px;
+    background-color: #2767D4;
+}
+
+.logInsix {
+    width: 100%;
+    height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #808080;
+    padding-top: 20px;
+}
+
+
+.logInseven {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.logInsevenOne {
+    width: 350px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logInseven button {
+    width: 350px;
+    height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    font-family: 'Roboto';
+    border-radius: 30px;
+    background-color: #EDEDED;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logInsevenOne img {
+    width: 32px;
+    height: 32px;
+}
+
+.logInseven button span {
+    height: 50px;
+    padding-top: 20px;
+    padding-left: 10px;
+}
+
+.logIneight {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.logIneightOne {
+    width: 350px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logIneight button {
+    width: 350px;
+    height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000000;
+    font-family: 'Roboto';
+    border-radius: 30px;
+    background-color: #EDEDED;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logIneightOne img {
+    width: 32px;
+    height: 32px;
+}
+
+.logIneight button span {
+    height: 50px;
+    padding-top: 20px;
+    padding-left: 10px;
+}
+
+.logInnine {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.logInnine p {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #808080;
+    /* padding-left: 51px; */
+}
+
+.logInnine a {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #42B72A;
+    /* padding-left: 50px; */
+}
+
+
+

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { Button, Container, Divider, Grid, Icon, Stack, TextField, Typography } from '@mui/material'
-import './SignUp.css'
+import './ForgotPassword.css'
 import './reset.css'
 
-function SignUp() {
+function ForgotPassword() {
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
   // const register = async () => {
@@ -17,76 +17,53 @@ function SignUp() {
   //   }
   // };
   return (
-    <div className="signUp">
+    <div className="forgotPassword">
       <Container component="main" maxWidth="xs">
   
-        <div className="one">
+        <div className="forgotPasswordone">
           {/* <p>WELCOME</p> */}
         </div>
   
-        <div className="two">
-          <p>Create your account</p>
-        </div>
-  
-        <div className="four">
-          <div className="fourOne">
-            <div className="fourTwo">
-              <p>First Name</p>
-              <a href="">Last Name</a>
-            </div>
-            <div className="fourThree">
-              <input type='text' placeholder="1952" />
-              <input type='text' placeholder="1952" />
-            </div>
-          </div>
+        <div className="forgotPasswordtwo">
+          <p>Forgot your password ?</p>
         </div>
         
-        <div className="three">
-          <div className="threeOne">
-            <p>Username</p>
-            <input type='text' placeholder="19521952" />
-          </div>
-        </div>
-
-        <div className="three">
-          <div className="threeOne">
+        <div className="forgotPasswordthree">
+          <div className="forgotPasswordthreeOne">
             <p>E-mail</p>
-            <input type='text' placeholder="19521952@gm.uit.edu.vn" />
+            <input type='text' placeholder="Enter your email" />
           </div>
         </div>
-
-        <div className="three">
-          <div className="threeOne">
-            <p>Password</p>
-            <input type='password' placeholder="Enter a password" />
-          </div>
-        </div>
-
-        <div className="nine">
-          {/* <a href="">Create an Account</a> */}
-          <div className="nineOne">
-            <input type='checkbox' checked="checked " color="red"/>
-            <p>I've read and agree with Terms of Service and our Privacy Policy</p>
-          </div>
-        </div>
-
-        <div className="five"><button>Sign Up</button></div>
   
-        {/* <div className="six">
+        <div className="forgotPasswordfour">
+          {/* <div className="fourOne">
+            <div className="fourTwo">
+              <p>Password</p>
+              <a href="">Forgot your password?</a>
+            </div>
+            <input type='password' placeholder="Enter your password?" />
+          </div> */}
+        </div>
+        
+        <div className="forgotPasswordfive">
+          <button>Reset Password</button>
+        </div>
+  
+        <div className="forgotPasswordsix">
           <Divider variant="middle">or Sign In with</Divider>
-        </div> */}
+        </div>
   
-        {/* <div className="seven">
-          <div className="sevenOne">
+        <div className="forgotPasswordseven">
+          <div className="forgotPasswordsevenOne">
             <button><img src='./GG.png' /> <span>Google</span></button>
           </div>
-        </div> */}
+        </div>
 
-        {/* <div className="eight">
-          <div className="eightOne">
-            <button><img src='./GG.png' /> <span>Facebook</span></button>
+        <div className="forgotPasswordeight">
+          <div className="forgotPasswordeightOne">
+            <button><img src='./FB.png' /> <span>Facebook</span></button>
           </div>
-        </div> */}
+        </div>
 
 
         {/* <Stack spacing={2} sx={{ width: "80%", m: "auto", mt: "10px" }}>
@@ -105,9 +82,16 @@ function SignUp() {
             Facebook
           </Button>
         </Stack> */}
+  
+        <div className="forgotPasswordnine">
+          <p>Not register yet?</p>
+          <a href="">Create an Account</a>
+        </div>
+  
       </Container>
     </div>
   );
 }
 
-export default SignUp;
+export default ForgotPassword;
+
