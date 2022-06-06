@@ -88,7 +88,7 @@ function DishInOrderItem({ ct, setCt }) {
               >
                 {name}
               </Typography>
-              <Rating readOnly value={rating} />
+              {/* <Rating readOnly value={rating} /> */}
             </Box>
           </Grid>
           <Grid item xs={5} md={5} sm={5}>

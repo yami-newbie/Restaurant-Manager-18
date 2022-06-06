@@ -202,7 +202,7 @@ function OrderDetail({
                       <InputLabel>Bàn đã chọn</InputLabel>
                       <Select
                         onChange={tableChange}
-                        value={table}
+                        value={table ? table : ''}
                         label="Bàn đã chọn"
                       >
                         {tables?.map((item, index) => (
@@ -213,7 +213,7 @@ function OrderDetail({
                       </Select>
                     </FormControl>
 
-                    <TextField value={nameStaff} fullWidth />
+                    <TextField value={nameStaff} fullWidth label="Tên nhân viên" />
                     <Stack direction="row" spacing={3}>
                       <Button
                         onClick={onCancel}

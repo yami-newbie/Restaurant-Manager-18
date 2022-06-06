@@ -60,7 +60,8 @@ function CT_DatBanDataService(){
   };
   
   const getCT_DatBanByID_DB = (id) => {
-    const getByIDDB = query(CT_DatBanRef, where("ID_DatBan", "==", id))
+    const getByIDDB = query(CT_DatBanRef, where("ID_DatBan", "in", id.map(e => e.id)))
+      
     return getDocs(getByIDDB).then(res => res.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
     // return onSnapshot(getByIDDB, (snapshot) => {
     //   return(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));

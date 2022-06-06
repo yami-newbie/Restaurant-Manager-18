@@ -8,7 +8,7 @@ import { Box } from "@mui/system";
 const data = [
   {
     label: "Dataset 1",
-    data: [1, 5, 3, 3],
+    data: [1.9, 5, 3, 3],
     backgroundColor: "rgba(255, 199, 132, 0.5)",
   },
   {
@@ -16,13 +16,6 @@ const data = [
     data: [2, 1, 4, 6],
     backgroundColor: "rgba(255, 99, 132, 0.5)",
   },
-];
-
-const color = [
-  "red", // color for data at index 0
-  "blue", // color for data at index 1
-  "green", // color for data at index 2
-  "black", // color for data at index 3
 ];
 
 function MonAn() {
@@ -35,6 +28,26 @@ function MonAn() {
     labels: () => {},
     datasets: data,
   });
+  const [option, setOption] = useState({
+          responsive: true,
+          scales: {
+            y: {
+              suggestedMax: 10
+            }
+          },
+          plugins: {
+            legend: {
+              position: "bottom",
+            },
+            title: {
+              display: true,
+              text: "Test",
+              font: {
+                size: 32
+              }
+            },
+          },
+        })
   useEffect(() => {
     const date = new Date();
     setDateSelect(date);
@@ -84,22 +97,18 @@ function MonAn() {
     } catch (e) {
       console.log(e);
     }
-
-    //console.log(getDatasetAtEvent(chartRef.current, event));
   };
 
-  
-
   return (
-    <Box sx={{m: 2}}>
+    <Box sx={{ m: 2 }}>
       <SelectThongKe
         otp={otp}
-        years={[2021, 2022]}
         dateSelect={dateSelect}
         monthSelect={monthSelect}
+        yearSelect={yearSelect}
+        years={[2021, 2022]}
         MonthChange={(e) => setMonthSelect(e.target.value)}
         OtpChange={(e) => setOtp(e.target.value)}
-        yearSelect={yearSelect}
         yearChange={(e) => setYearSelect(e.target.value)}
         dateChange={(e) => setDateSelect(e)}
       />
@@ -107,18 +116,7 @@ function MonAn() {
       <Chart
         ref={chartRef}
         onClick={onClick}
-        options={{
-          responsive: true,
-          plugins: {
-            legend: {
-              position: "left",
-            },
-            title: {
-              display: true,
-              text: "Test",
-            },
-          },
-        }}
+        options={option}
         type="bar"
         data={chartData}
       />

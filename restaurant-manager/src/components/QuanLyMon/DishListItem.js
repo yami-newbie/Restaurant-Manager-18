@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Rating, Switch, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Rating, Skeleton, Switch, Typography } from '@mui/material'
 import { Box, styled } from '@mui/system';
 import React, { useEffect, useState } from 'react'
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -6,6 +6,7 @@ import DishDetail from './DishDetail';
 import EditIcon from "@mui/icons-material/Edit";
 import { formatter } from '../../services/uilts/formatPrice';
 import { useDishService } from '../../services/thucan.service';
+import { useAlertService } from '../../services/alert.service';
 
 function DishListItem({ dish }) {
   const [value, setValue] = useState(0);
@@ -19,6 +20,7 @@ function DishListItem({ dish }) {
   const [id, setId] = useState();
 
   const dataService = useDishService();
+  const alert = useAlertService();
 
   useEffect(() => {
     if(dish){
@@ -74,18 +76,6 @@ function DishListItem({ dish }) {
           >
             {name}
           </Typography>
-          <Rating
-            name="simple-controlled"
-            value={value}
-            onChange={(event, newValue) => {
-              if (id) {
-                dataService.updateThucAn(id, {
-                  ...dish.data,
-                  Rating: newValue,
-                });
-              }
-            }}
-          />
           <Typography
             sx={{ fontWeight: "bolder !important" }}
             component="div"
@@ -118,17 +108,29 @@ function DishListItem({ dish }) {
           <Switch checked={checked} onChange={onCheckedChange} />
         </CardActions>
       </Card>
-      <CardMedia
-        component="img"
-        sx={{
-          position: "absolute",
-          width: 100,
-          height: 100,
-          borderRadius: "100px",
-        }}
-        image={imgSrc}
-        alt="food"
-      />
+      {imgSrc ? (
+        <CardMedia
+          component="img"
+          sx={{
+            position: "absolute",
+            width: 100,
+            height: 100,
+            borderRadius: "100px",
+          }}
+          image={imgSrc}
+          alt="food"
+        />
+      ) : (
+        <Skeleton
+          variant="circular"
+          sx={{
+            position: "absolute",
+            width: 100,
+            height: 100,
+            borderRadius: "100px",
+          }}
+        />
+      )}
       <DishDetail
         update={true}
         dish={dishData}
@@ -163,7 +165,22 @@ function DishListItem({ dish }) {
           <Button
             onClick={() => {
               setOpenConfirm(false);
-              dataService.deleteThucAn(dish.id);
+              try {
+                dataService.deleteThucAn(dish.id);
+                alert.setAlert({
+                  type: 'success',
+                  body: "Xóa món ăn thành công"
+                })
+              }
+              catch (e) {
+                alert.setAlert({
+                  type: "error",
+                  body: `Có lỗi xảy ra, xóa thất bại`
+                })
+                console.log(e);
+              }
+
+              alert.showAlert();
             }}
             variant="contained"
           >
