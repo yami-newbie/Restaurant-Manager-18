@@ -14,6 +14,7 @@ import QuanLyHoaDon from "./pages/TrangQuanLy/HoaDon";
 import QuanLyMaGiamGia from "./pages/TrangQuanLy/MaGiamGia";
 import ThongKeDoanhThu from './pages/ThongKe/DoanhThu';
 import ThongKeMonAn from './pages/ThongKe/MonAn';
+import Menu from './pages/menu.js';
 import AppProvider from './components/AppProvider';
 import HoaDonChuaThanhToan from './pages/TrangNhanVien/HoaDonChuaThanhToan';
 
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/order/ongoing" element={<HoaDonChuaThanhToan />} />
                 <Route path="/thongke/doanhthu" element={<ThongKeDoanhThu />} />
                 <Route path="/thongke/monan" element={<ThongKeMonAn />} />
+                <Route path="/menu" element={<Menu />} />
               </Routes>
             </Box>
           </BrowserRouter>

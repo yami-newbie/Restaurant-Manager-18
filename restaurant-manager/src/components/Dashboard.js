@@ -22,6 +22,11 @@ import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 const data = [
   { 
     icon: <TableBarIcon />, 
+    label: "Menu", 
+    navigate: "/menu" 
+  },
+  { 
+    icon: <TableBarIcon />, 
     label: "Bàn", 
     navigate: "/table" 
   },

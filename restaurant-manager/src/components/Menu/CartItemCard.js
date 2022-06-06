@@ -21,7 +21,7 @@ const CartItemCard = (props) => {
         <img
           src={props.img}
           width={74}
-          height="100%"
+          height={74}
           style={{ borderRadius: "20px" }}
         ></img>
         <Box>
