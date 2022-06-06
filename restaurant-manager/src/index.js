@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
+import Menu from './pages/menu.js';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Menu />
   </React.StrictMode>,
   document.getElementById('root')
 );
