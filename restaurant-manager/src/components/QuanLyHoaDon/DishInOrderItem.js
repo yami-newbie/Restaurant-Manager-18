@@ -1,22 +1,19 @@
 import {
   Avatar,
   Box,
-  Button,
   Card,
-  CardActions,
   CardContent,
   Grid,
   IconButton,
   Rating,
   Stack,
   Typography,
-  useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded";
-import { formatter } from "../services/uilts/formatPrice";
-import { useDishService } from "../services/thucan.service";
+import { formatter } from "../../services/uilts/formatPrice";
+import { useDishService } from "../../services/thucan.service";
 
 function DishInOrderItem({ ct, setCt }) {
   const [amount, setAmount] = useState();

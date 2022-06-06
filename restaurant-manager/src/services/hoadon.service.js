@@ -6,7 +6,9 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -23,17 +25,25 @@ export default function ProviderOrderService({ children }) {
 }
 
 const HoaDonRef = collection(db, "HoaDon");
+const QueryDisable = query(collection(db, "HoaDon"), where("ThanhToan", "==", false));
 
 function HoaDonDataService() {
   const [orders, setOrders] = useState([]);
+  const [ordersDisable, setOrdersDisable] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(HoaDonRef, (snapshot) => {
+    const ordersSnapShot = onSnapshot(HoaDonRef, (snapshot) => {
       setOrders(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
+    });
+    const ordersDisableSnapShot = onSnapshot(QueryDisable, (snapshot) => {
+      setOrdersDisable(
+        snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
+      );
     });
 
     return () => {
-      unsubscribe();
+      ordersSnapShot();
+      ordersDisableSnapShot();
     };
   }, []);
 
@@ -58,10 +68,11 @@ function HoaDonDataService() {
   const getHoaDon = async (id) => {
     const hoadonDoc = doc(db, "HoaDon", id);
     return await getDoc(hoadonDoc);
-  };
+  }
 
   return {
     orders,
+    ordersDisable,
     addHoaDon,
     updateHoaDon,
     deleteHoaDon,

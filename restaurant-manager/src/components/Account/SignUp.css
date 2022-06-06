@@ -1,0 +1,194 @@
+.signUp {
+    width: 450px;
+    height: 600px;
+    background-color: yellow;
+    border-radius: 30px;
+}
+
+/* ::placeholder {
+    color: 808080;
+    padding-left: 20px;
+  } */
+
+.one {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.one p {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #808080;
+}
+
+.two {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.two p {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #000000;
+}
+
+.three {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.threeOne {
+    width: 350px;
+    height: 80px;
+}
+
+.threeOne p {
+    width: 150px;
+    height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #000000;
+    padding-left: 20px;
+    padding-bottom: 5px;
+}
+
+.threeOne input {
+    width: 326px;
+    height: 46px;
+    border: solid 2px #808080;
+    border-radius: 20px;
+    padding-left: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #000000;
+}
+
+.four {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.fourOne {
+    width: 350px;
+    height: 80px;
+}
+
+.fourTwo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.fourTwo p {
+    width: 150px;
+    height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+    font-family: 'Roboto';
+    padding-left: 20px;
+    padding-bottom: 5px;
+}
+
+.fourTwo a {
+    width: 150px;
+    height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #000000;
+    padding-bottom: 5px;
+}
+
+.fourThree {
+    display: flex;
+    justify-content: space-between;
+}
+
+.fourThree input {
+    width: 146px;
+    height: 46px;
+    border: solid 2px #808080;
+    border-radius: 20px;
+    padding-left: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #000000;
+}
+
+.five {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 25px;
+}
+
+.five button {
+    width: 350px;
+    height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #FFFFFF;
+    border-radius: 30px;
+    background-color: #42B72A;
+}   
+
+.nine {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.nineOne {
+    width: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nineOne input {
+    width: 50px;
+    height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #42B72A;
+    padding-right: 50px;
+}
+
+.nineOne p {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto';
+    color: #808080;
+    /* padding-left: 51px; */
+}
+
+
+
+

@@ -1,3 +1,6 @@
+* {
+  /* background-color: grey; */
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,6 +14,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 
 .app-header
 {
@@ -174,6 +178,7 @@ code {
 }
 .table-list
 {
+  max-width: 90%;
   width: 90%;
   justify-self: center;
 }

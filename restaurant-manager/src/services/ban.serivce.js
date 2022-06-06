@@ -6,9 +6,12 @@ import {
   updateDoc,
   deleteDoc,
   getDocs,
-  Timestamp,
+  onSnapshot,
+  query,
+  where,
 } from "firebase/firestore";
-import db from "../firebase";
+import { createContext, useContext, useEffect, useState } from "react";
+import { db } from "./firebase";
 
 
 const temp = {
@@ -16,9 +19,41 @@ const temp = {
   TrangThai: Boolean(true)
 };
 
+const context = createContext();
+
+export const useTableService = () => {
+  return useContext(context);
+};
+
+export default function ProviderTableService({ children }) {
+  const auth = BanDataService();
+  return <context.Provider value={auth}>{children}</context.Provider>;
+}
+
 const BanRef = collection(db, "Ban");
+const BanEnableRef = query(collection(db, "Ban"), where("TrangThai", "==", true));
 
 function BanDataService() {
+  
+  const [tables, setTables] = useState([]);
+  const [tablesEnable, setTablesEnable] = useState([]);
+
+  useEffect(() => {
+    const getTable = onSnapshot(BanRef, (snapshot) => {
+      setTables(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
+    });
+
+    const getTableEnable = onSnapshot(BanEnableRef, (snapshot) => {
+      setTablesEnable(
+        snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
+      );
+    });
+
+    return () => {
+      getTable();
+      getTableEnable();
+    };
+  }, []);
 
   const addBan = async (newBan) => {
     return await addDoc(BanRef, newBan);
@@ -44,6 +79,8 @@ function BanDataService() {
   };
 
   return {
+    tables,
+    tablesEnable,
     updateBan,
     addBan,
     deleteBan,
@@ -51,6 +88,3 @@ function BanDataService() {
     getBan
   }
 }
-
-export default BanDataService;
-

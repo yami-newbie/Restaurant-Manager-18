@@ -12,16 +12,51 @@ import FastfoodIcon from "@mui/icons-material/Fastfood";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import { Collapse, Link } from "@mui/material";
+import { Collapse } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
+import SsidChartIcon from "@mui/icons-material/SsidChart";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 
 const data = [
-  { icon: <TableBarIcon />, label: "Bàn", navigate: "/table" },
-  { icon: <FastfoodIcon />, label: "Món ăn", navigate: "/dish" },
-  { icon: <DescriptionIcon />, label: "Hóa đơn", navigate: "/order" },
-  { icon: <ReceiptIcon />, label: "Mã giảm giá", navigate: "/coupon" },
+  { 
+    icon: <TableBarIcon />, 
+    label: "Bàn", 
+    navigate: "/table" 
+  },
+  { 
+    icon: <FastfoodIcon />, 
+    label: "Món ăn", 
+    navigate: "/dish" 
+  },
+  { 
+    icon: <DescriptionIcon />,
+    label: "Hóa đơn",
+    navigate: "/order"
+  },
+  {
+    icon: <ReceiptLongIcon />,
+    label: "Chưa thanh toán",
+    navigate: "/order/ongoing",
+  },
+  { 
+    icon: <ReceiptIcon />, 
+    label: "Mã giảm giá", 
+    navigate: "/coupon" 
+  },
+];
+const thongke = [
+  {
+    icon: <SsidChartIcon />,
+    label: "Doanh thu",
+    navigate: "/thongke/doanhthu",
+  },
+  {
+    icon: <FastfoodIcon />,
+    label: "Món ăn",
+    navigate: "/thongke/monan",
+  },
 ];
 
 const FireNav = styled(List)({
@@ -87,31 +122,37 @@ export default function Dashboard() {
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List sx={{ paddingLeft: "25px" }} component="div" disablePadding>
-                <ListItemButton onClick={() => {
-                    navigate("/thongke/order");
-                }}>
-                  <ListItemIcon>
-                    <DescriptionIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Hóa đơn" />
-                </ListItemButton>
+                {thongke.map((item, index) => (
+                  <ListItemButton
+                    key={index}
+                    onClick={() => {
+                      navigate(item.navigate);
+                    }}
+                  >
+                    <ListItemIcon>{item.icon}</ListItemIcon>
+                    <ListItemText primary={item.label} />
+                  </ListItemButton>
+                ))}
               </List>
             </Collapse>
             {data.map((item) => (
-                <ListItemButton key={item.label} onClick={() => {
-                    navigate(item.navigate);
-                }}>
-                  <ListItemIcon sx={{ color: "inherit" }}>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={item.label}
-                    primaryTypographyProps={{
-                      fontSize: 14,
-                      fontWeight: "medium",
-                    }}
-                  />
-                </ListItemButton>
+              <ListItemButton
+                key={item.label}
+                onClick={() => {
+                  navigate(item.navigate);
+                }}
+              >
+                <ListItemIcon sx={{ color: "inherit" }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.label}
+                  primaryTypographyProps={{
+                    fontSize: 14,
+                    fontWeight: "medium",
+                  }}
+                />
+              </ListItemButton>
             ))}
           </FireNav>
         </Paper>

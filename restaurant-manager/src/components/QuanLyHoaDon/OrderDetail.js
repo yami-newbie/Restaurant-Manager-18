@@ -4,9 +4,13 @@ import {
   Card,
   Dialog,
   DialogContent,
+  FormControl,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Stack,
   TextField,
   Toolbar,
@@ -16,9 +20,10 @@ import React, { useEffect, useState } from "react";
 import ListDishOrder from "./ListDishOrder";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box } from "@mui/system";
-import { formatter } from "../services/uilts/formatPrice";
-import { useCT_OrderService } from "../services/ct_hoadon.service";
-import { useOrderService } from "../services/hoadon.service";
+import { formatter } from "../../services/uilts/formatPrice";
+import { useCT_OrderService } from "../../services/ct_hoadon.service";
+import { useOrderService } from "../../services/hoadon.service";
+import { useTableService } from "../../services/ban.serivce";
 
 function OrderDetail({
   open = false,
@@ -33,9 +38,20 @@ function OrderDetail({
   const [nameStaff, setNameStaff] = useState();
   const [state, setState] = useState();
   const [total, setTotal] = useState();
+  const [table, setTable] = useState();
+  const [tables, setTables] = useState();
 
   const ct_dataService = useCT_OrderService();
   const order_dataService = useOrderService();
+  const table_dataService = useTableService();
+
+  useEffect(() => {
+    const list = table_dataService.tablesEnable;
+    if(list){
+      console.log(list);
+      setTables(list);
+    }
+  }, [table_dataService])
 
   useEffect(() => {
     if(order){
@@ -47,6 +63,7 @@ function OrderDetail({
       setNameStaff(data.NhanVien);
       setTotal(data.TongTien);
       setOrderId(order.id);
+      setTable(data.TenBan);
     }
   }, [ct_dataService, order])
 
@@ -65,10 +82,15 @@ function OrderDetail({
         ...order.data,
         TenKhachHang: name,
         SoDienThoai: phoneNumber,
+        TenBan: table,
       })
     }
     onClose();
   }
+
+  const tableChange = (event) => {
+    setTable(event.target.value);
+  };
 
   const onPayment = () => {
     if (order) {
@@ -85,7 +107,7 @@ function OrderDetail({
   return (
     <Dialog
       PaperProps={{
-        style: { borderRadius: 20, backgroundColor: "#f0f2f5" },
+        style: { backgroundColor: "#f0f2f5" },
       }}
       fullScreen
       onClose={onClose}
@@ -176,13 +198,28 @@ function OrderDetail({
                   </Typography>
                   <Stack spacing={3}>
                     <TextField label="Mã hóa đơn" value={orderId} />
-                    <TextField
-                      label="Tên nhân viên"
-                      value={nameStaff}
-                      fullWidth
-                    />
+                    <FormControl>
+                      <InputLabel>Bàn đã chọn</InputLabel>
+                      <Select
+                        onChange={tableChange}
+                        value={table}
+                        label="Bàn đã chọn"
+                      >
+                        {tables?.map((item, index) => (
+                          <MenuItem key={index} value={item.data.TenBan}>
+                            {item.data.TenBan}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+
+                    <TextField value={nameStaff} fullWidth />
                     <Stack direction="row" spacing={3}>
-                      <Button onClick={onCancel} sx={{ width: "50%" }} variant="outlined">
+                      <Button
+                        onClick={onCancel}
+                        sx={{ width: "50%" }}
+                        variant="outlined"
+                      >
                         Huỷ đơn
                       </Button>
                       <Button
