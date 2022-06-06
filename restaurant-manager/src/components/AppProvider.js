@@ -1,7 +1,7 @@
 import React from "react";
 import { ProvideAuth } from "../services/account.service";
 import ProviderTableService from "../services/ban.serivce";
-import ProviderCTTableService from "../services/ct_bandat.service";
+import ProviderCTTableService from "../services/ct_datban.service";
 import ProviderCTDatMonService from "../services/ct_datmon.service";
 import ProviderCTOrderService from "../services/ct_hoadon.service";
 import ProviderDatBanService from "../services/datban.service";

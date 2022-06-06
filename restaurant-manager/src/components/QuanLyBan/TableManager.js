@@ -6,16 +6,17 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import MiniTable from "./MiniTable";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import BanDataService from "../../services/ban.serivce";
 
 function TableManager() {
-  const [tableList, setTableList] = React.useState([1, 2, 3, 4, 5, 6, 7]);
+  const [tableList, setTableList] = React.useState([]);
   const [show, setShow] = React.useState(false);
   const [showDetail, setShowDetail] = React.useState(false);
   const [selected, setSelected] = React.useState();
@@ -24,6 +25,13 @@ function TableManager() {
   const [timeSelected, setTimeSelected] = React.useState();
   const [, updateState] = React.useState();
   
+  const table = BanDataService();
+  useEffect(()=>{
+    if(table.ban)
+    {
+      setTableList(table.ban);
+    }
+  },[table])
   var tl = tableList;
   const handleClose = () => {
     setShow(false);
@@ -70,7 +78,7 @@ function TableManager() {
           <Grid container spacing = {2} className='tables'>
             {tableList.map((table) => (
               <Grid item>
-                <MiniTable id={table} booking={1} enable={true} onClick={handleSelect} onDelete={handleDelete}/>
+                <MiniTable id={table.data.TenBan} booking={1} enable={true} onClick={handleSelect} onDelete={handleDelete}/>
               </Grid>
             ))}
           </Grid>

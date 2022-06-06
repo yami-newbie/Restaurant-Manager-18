@@ -1,44 +1,61 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Button, Grid, Slider, Stack, TextField, Typography, Link, Card } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import Table2 from '../components/TableIcon/Table2';
 import Table4 from '../components/TableIcon/Table4';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import BanDataService from '../services/ban.serivce';
+import { CT_DatBanService } from '../services/ct_datban.service';
 
 function BookTable() {
     const [tableid, setTableid] = useState([1,2,3,4,5,6]);
     const [tabletype, setTabletype] = useState([1,1,1,2,2,2]);
+    const [tableList, setTableList] = useState([]);
     const [time, setTime] = React.useState([10, 12]);
-    const [value, setValue] = React.useState(new Date());
+    const [day, setDay] = React.useState(new Date());
     const [selected, setSelected] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
-    let select = selected;
+
+    const table = BanDataService();
+    const datban = CT_DatBanService();
+    useEffect(()=>{
+        if(table.ban)
+        {
+        setTableList(table.ban);
+        }
+    },[table])
+    const select = useRef(selected);
     const handleChange = (event, newValue) => {
         setTime(newValue);
       };
     const handleSelect = (id) => {
-        select = [...select, id];
-        setSelected(select);
+        select.current = [...select.current, id];
+        setSelected(select.current);
     }
     const handleCancel = (id) => {
-        for (var i=0; i<select.length;i++)
+        for (var i=0; i<select.current.length;i++)
         {
-            if (select[i] === id)
+            if (select.current[i] === id)
             {
-                select.splice(i, 1);
+                select.current.splice(i, 1);
             }
         }
-        setSelected(select);
+        setSelected(select.current);
         forceUpdate();
     }
+    const handleConfirm = () => {
+        selected.map((sl)=>{
+            datban.addCT_DatBan({id: sl, time: time, day: day});
+        })
+    }
 
-    const draw = (type, id) => {
+    const draw = (type, name, id) => {
         switch(type)
         {
-            case 1: return <Table2 id={id} status={0} onClick={handleSelect} onCancel={handleCancel}/>;
-            case 2: return <Table4 id={id} status={0} onClick={handleSelect} onCancel={handleCancel}/>;
+            case 1: return <Table2 name={name} status={0} onClick={handleSelect} onCancel={handleCancel} id={id}/>;
+            case 2: return <Table4 name={name} status={0} onClick={handleSelect} onCancel={handleCancel} id={id}/>;
             default: return null;
         }
     }
@@ -49,9 +66,9 @@ function BookTable() {
             <div>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
-                    value={value}
+                    value={day}
                     onChange={(newValue) => {
-                        setValue(newValue);
+                        setDay(newValue);
                     }}
                     renderInput={(params) => <TextField {...params} />}
                     />
@@ -75,10 +92,10 @@ function BookTable() {
                 <div className='dt'>
                     <div>
                         <Grid container spacing={5}> 
-                            {tabletype.map((type, index) => 
+                            {tableList.map((table) => 
                                     <Grid item>
                                         <div>
-                                            {draw(type, index+1)}
+                                            {draw(table.data.Loai, table.data.TenBan)}
                                         </div>
                                     </Grid>
                                 )
@@ -87,10 +104,7 @@ function BookTable() {
                     </div>
                     <div style={{display:'flex', flexDirection:'row'}}>
                         <div>
-                            <Typography variant='subtitle2'>Bàn đang chọn:</Typography>
-                        </div>
-                        <div>
-                            {selected}
+                            <Typography variant='subtitle2'>{"Bàn đang chọn: " + selected}</Typography>
                         </div>
                     </div>
                     
@@ -100,7 +114,7 @@ function BookTable() {
         <div className='button-list'>
             <Stack spacing={2} direction="row">
                 <Button variant="outlined">Trở lại</Button>
-                <Button variant="contained">Xác nhận</Button>
+                <Button variant="contained" onClick={handleConfirm}>Xác nhận</Button>
                 <Link href="#" underline="hover" sx={{marginTop:'5px'}}>
                     {'Bỏ qua'}
                 </Link>

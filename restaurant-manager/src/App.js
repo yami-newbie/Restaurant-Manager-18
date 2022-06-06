@@ -39,7 +39,6 @@ function App() {
                 <Route path="/dish" element={<QuanLyMonAn />} />
                 <Route path="/order" element={<QuanLyHoaDon />} />
                 <Route path="/coupon" element={<QuanLyMaGiamGia />} />
-                <Route path="/thongke/order" element={<ThongKeHoaDon />} />
                 <Route path="/ordertable" element={<BookTable/>}/>
                 <Route path="/order/ongoing" element={<HoaDonChuaThanhToan />} />
                 <Route path="/thongke/doanhthu" element={<ThongKeDoanhThu />} />

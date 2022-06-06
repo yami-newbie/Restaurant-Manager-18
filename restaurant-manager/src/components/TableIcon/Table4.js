@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 import { Stack, Box } from '@mui/material'
 
 function Table4(props) {
-  const{id, status, onClick, onCancel} = props;
+  const{name, status, onClick, onCancel} = props;
   const[type, setType] = useState(status);
   const check = () => {
     setType(1);
-    onClick(id);
+    onClick(name);
   }
   const uncheck = () => {
     setType(0);
-    onCancel(id);
+    onCancel(name);
   }
   return (
     <div>
@@ -23,16 +23,16 @@ function Table4(props) {
       {
         (type===-1)?(
           <Box className="full-table" sx={{backgroundColor:'red', cursor:'default'}}>
-            {id}
+            {name}
           </Box>
         ):(
           (type===1)?(
             <Box className="full-table" sx={{backgroundColor:'green'}} onClick={uncheck}>
-              {id}
+              {name}
             </Box>
           ):(
             <Box className="full-table" onClick={check}>
-              {id}
+              {name}
             </Box>
           )
         )

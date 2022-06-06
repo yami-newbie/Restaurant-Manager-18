@@ -55,6 +55,17 @@ function BanDataService() {
     };
   }, []);
 
+  const [ban, setBan] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(BanRef, snapshot => {
+      setBan(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
+    })
+
+    return ()=>{
+      unsubscribe();
+    }
+  }, [])
   const addBan = async (newBan) => {
     return await addDoc(BanRef, newBan);
   };
@@ -85,6 +96,7 @@ function BanDataService() {
     addBan,
     deleteBan,
     getAllBan,
-    getBan
+    getBan,
+    ban
   }
 }
