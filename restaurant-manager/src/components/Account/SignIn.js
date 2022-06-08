@@ -1,22 +1,24 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from "react";
-import { auth } from "../../firebase";
-import { Button, Container, Divider, Grid, Icon, Stack, TextField, Typography } from '@mui/material'
 import './SignIn.css'
 import './reset.css'
-import { fontSize } from "@mui/system";
+import { Container, Divider } from '@mui/material';
+import { useAuth } from '../../services/account.service';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SignIn() {
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-  // const login = async () => {
-  //   try {
-  //     const user = await signInWithEmailAndPassword(auth, username, password);
-  //     console.log(user);
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
+  const auth = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    auth.signin({
+      email: "test@gmail.com",
+      password: "123456",
+    });
+    if(auth.user){
+      navigate('/');
+    }
+  }, [auth])
+
   return (
     <div className="logIn">
       <Container component="main" maxWidth="xs">
@@ -64,24 +66,6 @@ function SignIn() {
           </div>
         </div>
 
-
-        {/* <Stack spacing={2} sx={{ width: "80%", m: "auto", mt: "10px" }}>
-          <Button variant="contained" color="inherit"
-            sx={{ borderRadius: "100px", fontFamily: "Roboto", fontWeight: "bold" }}
-            startIcon={
-              <img style={{ width: "32px", height: "32px" }}
-                src='./logoGG.png' />}>
-            Google
-          </Button>
-          <Button variant="contained" color="info"
-            sx={{ borderRadius: "100px", fontFamily: "Roboto", fontWeight: "bold", fontSize:"16px" }}
-            startIcon={
-              <img style={{ width: "32px", height: "32px" }}
-                src='./FB2.png' />}>
-            Facebook
-          </Button>
-        </Stack> */}
-  
         <div className="logInnine">
           <p>Not register yet?</p>
           <a href="">Create an Account</a>

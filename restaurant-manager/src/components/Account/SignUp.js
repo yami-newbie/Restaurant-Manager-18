@@ -1,9 +1,6 @@
-import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../../firebase'
-import { Button, Container, Divider, Grid, Icon, Stack, TextField, Typography } from '@mui/material'
 import './SignUp.css'
 import './reset.css'
+import { Container } from '@mui/material';
 
 function SignUp() {
   // const [username, setUsername] = useState("");
