@@ -15,6 +15,7 @@ import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { Role, useAuth } from "../../services/account.service";
 import { Box } from "@mui/system";
 import Dashboard from "../Dashboard";
+import Menu from '../../pages/menu'
 import ThongTin from "../../pages/ThongTin";
 
 function AppRoutes() {
@@ -43,7 +44,7 @@ function AppRoutes() {
             <Route path="/table" element={<QuanLyBan />} />
             <Route path="/ordertable" element={<BookTable />} />
             <Route path="/order/ongoing" element={<HoaDonChuaThanhToan />} />
-            <Route path="/datmon" />
+            <Route path="/menu" element={<Menu/>} />
             <Route path="/thongtin" element={<ThongTin />} />
 
             {auth.role === Role.admin ? (

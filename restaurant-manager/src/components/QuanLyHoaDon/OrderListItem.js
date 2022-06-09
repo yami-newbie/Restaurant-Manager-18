@@ -66,7 +66,11 @@ function OrderListItem({order}) {
       setOrderId(order.id);
       const data = order.data;
       setName(data.TenKhachHang);
-      setTime(new Timestamp(data.ThoiGian.seconds, data.ThoiGian.nanoseconds).toDate().toLocaleString("vi"));
+      setTime(
+        new Timestamp(data.ThoiGian.seconds, data.ThoiGian.nanoseconds)
+          .toDate()
+          .toLocaleString("vi")
+      );
       setTotal(data.TongTien);
     }
   }, [order])
@@ -89,7 +93,7 @@ function OrderListItem({order}) {
             >
               {generalId(orderId)}
             </Typography>
-            <Typography>{name}</Typography>
+            <Typography>{name === "" || !name ? "Không có" : name}</Typography>
             <Typography>{time}</Typography>
             <Typography sx={{ fontWeight: "bolder !important" }}>
               {formatter.format(total)}

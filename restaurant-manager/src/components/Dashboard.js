@@ -48,16 +48,10 @@ const data = [
     navigate: "/order/ongoing",
     role: Role.staff,
   },
-  // {
-  //   icon: <ReceiptIcon />,
-  //   label: "Mã giảm giá",
-  //   navigate: "/coupon",
-  //   role: Role.admin,
-  // },
   {
     icon: <LocalDiningIcon />,
     label: "Đặt món",
-    navigate: "/",
+    navigate: "/menu",
     role: Role.staff,
   },
 ];

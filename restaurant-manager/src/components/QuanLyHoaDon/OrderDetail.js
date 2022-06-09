@@ -24,6 +24,7 @@ import { formatter } from "../../services/uilts/formatPrice";
 import { useCT_OrderService } from "../../services/ct_hoadon.service";
 import { useOrderService } from "../../services/hoadon.service";
 import { useTableService } from "../../services/ban.serivce";
+import { useAlertService } from '../../services/alert.service'
 
 function OrderDetail({
   open = false,
@@ -44,6 +45,7 @@ function OrderDetail({
   const ct_dataService = useCT_OrderService();
   const order_dataService = useOrderService();
   const table_dataService = useTableService();
+  const alert = useAlertService();
 
   useEffect(() => {
     const list = table_dataService.tablesEnable;
@@ -82,6 +84,14 @@ function OrderDetail({
         TenKhachHang: name,
         SoDienThoai: phoneNumber,
         TenBan: table,
+        TongTien: total
+      }).then(() => {
+        listDish.forEach((e, index) => ct_dataService.updateCT_HoaDon(e.id, e.data).then(() => {
+          if(index === listDish.length - 1) {
+            alert.setAlert({ type: "success", body: "Cập nhật thông tin hóa đơn thành công"});
+            alert.showAlert();
+          }
+        }))
       })
     }
     onClose();
