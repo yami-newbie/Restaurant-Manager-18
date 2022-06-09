@@ -15,16 +15,18 @@ import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { Role, useAuth } from "../../services/account.service";
 import { Box } from "@mui/system";
 import Dashboard from "../Dashboard";
-import Menu from '../../pages/menu'
+import Menu from "../../pages/menu";
 import ThongTin from "../../pages/ThongTin";
 
 function AppRoutes() {
   const auth = useAuth();
 
-  const PrivateOutlet = ({user}) => {
+  const PrivateOutlet = ({ user }) => {
     return user ? <Outlet /> : <Navigate to="/signin" />;
-  }
-
+  };
+  const GuestLayout = () => {
+    return <Outlet />;
+  };
   return (
     <Box
       sx={{
@@ -39,12 +41,13 @@ function AppRoutes() {
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
+
           <Route path="/" element={<PrivateOutlet user={auth.user} />}>
             <Route path="/" element={<TrangChu />} />
             <Route path="/table" element={<QuanLyBan />} />
             <Route path="/ordertable" element={<BookTable />} />
             <Route path="/order/ongoing" element={<HoaDonChuaThanhToan />} />
-            <Route path="/menu" element={<Menu/>} />
+            <Route path="/menu" element={<Menu />} />
             <Route path="/thongtin" element={<ThongTin />} />
 
             {auth.role === Role.admin ? (
