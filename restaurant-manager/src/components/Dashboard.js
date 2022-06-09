@@ -60,6 +60,11 @@ const data = [
     navigate: "/",
     role: Role.staff,
   },
+  {
+    icon: <AccountCircleIcon/>,
+    label: "Các tài khoản",
+    navigate: "/account",
+  }
 ];
 const thongke = [
   {
