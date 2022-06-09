@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import CategoryCard from "../components/Menu/CategoryCard";
-import { Stack } from "@mui/material";
+import { Stack, Container } from "@mui/material";
 import FoodCard from "../components/Menu/FoodCard";
 import Divider from "@mui/material/Divider";
 import { useDishService as useMenuService } from "../services/thucan.service";
@@ -43,11 +43,11 @@ const Menu = () => {
   }, [menuService]);
 
   return (
-    <div>
-      <Grid padding={2}>
+    <Container>
+      <Box padding={2}>
         <Grid container>
           <Grid item xs={12} sm={12} md={8.5}>
-            <Typography fontSize={20} fontWeight="bold">
+            <Typography fontSize={24} fontWeight="bold">
               Menu
             </Typography>
             <Stack spacing={2} direction="row" paddingTop={1}>
@@ -127,8 +127,8 @@ const Menu = () => {
             </Box>
           </Grid>
         </Grid>
-      </Grid>
-    </div>
+      </Box>
+    </Container>
   );
 };
 export default Menu;
