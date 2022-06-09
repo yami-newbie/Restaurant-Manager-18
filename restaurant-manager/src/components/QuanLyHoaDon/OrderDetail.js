@@ -48,7 +48,6 @@ function OrderDetail({
   useEffect(() => {
     const list = table_dataService.tablesEnable;
     if(list){
-      console.log(list);
       setTables(list);
     }
   }, [table_dataService])

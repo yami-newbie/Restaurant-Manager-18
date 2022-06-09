@@ -66,6 +66,7 @@ function BanDataService() {
       unsubscribe();
     }
   }, [])
+  
   const addBan = async (newBan) => {
     return await addDoc(BanRef, newBan);
   };

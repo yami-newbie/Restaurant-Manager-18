@@ -1,1 +1,3 @@
 export const danhmuc = ["Burger", "Bít tết", "Mì ống", "Tráng miệng"];
+export const backgroundSrc =
+  "https://scontent.xx.fbcdn.net/v/t1.15752-9/258980451_1841233986070051_7726662391314439726_n.png?_nc_cat=109&ccb=1-7&_nc_sid=aee45a&_nc_ohc=FhhVcWK7vqcAX8SEIan&_nc_oc=AQn84W2_b-fDQ61KYgZrJ8J_Y2vjPdFWS4OmvWFPGD6PhFAmzcamljYOLCRgPvjOaxB7t_pqdhbANc6ziXPSco1X&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVKlfroMKl-F-LVNQRkx_syhh5Ws-3IBWqK3l8MrOM-w9g&oe=62C60781";
