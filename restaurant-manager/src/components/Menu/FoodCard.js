@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import { formatter } from "../../services/uilts/formatPrice";
 
 const FoodCard = (props) => {
   const [state, setState] = useState({
@@ -12,14 +13,14 @@ const FoodCard = (props) => {
   const [item, setItem] = useState({});
   
   const handleClick = () => {
-    props.onClick({img: props.img, name: props.text, price: props.price, amount: 1});
+    props.onClick({img: props.img, name: props.text, price: props.price, amount: 1, id: props.id});
   };
   return (
     <Box>
       <Box
         display="flex"
         flexDirection="column"
-        width={200}
+        width="100%"
         minHeight={180}
         margin={0}
         style={{ cursor: "pointer" }}
@@ -45,12 +46,12 @@ const FoodCard = (props) => {
           display="flex"
           flexDirection="column"
           alignItems="center"
-          paddingTop={2}
+          paddingTop={2.5}
         >
           <img
             src={props.img}
-            width={170}
-            height={170}
+            width="130px"
+            height="130px"
             style={{ borderRadius: "20px" }}
           ></img>
         </Box>
@@ -61,7 +62,7 @@ const FoodCard = (props) => {
           <br></br>
           <Box display="flex" justifyContent="space-between">
             <Typography fontWeight="Bold" color={state.secondaryColor}>
-              {props.price + " VNĐ"}
+              {formatter.format(props.price)}
             </Typography>
             <AddCircleRoundedIcon
               sx={{

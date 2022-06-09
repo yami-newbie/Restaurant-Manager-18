@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -19,6 +19,15 @@ const TrangChu = () => {
     boxShadow: "0",
     backgroundColor: "#e28743",
   });
+
+  
+  const [time, setTime] = useState(new Date());
+  useEffect(() => {
+    return () => {
+      setInterval(() => setTime(new Date()), 1000)
+    }
+  }, [])
+  
   return (
     <Container>
       <Box padding={2}>
@@ -76,7 +85,7 @@ const TrangChu = () => {
                 sx={{ m: 1, minWidth: 120, backgroundColor: "#e49355" }}
                 size="small"
               >
-                <Select sx={{ color: "white" }} displayEmpty>
+                <Select value={10} sx={{ color: "white" }} displayEmpty>
                   <MenuItem value={10}>Ngày</MenuItem>
                   <MenuItem value={20}>Tháng</MenuItem>
                   <MenuItem value={30}>Năm</MenuItem>

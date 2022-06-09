@@ -105,24 +105,30 @@ export default function Dashboard() {
       >
         <Paper elevation={0} sx={{ width: 250 }}>
           <FireNav component="nav" disablePadding>
-            <ListItemButton component="a" href="/">
-              <ListItemIcon sx={{ fontSize: 20 }}>🔥</ListItemIcon>
+            <ListItemButton component="a" href="/" sx={{height: "5rem"}}>
+              <ListItemIcon sx={{ fontSize: 24 }}>🔥</ListItemIcon>
               <ListItemText
                 sx={{ my: 0 }}
-                primary="Firebash"
+                primary="Deo Biet"
                 primaryTypographyProps={{
-                  fontSize: 20,
-                  fontWeight: "medium",
+                  fontSize: 24,
+                  fontWeight: "bold",
                   letterSpacing: 0,
                 }}
+                
               />
+              <ListItemIcon sx={{ fontSize: 24 }}>🔥</ListItemIcon>
             </ListItemButton>
             <Divider />
             <ListItemButton onClick={handleClick}>
               <ListItemIcon>
                 <BarChartIcon />
               </ListItemIcon>
-              <ListItemText primary="Thống kê" />
+              <ListItemText primary="Thống kê" 
+              primaryTypographyProps={{
+                fontWeight: "bold"
+              }}
+              />
               {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
@@ -154,7 +160,7 @@ export default function Dashboard() {
                   primary={item.label}
                   primaryTypographyProps={{
                     fontSize: 14,
-                    fontWeight: "medium",
+                    fontWeight: "bold",
                   }}
                 />
               </ListItemButton>
