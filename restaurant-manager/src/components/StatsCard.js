@@ -9,7 +9,7 @@ import GroupIcon from '@mui/icons-material/Group';
 const StatsCard = (props) => {
     const [boxState, setBoxState] = useState({
         boxShadow: "0",
-        backgroundColor: "#e28743"
+        backgroundColor: "rgba(0,0,0,0.8)"
     });
     const renderSwitch = (type) => {
         switch (type) {
@@ -38,10 +38,10 @@ const StatsCard = (props) => {
       boxShadow={boxState.boxShadow}
       style={{ cursor: "pointer" }}
       onMouseEnter={() =>
-        setBoxState({ boxShadow: "5", backgroundColor: "#e49355" })
+        setBoxState({ boxShadow: "5", backgroundColor: "rgba(225,225,225,0.2)" })
       }
       onMouseLeave={() =>
-        setBoxState({ boxShadow: "0", backgroundColor: "#e28743" })
+        setBoxState({ boxShadow: "0", backgroundColor: "rgba(0,0,0,0.8)" })
       }
     >
       <Typography color="white" fontWeight={600}>

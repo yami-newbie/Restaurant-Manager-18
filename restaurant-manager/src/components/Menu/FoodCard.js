@@ -6,9 +6,9 @@ import { formatter } from "../../services/uilts/formatPrice";
 
 const FoodCard = (props) => {
   const [state, setState] = useState({
-    color: "black",
-    backgroundColor: "white",
-    secondaryColor: "#EA6A12",
+    color: "white",
+    backgroundColor: "rgba(0,0,0,0.7)",
+    secondaryColor: "#2e7D32",
   });
   const [item, setItem] = useState({});
   
@@ -16,7 +16,6 @@ const FoodCard = (props) => {
     props.onClick({img: props.img, name: props.text, price: props.price, amount: 1, id: props.id});
   };
   return (
-    <Box>
       <Box
         display="flex"
         flexDirection="column"
@@ -26,20 +25,20 @@ const FoodCard = (props) => {
         style={{ cursor: "pointer" }}
         sx={{ borderRadius: 5 }}
         backgroundColor={state.backgroundColor}
-        onMouseEnter={() =>
-          setState({
-            color: "white",
-            backgroundColor: "#e28743",
-            secondaryColor: "white",
-          })
-        }
-        onMouseLeave={() =>
-          setState({
-            color: "black",
-            backgroundColor: "white",
-            secondaryColor: "#EA6A12",
-          })
-        }
+        // onMouseEnter={() =>
+        //   // setState({
+        //   //   color: "white",
+        //   //   backgroundColor: "#e28743",
+        //   //   secondaryColor: "white",
+        //   // })
+        // }
+        // onMouseLeave={() =>
+        //   setState({
+        //     color: "black",
+        //     backgroundColor: "rgba(255,255,255,0.2)",
+        //     secondaryColor: "black",
+        //   })
+        // }
         onClick={handleClick}
       >
         <Box
@@ -75,7 +74,6 @@ const FoodCard = (props) => {
           </Box>
         </Box>
       </Box>
-    </Box>
   );
 };
 export default FoodCard;

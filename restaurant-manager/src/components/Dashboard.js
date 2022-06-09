@@ -135,7 +135,7 @@ export default function Dashboard() {
           palette: {
             mode: "dark",
             primary: { main: "rgb(102, 157, 246)" },
-            background: { paper: "rgb(5, 30, 52)" },
+            background: { paper: "#191919" },
           },
         })}
       >

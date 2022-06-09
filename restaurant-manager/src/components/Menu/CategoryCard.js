@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import Typography from "@mui/material/Typography";
 const CategoryCard = (props) => {
   const [state, setState] = useState({
-    color: "black",
-    backgroundColor: "white",
+    color: "white",
+    backgroundColor: "rgba(0,0,0,0.7)",
   });
   
   
@@ -21,12 +21,12 @@ const CategoryCard = (props) => {
       margin={0}
       style={{ cursor: "pointer" }}
       sx={{ borderRadius: 5 }}
-      backgroundColor={props.selected? "#e28743" : state.backgroundColor}
+      backgroundColor={props.selected? "rgba(225,225,225,0.7)" : state.backgroundColor}
       onMouseEnter={() =>
-        setState({ color: "white", backgroundColor: "#e28743" })
+        setState({ color: "black", backgroundColor: "rgba(225,225,225,0.7)" })
       }
       onMouseLeave={() =>
-        setState({ color: "black", backgroundColor: "white" })
+        setState({ color: "white", backgroundColor: "rgba(0,0,0,0.7)" })
       }
       onClick={props.onClick}
       
@@ -37,7 +37,7 @@ const CategoryCard = (props) => {
         height={100}
         style={{borderRadius: "15px"}}
       />
-      <Typography color={props.selected? "white" : state.Color} fontWeight="bold" paddingTop={1}>
+      <Typography color={props.selected? "black" : state.color} fontWeight="bold" paddingTop={1}>
         {props.text}
       </Typography>
     </Box>
