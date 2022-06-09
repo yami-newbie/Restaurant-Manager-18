@@ -35,21 +35,33 @@ const Menu = () => {
     );
   };
 
-  const hoaDonService = useOrderService()
-  const ctHoaDonService = useCT_OrderService()
+  const hoaDonService = useOrderService();
+  const ctHoaDonService = useCT_OrderService();
 
   const handleSubmit = () => {
-    hoaDonService.addHoaDon({ThoiGian: new Date(), TongTien: totalPrice, ThanhToan: false}).then(res => {
-      console.log(res)
-      items.forEach((e, index) => {
-        ctHoaDonService.addCT_HoaDon({Gia: e.price, IDHoaDon: res.id, IDThucAn: e.id, SoLuong: e.amount}).then(() => {
-          if (index == items.length-1) 
-            setItems([]);
-        })
+    hoaDonService
+      .addHoaDon({
+        ThoiGian: new Date(),
+        TongTien: totalPrice,
+        ThanhToan: false,
+      })
+      .then((res) => {
+        console.log(res);
+        items.forEach((e, index) => {
+          ctHoaDonService
+            .addCT_HoaDon({
+              Gia: e.price,
+              IDHoaDon: res.id,
+              IDThucAn: e.id,
+              SoLuong: e.amount,
+            })
+            .then(() => {
+              if (index == items.length - 1) setItems([]);
+            });
+        });
       });
-    })
     alert("ok!");
-  }
+  };
 
   const removeItem = (item) => {
     setItems(items.filter((e) => e.name != item.name));
@@ -59,15 +71,23 @@ const Menu = () => {
     {
       name: "Burger",
       selected: 0,
-      url: "https://product.hstatic.net/1000242782/product/burger_tom_e571306016d34d14a72558d7ea8b4a2d_master.jpg",
+      url: "https://cdn.discordapp.com/attachments/945145709521432636/984539518696845382/3.png",
     },
-    { name: "Mì Ống", selected: 0, url: "" },
-    { name: "Bít Tết", selected: 0, url: "" },
-    { name: "Tráng Miệng", selected: 0, url: "" },
-    { name: "Nước Uống", selected: 0, url: "" },
+    {
+      name: "Mì Ống",
+      selected: 0,
+      url: "https://cdn.discordapp.com/attachments/945145709521432636/984537383225659402/PngItem_618485.png",
+    },
+    {
+      name: "Bít Tết",
+      selected: 0,
+      url: "https://cdn.discordapp.com/attachments/945145709521432636/984537556345565244/kindpng_1146167.png",
+    },
+    { name: "Tráng Miệng", selected: 0, url: "https://cdn.discordapp.com/attachments/945145709521432636/984540062312202290/PngItem_5764661.png" },
+    { name: "Nước Uống", selected: 0, url: "https://cdn.discordapp.com/attachments/945145709521432636/984540460418740246/pngfind.com-drinks-png-8691.png" },
   ]);
 
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleClick = (name) => {
     setCategoryList(
@@ -76,9 +96,8 @@ const Menu = () => {
           if (e.selected == 0) {
             setSelectedCategory(e.name);
             return { ...e, selected: 1 };
-          }
-          else {
-            setSelectedCategory('');
+          } else {
+            setSelectedCategory("");
             return { ...e, selected: 0 };
           }
         } else return { ...e, selected: 0 };
@@ -95,116 +114,143 @@ const Menu = () => {
   useEffect(() => {
     var totalPrice = 0;
     items.forEach((e) => {
-      totalPrice = totalPrice + parseInt(e.price)*e.amount;
-    }); 
+      totalPrice = totalPrice + parseInt(e.price) * e.amount;
+    });
     setTotalPrice(totalPrice);
   }, [items]);
 
   return (
-    <Container>
-      <Box padding={2}>
-        <Grid container>
-          <Grid item xs={12} sm={12} md={8}>
-            <Typography fontSize={24} fontWeight="bold">
-              Menu
-            </Typography>
-            <Stack spacing={2} direction="row" paddingTop={1}>
-              {categoryList.map((e) => {
-                return (
-                  <CategoryCard
-                    text={e.name}
-                    img={e.url}
-                    selected={e.selected}
-                    onClick={() => {
-                      handleClick(e.name);
-                    }}
-                  ></CategoryCard>
-                );
-              })}
-            </Stack>
-            <br></br>
-            <Grid
-              container
-              spacing={2}
-              sx={{ overflow: "auto", height: "65vh" }}
-              marginTop={0}
-            >
-              {foodList.filter((e) => {
-                if (selectedCategory == '') return true;
-                else return e.data.LoaiThucAn.toLowerCase() == selectedCategory.toLowerCase();
-              }).map((item) => (
-                <Grid item sm={6} md={3}>
-                  <FoodCard
-                    img={item.data.ImgSrc}
-                    text={item.data.TenThucAn}
-                    price={item.data.Gia}
-                    id={item.id}
-                    onClick={addItem}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-          <Grid item xs={12} sm={12} md={4} padding={2} paddingTop={5}>
-            <Box
-              backgroundColor="white"
-              display="flex"
-              flexDirection="column"
-              width="100%"
-              borderRadius={5}
-              alignItems="center"
-            >
-              <Typography fontWeight="Bold" fontSize={20} padding={1}>
-                Món Đã Đặt
+    <Box
+      height="100vh"
+      sx={{
+        backgroundSize: "cover",
+        backgroundImage:
+          "url(https://cdn.discordapp.com/attachments/945145709521432636/984530926375677952/unknown.png)",
+      }}
+    >
+      <Container>
+        <Box padding={2}>
+          <Grid container>
+            <Grid item xs={12} sm={12} md={8}>
+              <Typography fontSize={24} fontWeight="bold" color="white">
+                Menu
               </Typography>
-              <Divider sx={{ width: "100%", borderBottomWidth: 2 }} />
-              <Stack
-                spacing={2}
-                padding={2}
-                width="90%"
-                height="55vh"
-                maxHeight="55vh"
-                sx={{ overflowY: "auto", overflowX: "hidden" }}
-              >
-                {items.map((item, index) => (
-                  <CartItemCard
-                    name={item.name}
-                    img={item.img}
-                    price={item.price}
-                    amount={item.amount}
-                    key={index}
-                    onClick={removeItem}
-                  ></CartItemCard>
-                ))}
+              <Stack spacing={2} direction="row" paddingTop={1}>
+                {categoryList.map((e) => {
+                  return (
+                    <CategoryCard
+                      text={e.name}
+                      img={e.url}
+                      selected={e.selected}
+                      onClick={() => {
+                        handleClick(e.name);
+                      }}
+                    ></CategoryCard>
+                  );
+                })}
               </Stack>
-              <Divider sx={{ width: "90%" }} />
+              <br></br>
+              <Grid
+                container
+                spacing={2}
+                sx={{ overflow: "auto", height: "65vh" }}
+                marginTop={0}
+              >
+                {foodList
+                  .filter((e) => {
+                    if (selectedCategory == "") return true;
+                    else
+                      return (
+                        e.data.LoaiThucAn.toLowerCase() ==
+                        selectedCategory.toLowerCase()
+                      );
+                  })
+                  .map((item) => (
+                    <Grid item sm={6} md={3}>
+                      <FoodCard
+                        img={item.data.ImgSrc}
+                        text={item.data.TenThucAn}
+                        price={item.data.Gia}
+                        id={item.id}
+                        onClick={addItem}
+                      />
+                    </Grid>
+                  ))}
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4} padding={2} paddingTop={5}>
               <Box
+                backgroundColor="rgba(0,0,0,0.7)"
                 display="flex"
                 flexDirection="column"
-                padding={2}
+                width="100%"
+                borderRadius={5}
                 alignItems="center"
               >
-                <Typography fontWeight="Bold">Tổng Cộng</Typography>
-                <Typography fontSize={34} fontWeight="bold" paddingLeft={2}>
-                  {formatter.format(totalPrice)}
+                <Typography
+                  fontWeight="Bold"
+                  fontSize={20}
+                  padding={1}
+                  color="white"
+                >
+                  Món Đã Đặt
                 </Typography>
+                <Divider sx={{ width: "100%", borderBottomWidth: 2 }} />
+                <Stack
+                  spacing={2}
+                  padding={2}
+                  width="90%"
+                  height="55vh"
+                  maxHeight="55vh"
+                  sx={{ overflowY: "auto", overflowX: "hidden" }}
+                >
+                  {items.map((item, index) => (
+                    <CartItemCard
+                      name={item.name}
+                      img={item.img}
+                      price={item.price}
+                      amount={item.amount}
+                      key={index}
+                      onClick={removeItem}
+                    ></CartItemCard>
+                  ))}
+                </Stack>
+                <Divider sx={{ width: "90%" }} />
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  padding={2}
+                  alignItems="center"
+                >
+                  <Typography fontWeight="Bold" color="white">
+                    Tổng Cộng
+                  </Typography>
+                  <Typography
+                    fontSize={34}
+                    fontWeight="bold"
+                    paddingLeft={2}
+                    color="white"
+                  >
+                    {formatter.format(totalPrice)}
+                  </Typography>
+                </Box>
+                <Box paddingTop={0}></Box>
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="success"
+                  sx={{ width: "75%", borderRadius: "15px" }}
+                  onClick={handleSubmit}
+                >
+                  Xác Nhận
+                </Button>
+                <br></br>
               </Box>
-              <Box paddingTop={0}></Box>
-              <Button
-                variant="contained"
-                size="large"
-                color="success"
-                sx={{ width: "75%", borderRadius: "15px" }}
-                onClick={handleSubmit}
-              >
-                Xác Nhận
-              </Button>
-              <br></br>
-            </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
-    </Container>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 export default Menu;

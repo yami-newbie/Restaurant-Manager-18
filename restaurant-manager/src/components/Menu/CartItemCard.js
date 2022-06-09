@@ -13,7 +13,7 @@ const CartItemCard = (props) => {
     <Box
       display="flex"
       alignItems="center"
-      backgroundColor="rgba(234,106,18,0.2)"
+      backgroundColor="rgba(255,255,255,0.7)"
       sx={{ borderRadius: 5}}
       justifyContent="space-between"
       alignSelf="stretch"
@@ -27,14 +27,11 @@ const CartItemCard = (props) => {
           style={{ borderRadius: "20px" }}
         ></img>
         <Box>
-          <Typography fontWeight="Bold" paddingLeft={1}>
+          <Typography fontWeight="Bold" paddingLeft={1} color="black">
             {props.name}
           </Typography>
           <Box display="flex">
-            <Typography paddingLeft={1}>x</Typography>
-            <Typography fontWeight="Bold" paddingLeft="1px" color="red">
-              {props.amount}
-            </Typography>
+            <Typography paddingLeft={1} color="black">x<span style={{fontWeight:"bold", color:"#2e7d32"}}>{props.amount}</span></Typography>
           </Box>
         </Box>
       </Box>

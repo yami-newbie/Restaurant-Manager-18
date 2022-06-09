@@ -17,7 +17,7 @@ const TrangChu = () => {
   var year = date.getFullYear();
   const [boxState, setBoxState] = useState({
     boxShadow: "0",
-    backgroundColor: "#e28743",
+    backgroundColor: "rgba(0,0,0,0.7)",
   });
 
   
@@ -29,12 +29,13 @@ const TrangChu = () => {
   }, [])
   
   return (
-    <Container>
+    <Box height="100vh" sx={{backgroundSize: "cover", backgroundImage: "url(https://cdn.discordapp.com/attachments/945145709521432636/984530926375677952/unknown.png)"}}>
+    <Container >
       <Box padding={2}>
-        <Typography fontWeight={700} fontSize={24}>
+        <Typography fontWeight={700} fontSize={24} color='white'>
           Dashboard
         </Typography>
-        <Typography fontSize={14} paddingLeft="1px">
+        <Typography fontSize={14} paddingLeft="1px" color='white'>
           {day +
             "-" +
             month +
@@ -77,12 +78,12 @@ const TrangChu = () => {
                 <Typography color="white" fontWeight="bold">
                   Orders Summary
                 </Typography>
-                <Typography paddingTop={1} color="#f2c8a9" fontSize={14}>
+                <Typography paddingTop={1} color="#B2B2B2" fontSize={14}>
                   Summary of total orders in Scarlet Restaurant
                 </Typography>
               </Box>
               <FormControl
-                sx={{ m: 1, minWidth: 120, backgroundColor: "#e49355" }}
+                sx={{ m: 1, minWidth: 120, backgroundColor: "rgba(225,225,225,0.1)" }}
                 size="small"
               >
                 <Select value={10} sx={{ color: "white" }} displayEmpty>
@@ -113,16 +114,18 @@ const TrangChu = () => {
                     {"180 "}
                   </Typography>
                   <Typography> &nbsp; </Typography>
-                  <Typography color="#f2c8a9" fontSize={14}>
+                  <Typography color="#B2B2B2" fontSize={14}>
                     orders on this month
                   </Typography>
                 </Box>
               </Box>
             </Box>
+            
           </Box>
         </Grid>
       </Grid>
     </Container>
+    </Box>
   );
 };
 
