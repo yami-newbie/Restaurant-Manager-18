@@ -16,18 +16,28 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useTableService } from "../../services/ban.serivce";
 import { CT_DatBanService } from "../../services/ct_datban.service";
 import { useCT_OrderService } from "../../services/datban.service";
-import { isFirstDayOfMonth } from "date-fns";
+import AddIcon from '@mui/icons-material/Add';
+import TableDetail from "./TableDetail";
 
 function TableManager() {
   const [tableList, setTableList] = React.useState([]);
   const [show, setShow] = React.useState(false);
   const [showDetail, setShowDetail] = React.useState(false);
   const [selected, setSelected] = React.useState();
-  const [value, setValue] = React.useState(new Date());
-  const [timeList, setTimeList] = React.useState([1, 2]);
+  const [day, setDay] = React.useState(new Date());
   const [timeSelected, setTimeSelected] = React.useState();
+  const [dbList, setDbList] = React.useState([]);
   const [, updateState] = React.useState();
   const [orders, setOrders] = useState([]);
+  const [timeLine, setTimeLine] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClickClose = () => {
+    setOpen(false);
+  }
 
   const tables = useTableService();
   const ct_datban = CT_DatBanService();
@@ -46,15 +56,29 @@ function TableManager() {
     if (orders) return orders?.filter((e) => e.data.ID_Ban === id).length;
   };
 
+  const getOrderList = (id) => {
+    // if (orders) {
+    //   orders?.filter((e) => e.data.ID_Ban === id).map((order) => datban.getDatBan(order.data.ID_DatBan).then((res)=>{
+    //     console.log(res.data());
+    //   }));
+    // }
+    
+    if (orders) {
+      const order = orders?.filter((e) => e.data.ID_Ban === id)
+      if (order && order.length>0)
+        setDbList(datban.getDatBanByID_DatBan(order));
+    }
+  }
+
   useEffect(() => {
     setTableList(
-      tableList.map((e) => ({ ...e, count: getCount(e.data.TenBan) }))
+      tableList.map((e) => ({ ...e, count: getCount(e.data.TenBan)}))
     );
   }, [orders]);
 
   useEffect(() => {
-    if (value) getOrderByDate(value.toLocaleDateString());
-  }, [value]);
+    if (day) getOrderByDate(day.toLocaleDateString());
+  }, [day]);
 
   useEffect(() => {
     if (tables && tables.tables.length > 0) {
@@ -79,6 +103,7 @@ function TableManager() {
     setShow(true);
     setSelected(id);
     setShowDetail(false);
+    getOrderList(id.data.TenBan);
   };
   const handleDelete = (id) => {
     for (var i = 0; i < tl.length; i++) {
@@ -91,15 +116,23 @@ function TableManager() {
     setTableList(tl);
     updateState({});
   };
+  const convertToString = (type) => {
+    switch (type)
+    {
+      case 1: return "Bàn hai người";
+      case 2: return "Bàn bốn người";
+      default: return null;
+    }
+  }
   return (
     <div className="table-manager">
       <div className="left-panel">
         <div className="table-list">
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
-              value={value}
+              value={day}
               onChange={(newValue) => {
-                setValue(newValue);
+                setDay(newValue);
               }}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -109,8 +142,7 @@ function TableManager() {
             {tableList.map((table, i) => (
               <Grid item key={i}>
                 <MiniTable
-                  id={table.data.TenBan}
-                  booking={table.count}
+                  table={table}
                   enable={true}
                   onClick={handleSelect}
                   onDelete={handleDelete}
@@ -119,13 +151,21 @@ function TableManager() {
             ))}
           </Grid>
         </div>
+        <div className='add-icon'>
+          <AddIcon sx={{width:'40px', height:'40px'}} onClick={handleClickOpen}/>
+        </div>
+        <TableDetail
+          open={open}
+          add={true}
+          onClose={handleClickClose}
+        />
       </div>
       {show ? (
         <div className="right-panel">
           <Card>
             <div className="time-detail">
               <div className="closebutton">
-                <Typography variant="subtitle1">{selected}</Typography>
+                <Typography variant="subtitle1">{"Tên bàn: " + selected.data.TenBan}</Typography>
                 <CloseIcon
                   onClick={handleClose}
                   sx={{
@@ -137,17 +177,17 @@ function TableManager() {
                 />
               </div>
               <div>
-                <Typography variant="subtitle1">Loại bàn:</Typography>
+                <Typography variant="subtitle1">Loại bàn: {convertToString(selected.data.Loai)}</Typography>
               </div>
               <div className="time-group">
                 <Grid container spacing={1} className="tables">
-                  {timeList.map((time) => (
+                  {dbList.map((order) => (
                     <Grid item>
                       <Button
                         variant="outlined"
-                        onClick={() => handleShowDetail(time)}
+                        onClick={() => handleShowDetail(order.data.time)}
                       >
-                        {time}
+                        {order.data.time[0]}-{order.data.time[1]}
                       </Button>
                     </Grid>
                   ))}
@@ -159,7 +199,7 @@ function TableManager() {
                 <Divider />
                 <div className="food-detail">
                   <div className="closebutton">
-                    <Typography variant="subtitle1">{timeSelected}</Typography>
+                    <Typography variant="subtitle1">{timeSelected[0]}-{timeSelected[1]}</Typography>
                     <KeyboardArrowUpIcon
                       onClick={handleCloseDetail}
                       sx={{

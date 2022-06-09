@@ -10,24 +10,80 @@ import { CT_DatBanService } from '../services/ct_datban.service';
 import { useCT_OrderService } from '../services/datban.service';
 
 function BookTable() {
-    const [tableid, setTableid] = useState([1,2,3,4,5,6]);
-    const [tabletype, setTabletype] = useState([1,1,1,2,2,2]);
     const [tableList, setTableList] = useState([]);
-    const [time, setTime] = React.useState([10, 12]);
+    const [time, setTime] = React.useState([8, 8]);
     const [day, setDay] = React.useState(new Date());
     const [selected, setSelected] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
+    const [orders, setOrders] = useState([]);
 
     const table = useTableService();
     const datban = useCT_OrderService();
     const ct_datban = CT_DatBanService();
+
     useEffect(()=>{
         if(table.tables)
         {
-        setTableList(table.tables);
+            setTableList(table.tables);
+            getAllOrderByDate(new Date().toLocaleDateString());
         }
     },[table])
+
+    useEffect(()=>{
+        const tl = tableList.map((table)=>{
+            const value = getOrderPerTableByDay(table.data.TenBan);
+            const kq = value?.map((v)=>{
+                const timeline = v.data.time;
+                if (time[0]>time[1])
+                time.reverse();
+                if(time[0] <= timeline[0] && timeline[0] < time[1])
+                {
+                    return 0;
+                }
+                if(time[0] < timeline[1] && timeline[1] <= time[1])
+                {
+                    return 0;
+                }
+            })
+            if (kq?.filter(e=>typeof(e)!='undefined').length > 0) 
+            {
+                return ({
+                    ...table, status: -1
+                });
+            }
+            else
+            {
+                return({
+                    ...table, status: 0
+                })
+            }
+        })
+        setTableList(tl);
+    },[time])
+
+    useEffect(()=>{
+        if (day)
+            getAllOrderByDate(day.toLocaleDateString());
+    },[day])
+
+    const getAllOrderByDate = (date) => {
+        const orderID = datban.getDatBanByDate(date);
+        if (orderID && orderID.length > 0) {
+          ct_datban.getCT_DatBanByID_DB(orderID).then((res) => setOrders(res));
+        } else {
+          setOrders([]);
+        }
+    };
+
+    const getOrderPerTableByDay = (id_Ban) => {
+        if (orders) {
+          const order = orders?.filter((e) => e.data.ID_Ban === id_Ban)
+          if (order && order.length>0)
+            return datban.getDatBanByID_DatBan(order);
+        }
+      }
+
     const select = useRef(selected);
     const handleChange = (event, newValue) => {
         setTime(newValue);
@@ -56,11 +112,11 @@ function BookTable() {
         
     }
 
-    const draw = (type, name, id) => {
+    const draw = (type, name, status) => {
         switch(type)
         {
-            case 1: return <Table2 name={name} status={0} onClick={handleSelect} onCancel={handleCancel} id={id}/>;
-            case 2: return <Table4 name={name} status={0} onClick={handleSelect} onCancel={handleCancel} id={id}/>;
+            case 1: return <Table2 name={name} status={status} onClick={handleSelect} onCancel={handleCancel} />;
+            case 2: return <Table4 name={name} status={status} onClick={handleSelect} onCancel={handleCancel} />;
             default: return null;
         }
     }
@@ -100,7 +156,7 @@ function BookTable() {
                             {tableList.map((table) => 
                                     <Grid item>
                                         <div>
-                                            {draw(table.data.Loai, table.data.TenBan)}
+                                            {draw(table.data.Loai, table.data.TenBan, table.status)}
                                         </div>
                                     </Grid>
                                 )

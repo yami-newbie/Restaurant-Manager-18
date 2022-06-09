@@ -68,7 +68,7 @@ function DatBanDataService()
   const getDatBan = async (id) => {
     const DatBanDoc = doc(db, "DatBan", id);
     return await getDoc(DatBanDoc);
-  };
+  };  
   const getDatBanByDate = (date) => {
     // console.log("datban",datban, date)
     const value = datban?.filter((e) => (e.data.day === date));
@@ -81,6 +81,11 @@ function DatBanDataService()
       listDB.map(db => deleteDatBan(db.id));
     }
   }
+  const getDatBanByID_DatBan = (order) => {
+    return order.map((o) => {
+      return datban?.filter((e)=>(e.id === o.data.ID_DatBan))[0];
+    })
+  }
 
   return {
     datban,
@@ -91,6 +96,7 @@ function DatBanDataService()
     getDatBan,
     getDatBanByID,
     getDatBanByDate,
-    deleteDatBanByID
+    deleteDatBanByID,
+    getDatBanByID_DatBan
   }
 }

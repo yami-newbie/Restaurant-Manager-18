@@ -1,9 +1,12 @@
 import { Box } from '@mui/system'
-import React from 'react'
+import React, {useEffect} from 'react'
 
 function Table2(props) {
-  const{name, status, onClick, onCancel, id} = props;
-  const[type, setType] = React.useState(status);
+  const{name, status, onClick, onCancel} = props;
+  const[type, setType] = React.useState();
+  useEffect(()=>{
+    setType(status);
+  },[status])
   const check = () => {
     setType(1);
     onClick(name);
@@ -19,12 +22,12 @@ function Table2(props) {
         </Box>
       </div>
       {
-        (type===-1)?(
+        (type === -1)?(
           <Box className="half-table" sx={{backgroundColor:'red', cursor:'default'}}>
             {name}
           </Box>
         ):(
-          (type===1)?(
+          (type === 1)?(
             <Box className="half-table" sx={{backgroundColor:'green'}} onClick={uncheck}>
               {name}
             </Box>

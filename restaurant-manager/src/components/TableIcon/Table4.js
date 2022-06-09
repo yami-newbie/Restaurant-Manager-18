@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Stack, Box } from '@mui/material'
 
 function Table4(props) {
   const{name, status, onClick, onCancel} = props;
-  const[type, setType] = useState(status);
+  const[type, setType] = useState();
+
+  useEffect(()=>{
+    setType(status);
+  },[status])
+
   const check = () => {
     setType(1);
     onClick(name);
