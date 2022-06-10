@@ -116,7 +116,11 @@ function OrderDetail({
   return (
     <Dialog
       PaperProps={{
-        style: { backgroundColor: "#f0f2f5" },
+        style: {
+          backgroundSize: "cover",
+          backgroundImage:
+            "url(https://cdn.discordapp.com/attachments/945145709521432636/984530926375677952/unknown.png)",
+        },
       }}
       fullScreen
       onClose={onClose}
