@@ -1,4 +1,4 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, Dialog, DialogActions, DialogTitle, IconButton, Stack, styled, Tooltip, Typography } from '@mui/material'
+import { Button, Card, CardActionArea, CardActions, CardContent, Dialog, DialogActions, DialogTitle, Divider, IconButton, Stack, styled, Tooltip, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import CreditScoreRoundedIcon from "@mui/icons-material/CreditScoreRounded";
@@ -10,14 +10,14 @@ import { useCT_OrderService } from '../../services/ct_hoadon.service';
 
 const CardActionAreaCustom = styled(CardActionArea)({
   "&:hover": {
-    color: "#FFF",
-    backgroundColor: "rgba(28, 46, 80, 1)",
+    color: "#000",
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
   },
 });
 const IconButtonCustom = styled(IconButton)({
   "&:hover": {
     color: "#FFF",
-    backgroundColor: "rgba(28, 46, 80, 1)",
+    backgroundColor: "rgba(0, 0, 0, 1)",
   },
 });
 
@@ -83,7 +83,7 @@ function OrderListItem({order}) {
           justifyContent: "space-between",
           borderRadius: "1.5rem",
         }}
-      > 
+      >
         <CardActionAreaCustom onClick={openOrderDetail} sx={{ padding: 2 }}>
           <CardContent>
             <Typography
@@ -100,18 +100,39 @@ function OrderListItem({order}) {
             </Typography>
           </CardContent>
         </CardActionAreaCustom>
+        <Divider
+          orientation="vertical"
+          sx={{ backgroundColor: "#fff" }}
+          flexItem
+        />
 
         <CardActions sx={{ m: 1 }}>
           <Stack spacing={2} direction="column">
             <Tooltip placement="right" title="Thanh toán">
-              <IconButtonCustom onClick={onPayment} color="primary">
+              <IconButtonCustom
+                sx={{
+                  color: "#fff",
+                  "&:hover": {
+                    bgcolor: "rgba(255,255,255,0.8)",
+                    color: "#000",
+                  },
+                }}
+                onClick={onPayment}
+                color="primary"
+              >
                 <CreditScoreRoundedIcon />
               </IconButtonCustom>
             </Tooltip>
             <Tooltip placement="right" title="Hủy đơn">
               <IconButtonCustom
                 onClick={() => setOpenConfirm(true)}
-                color="primary"
+                sx={{
+                  color: "#fff",
+                  "&:hover": {
+                    bgcolor: "rgba(255,255,255,0.8)",
+                    color: "#000",
+                  },
+                }}
               >
                 <ClearRoundedIcon />
               </IconButtonCustom>
@@ -119,7 +140,14 @@ function OrderListItem({order}) {
           </Stack>
         </CardActions>
       </Card>
-      <OrderDetail onCancel={() => {setOpenConfirm(true)}} order={order} open={open} onClose={closeOrderDetail} />
+      <OrderDetail
+        onCancel={() => {
+          setOpenConfirm(true);
+        }}
+        order={order}
+        open={open}
+        onClose={closeOrderDetail}
+      />
 
       <Dialog maxWidth="xs" fullWidth open={openConfirm}>
         <DialogTitle>

@@ -13,7 +13,7 @@ function ListOrder({ list }) {
 
   return (
     <Box>
-      <Grid columns={{ xs: 6, md: 12, sm: 6 }} spacing={3} container>
+      <Grid columns={{ xs: 6, md: 12, sm: 6 }} spacing={3} container >
         {orders?.map((order, index) => (
           <Grid item key={index} xs={6} md={6} sm={6}>
             <OrderListItem order={order} />

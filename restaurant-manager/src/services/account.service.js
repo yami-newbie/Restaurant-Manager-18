@@ -55,6 +55,10 @@ function useProvideAuth() {
         });
         setDoc(doc(db, "TaiKhoan", response.user.uid), {
           role: role,
+          displayName: displayName,
+          email: email,
+          address: "",
+          phoneNumber: "",
         });
         return response.user;
       }
@@ -75,18 +79,20 @@ function useProvideAuth() {
       return true;
     });
   };
-  const _updateProfile = async ({displayName, phoneNumber, photoURL, address}) => {
+  const _updateProfile = ({displayName, phoneNumber, photoURL, address, email}) => {
     const userdoc = doc(db, "TaiKhoan", user.uid);
-    setDoc(userdoc, {
+    updateProfile(auth.currentUser, {
+      displayName: displayName,
+      photoURL: photoURL,
+    });
+    updateDoc(userdoc, {
       role: role,
       phoneNumber: phoneNumber ? phoneNumber : "",
       address: address ? address : "",
+      displayName: displayName ? displayName : "",
+      photoURL: photoURL ? photoURL : "",
+      email: email ? email : ""
     })
-
-    return updateProfile(user, {
-      displayName: displayName,
-      photoURL: photoURL
-    }).catch(console.log);
   }
 
   const uploadImg = (file) => {
@@ -117,6 +123,7 @@ function useProvideAuth() {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(TaiKhoanRef, (snapshot) => {
+      console.log(snapshot)
       setTaiKhoan(snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() })));
     });
 
@@ -126,14 +133,11 @@ function useProvideAuth() {
   }, []);
 
   useEffect(() => {
-    if(taiKhoan && user){
-      setData(taiKhoan.filter(e => e.id === user.uid)[0].data)
-    }
+    setData(taiKhoan?.filter(e => e.id === user.uid)[0].data)
   }, [taiKhoan, user])
 
   useEffect(() => {
     if(user){
-      console.log(user)
       const roleRef = doc(db, "TaiKhoan", user.uid)
       getDoc(roleRef).then((res) => {
         setRole(res.data().role);
@@ -146,6 +150,7 @@ function useProvideAuth() {
     user,
     role,
     data,
+    taiKhoan,
     signin,
     signup,
     signout,

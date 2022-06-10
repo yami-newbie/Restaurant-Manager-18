@@ -8,7 +8,6 @@ import {
 } from "react-chartjs-2";
 import SelectThongKe, { Option } from "../../components/custom/SelectThongKe";
 import { Box } from "@mui/system";
-import { Typography } from "@mui/material";
 import { useDishService } from "../../services/thucan.service";
 import { useCT_OrderService } from "../../services/ct_hoadon.service";
 import { useOrderService } from "../../services/hoadon.service";
@@ -91,7 +90,7 @@ function MonAn() {
           size: 32,
         },
       },
-    },
+    }
   });
 
   const getOrdersByDate = (date) => {
@@ -230,7 +229,8 @@ function MonAn() {
 
     if (otp === Option.month) {
       const listHoaDon = getOrdersByMonth(monthSelect, yearSelect);
-
+      console.log(listHoaDon);
+      
       if (listHoaDon.length > 0)
         ct_hoadon.getCT_HoaDonByListHoaDon(listHoaDon).then((res) => {
           setCt_orders(res);
@@ -263,18 +263,21 @@ function MonAn() {
   };
 
   return (
-    <Box sx={{ m: 2 }}>
-      <SelectThongKe
-        otp={otp}
-        dateSelect={dateSelect}
-        monthSelect={monthSelect}
-        yearSelect={yearSelect}
-        years={[2021, 2022]}
-        MonthChange={(e) => setMonthSelect(e.target.value)}
-        OtpChange={(e) => setOtp(e.target.value)}
-        yearChange={(e) => setYearSelect(e.target.value)}
-        dateChange={(e) => setDateSelect(e)}
-      />
+    <Box sx={{ backgroundColor: "#fff" }}>
+      <Box sx={{pt: 2, pr: 2}}>
+        <SelectThongKe
+          otp={otp}
+          dateSelect={dateSelect}
+          monthSelect={monthSelect}
+          yearSelect={yearSelect}
+          years={[2021, 2022]}
+          MonthChange={(e) => setMonthSelect(e.target.value)}
+          OtpChange={(e) => setOtp(e.target.value)}
+          yearChange={(e) => setYearSelect(e.target.value)}
+          dateChange={(e) => setDateSelect(e ? e : dateSelect)}
+        />
+      </Box>
+
       <Line
         ref={chartRef}
         options={option}

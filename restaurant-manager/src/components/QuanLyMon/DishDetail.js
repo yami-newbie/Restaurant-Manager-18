@@ -35,6 +35,7 @@ function DishDetail({
   const [LoaiThucAn, setLoaiThucAn] = useState();
   const [id, setId] = useState();
   const [file, setFile] = useState();
+  const [onSubmit, setOnSubmit] = useState(false);
 
   const service = useDishService();
   const alert = useAlertService();
@@ -74,8 +75,10 @@ function DishDetail({
   }, [dish]);
 
   const onUpdate = () => {
+    if(onSubmit) return
     try {
       if (dish && dish.data) {
+        setOnSubmit(true);
       if (ImgSrc !== dish.data.ImgSrc) {
         service.uploadImg(file).then((res) => {
           const after = {
@@ -87,7 +90,7 @@ function DishDetail({
             LoaiThucAn: LoaiThucAn,
           };
           const newDish = { ...dish.data, ...after };
-          service.updateThucAn(id, newDish);
+          service.updateThucAn(id, newDish).then((_) => setOnSubmit(false));
         });
       } else {
         const after = {
@@ -98,7 +101,7 @@ function DishDetail({
           LoaiThucAn: LoaiThucAn,
         };
         const newDish = { ...dish.data, ...after };
-        service.updateThucAn(id, newDish);
+        service.updateThucAn(id, newDish).then((_) => setOnSubmit(false));
       }
       alert.setAlert({
         type: "success",
@@ -118,7 +121,9 @@ function DishDetail({
   };
 
   const onAdd = () => {
+    if(onSubmit) return
     try {
+      setOnSubmit(true);
       if (ImgSrc !== "") {
         service.uploadImg(file).then((res) => {
           const newDish = {
@@ -130,7 +135,7 @@ function DishDetail({
             GioiThieu: GioiThieu,
             LoaiThucAn: LoaiThucAn,
           };
-          service.addThucAn(newDish);
+          service.addThucAn(newDish).then(_ => setOnSubmit(false));
         });
       } else {
         const newDish = {
@@ -142,7 +147,7 @@ function DishDetail({
           GioiThieu: GioiThieu,
           LoaiThucAn: LoaiThucAn,
         };
-        service.addThucAn(newDish);
+        service.addThucAn(newDish).then((_) => setOnSubmit(false));
       }
 
       alert.setAlert({

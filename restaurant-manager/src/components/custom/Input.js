@@ -1,4 +1,4 @@
-import { Box, TextField } from '@mui/material';
+import { Box, MenuItem, TextField } from '@mui/material';
 import React from 'react'
 
 const Input = (props) => {
@@ -16,7 +16,8 @@ const Input = (props) => {
     helperText,
     bold = false,
     hideLabel = false,
-    textAlign = "center"
+    textAlign = "center",
+    items = []
   } = props;
   return (
     <Box sx={{ justifyContent: "center", display: "flex" }}>
@@ -38,6 +39,7 @@ const Input = (props) => {
           onChange={onChange}
           readOnly={readOnly}
           type={type}
+          select={type === "select" ? true : false}
           error={error}
           helperText={helperText}
           disabled={!disabled}
@@ -49,7 +51,9 @@ const Input = (props) => {
             "& input": { textAlign: textAlign },
             width: "100%",
           }}
-        />
+        >
+          {items?.map((e,i) => <MenuItem key={i} value={e}>{e}</MenuItem>)}
+        </TextField>
       </Box>
     </Box>
   );

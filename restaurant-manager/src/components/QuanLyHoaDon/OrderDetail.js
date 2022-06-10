@@ -140,7 +140,7 @@ function OrderDetail({
 
       <DialogContent>
         <Grid container columns={{ xs: 4, sm: 8, md: 12 }} spacing={3}>
-          <Grid item xs={4} sm={8} md={8}>
+          <Grid item xs={4} sm={8} md={7}>
             <Box>
               <Card sx={{ padding: "20px", borderRadius: 5 }}>
                 <Typography sx={{ mb: 1 }} variant="h5" component="div">
@@ -171,7 +171,7 @@ function OrderDetail({
               </Card>
             </Box>
           </Grid>
-          <Grid item xs={4} sm={8} md={4}>
+          <Grid item xs={4} sm={8} md={5}>
             <Stack spacing={3}>
               <Paper sx={{ borderRadius: 5 }}>
                 <Box sx={{ padding: 3 }}>
@@ -228,7 +228,7 @@ function OrderDetail({
                       <Button
                         onClick={onCancel}
                         sx={{ width: "50%" }}
-                        variant="outlined"
+                        variant="contained"
                       >
                         Huỷ đơn
                       </Button>
@@ -237,11 +237,12 @@ function OrderDetail({
                         variant="contained"
                         onClick={Save}
                       >
-                        lưu thông tin
+                        lưu
                       </Button>
                       <Button
                         onClick={onPayment}
                         disabled={state}
+                        color="success"
                         sx={{ width: "50%" }}
                         variant="contained"
                       >
