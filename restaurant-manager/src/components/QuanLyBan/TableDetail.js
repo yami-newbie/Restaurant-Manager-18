@@ -25,7 +25,7 @@ function TableDetail(props) {
             {
                 setName("");
                 setType("");
-                setStatus("")
+                setStatus(true);
             }
         }
     }, [open, table])
