@@ -25,6 +25,12 @@ import { Role, useAuth } from "../services/account.service";
 
 const data = [
   {
+    icon: <LocalDiningIcon />,
+    label: "Đặt món",
+    navigate: "/menu",
+    role: Role.staff,
+  },
+  {
     icon: <TableBarIcon />,
     label: "Bàn",
     navigate: "/table",
@@ -46,12 +52,6 @@ const data = [
     icon: <ReceiptLongIcon />,
     label: "Chưa thanh toán",
     navigate: "/order/ongoing",
-    role: Role.staff,
-  },
-  {
-    icon: <LocalDiningIcon />,
-    label: "Đặt món",
-    navigate: "/menu",
     role: Role.staff,
   },
 ];

@@ -9,7 +9,7 @@ function HoaDonPage({list}) {
   const [haveRes, setHaveRes] = useState();
   const [filter, setFilter] = useState("Tên khách hàng");
 
-  const filterList = ["Tên khách hàng", "Số điện thoại", "Nhân viên", "Tên bàn"];
+  const filterList = ["Tên khách hàng", "Số điện thoại", "Nhân viên", "Tên bàn", "Mã hóa đơn"];
 
   const resetData = () => {
     setListOrder(list);
@@ -27,11 +27,34 @@ function HoaDonPage({list}) {
 
   useEffect(() => {
     if (search && search !== "") {
-      const result = listOrder.map((dish) =>
-        ToSearchStr(dish).toLowerCase().includes(search)
-          ? dish
-          : null
-      );
+      const result = listOrder.map((dish) => {
+        const data = dish.data;
+        var str = "";
+        switch (filter) {
+          case filterList[0]:
+            str = data.TenKhachHang;
+            break;
+          case filterList[1]:
+            str = data.SoDienThoai;
+            break;
+          case filterList[2]:
+            str = data.NhanVien;
+            break;
+          case filterList[3]:
+            str = data.TenBan;
+            break;
+          case filterList[4]:
+            str = dish.id;
+            break;
+          default:
+            break;
+        }
+        if(typeof(str) === "undefined"){
+          str = "";
+        }
+        console.log(str);
+        return str.toLowerCase().includes(search) ? dish : null;
+      });
       var lastRes = [];
 
       result.map((res) => (res !== null ? (lastRes = [...lastRes, res]) : res));

@@ -31,8 +31,12 @@ function SignIn() {
     } catch (err) {
       const message = err.message;
       console.log(message)
-      if(String(message).includes("auth/invalid-email") || String(message).includes("auth/wrong-password")){
-        setErrMessage("Tài khoản hoặc mật khẩu không đúng")
+      if (
+        String(message).includes("auth/invalid-email") ||
+        String(message).includes("auth/wrong-password") ||
+        String(message).includes("auth/user-not-found")
+      ) {
+        setErrMessage("Tài khoản hoặc mật khẩu không đúng");
       }
     }
   };

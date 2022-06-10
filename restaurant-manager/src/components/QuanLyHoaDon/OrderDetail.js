@@ -58,13 +58,13 @@ function OrderDetail({
     if(order){
       setListDish(ct_dataService.getCT_HoaDonByIdHoaDon(order.id));
       const data = order.data;
-      setName(data.TenKhachHang);
-      setState(data.ThanhToan);
-      setPhoneNumber(data.SoDienThoai);
-      setNameStaff(data.NhanVien);
-      setTotal(data.TongTien);
+      setName(data.TenKhachHang ? data.TenKhachHang : "");
+      setState(data.ThanhToan ? data.ThanhToan : false);
+      setPhoneNumber(data.SoDienThoai ? data.SoDienThoai : "");
+      setNameStaff(data.NhanVien ? data.NhanVien : "");
+      setTotal(data.TongTien ? data.TongTien : 0);
       setOrderId(order.id);
-      setTable(data.TenBan);
+      setTable(data.TenBan ? data.TenBan : "");
     }
   }, [ct_dataService, order])
 
@@ -135,9 +135,6 @@ function OrderDetail({
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
             Chi tiết hóa đơn
           </Typography>
-          <Button autoFocus color="inherit" onClick={Save}>
-            lưu
-          </Button>
         </Toolbar>
       </AppBar>
 
@@ -211,7 +208,7 @@ function OrderDetail({
                       <InputLabel>Bàn đã chọn</InputLabel>
                       <Select
                         onChange={tableChange}
-                        value={table ? table : ''}
+                        value={table ? table : ""}
                         label="Bàn đã chọn"
                       >
                         {tables?.map((item, index) => (
@@ -222,7 +219,11 @@ function OrderDetail({
                       </Select>
                     </FormControl>
 
-                    <TextField value={nameStaff} fullWidth label="Tên nhân viên" />
+                    <TextField
+                      value={nameStaff}
+                      fullWidth
+                      label="Tên nhân viên"
+                    />
                     <Stack direction="row" spacing={3}>
                       <Button
                         onClick={onCancel}
@@ -230,6 +231,13 @@ function OrderDetail({
                         variant="outlined"
                       >
                         Huỷ đơn
+                      </Button>
+                      <Button
+                        sx={{ width: "50%" }}
+                        variant="contained"
+                        onClick={Save}
+                      >
+                        lưu thông tin
                       </Button>
                       <Button
                         onClick={onPayment}
