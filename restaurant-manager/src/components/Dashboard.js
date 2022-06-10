@@ -31,6 +31,12 @@ const data = [
     role: Role.staff,
   },
   {
+    icon: <LocalDiningIcon />,
+    label: "Đặt bàn",
+    navigate: "/ordertable",
+    role: Role.staff,
+  },
+  {
     icon: <TableBarIcon />,
     label: "Bàn",
     navigate: "/table",
