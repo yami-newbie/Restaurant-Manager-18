@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "chart.js/auto";
 import {
-  Chart,
   getElementsAtEvent,
-  getDatasetAtEvent,
   Line,
 } from "react-chartjs-2";
 import SelectThongKe, { Option } from "../../components/custom/SelectThongKe";
@@ -106,8 +104,16 @@ function MonAn() {
     if (orders) {
       return orders.filter((e) => {
         const time = new Timestamp(e.data.ThoiGian.seconds, 0).toDate();
-        console.log(time.getMonth());
         return time.getMonth() + 1 === month && time.getFullYear() === year;
+      });
+    }
+  };
+
+  const getOrdersByYear = (year) => {
+    if (orders) {
+      return orders.filter((e) => {
+        const time = new Timestamp(e.data.ThoiGian.seconds, 0).toDate();
+        return time.getFullYear() === year;
       });
     }
   };
@@ -123,6 +129,27 @@ function MonAn() {
         const time = new Timestamp(element.time.seconds, 0).toDate();
         const hour = time.getHours();
         _data[hour] += element.count;
+      });
+    }
+    if (otp === Option.month) {
+      _data = daysInMonth(monthSelect, yearSelect);
+      console.log(_data);
+      _data.fill(0);
+      const log = dish.Log;
+      log.forEach((element) => {
+        const time = new Timestamp(element.time.seconds, 0).toDate();
+        const day = time.getDate() - 1;
+        _data[day] += element.count;
+      });
+    }
+    if (otp === Option.year) {
+      _data = Array(12);
+      _data.fill(0);
+      const log = dish.Log;
+      log.forEach((element) => {
+        const time = new Timestamp(element.time.seconds, 0).toDate();
+        const month = time.getMonth();
+        _data[month] += element.count;
       });
     }
     return {
@@ -229,8 +256,7 @@ function MonAn() {
 
     if (otp === Option.month) {
       const listHoaDon = getOrdersByMonth(monthSelect, yearSelect);
-      console.log(listHoaDon);
-      
+
       if (listHoaDon.length > 0)
         ct_hoadon.getCT_HoaDonByListHoaDon(listHoaDon).then((res) => {
           setCt_orders(res);
@@ -246,6 +272,21 @@ function MonAn() {
     }
 
     if (otp === Option.year) {
+
+      const listHoaDon = getOrdersByYear(yearSelect);
+
+      if (listHoaDon.length > 0)
+        ct_hoadon.getCT_HoaDonByListHoaDon(listHoaDon).then((res) => {
+          setCt_orders(res);
+        });
+      else {
+        setCt_orders([]);
+      }
+
+      setChartData({
+        ...chartData,
+        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      });
     }
   }, [monthSelect, yearSelect, dateSelect]);
 
@@ -284,13 +325,6 @@ function MonAn() {
         data={chartData}
         onClick={onClick}
       />
-      {/* <Chart
-        ref={chartRef}
-        onClick={onClick}
-        options={option}
-        type="bar"
-        data={chartData}
-      /> */}
     </Box>
   );
 }
