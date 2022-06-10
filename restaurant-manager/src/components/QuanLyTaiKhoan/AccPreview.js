@@ -12,6 +12,7 @@ import {
 import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AccDetail from "./AccDetail";
+import { useAuth } from "../../services/account.service";
 
 function AccPreview(props) {
   const { acc } = props;
@@ -72,10 +73,10 @@ function AccPreview(props) {
         </CardContent>
         <Divider variant="middle" />
         <CardActions sx={{ justifyContent: "space-between", ml: 1.5 }}>
-          <IconButton onClick={handleClickOpen}>
+          <IconButton color="info" onClick={handleClickOpen}>
             <InfoIcon />
           </IconButton>
-          <IconButton>
+          <IconButton color="error" onClick={[]}>
             <DeleteIcon />
           </IconButton>
         </CardActions>
