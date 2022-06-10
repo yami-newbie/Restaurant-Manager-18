@@ -8,7 +8,7 @@ const FoodCard = (props) => {
   const [state, setState] = useState({
     color: "white",
     backgroundColor: "rgba(0,0,0,0.7)",
-    secondaryColor: "#2e7D32",
+    secondaryColor: "#68BB59",
   });
   const [item, setItem] = useState({});
   
