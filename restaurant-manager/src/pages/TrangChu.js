@@ -17,9 +17,22 @@ import { useDishService } from "../services/thucan.service";
 import { useCT_OrderService } from "../services/ct_hoadon.service";
 import { useOrderService } from "../services/hoadon.service";
 import { Timestamp } from "firebase/firestore";
-import { list } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 
 const TrangChu = () => {
+  const navigate = useNavigate()
+  const onClickMonAn = () => {
+    navigate("../thongke/monan");
+  }
+  const onClickDoanhThu = () => {
+    navigate("../thongke/doanhthu");
+  }
+  const onClickOrder = () => {
+    navigate("../order");
+  }
+  const onClickNhanVien = () => {
+    navigate("../account");
+  }
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "rgba(0,0,0,0)",
@@ -267,21 +280,22 @@ const TrangChu = () => {
           </Typography>
         </Box>
         <Grid container padding={2} spacing={2}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3} onClick={onClickMonAn}>
             <StatsCard text="Tổng món ăn" value="34" type="1"></StatsCard>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={3} onClick={onClickDoanhThu}>
             <StatsCard
               text="Tổng thu nhập"
               value="320.000đ"
               type="2"
+              
             ></StatsCard>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <StatsCard text="Tổng order" value="124" type="3"></StatsCard>
+          <Grid item xs={12} sm={6} md={3} onClick={onClickOrder}>
+            <StatsCard text="Tổng order" value="124" type="3" ></StatsCard>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <StatsCard text="Tổng nhân viên" value="0" type="4"></StatsCard>
+          <Grid item xs={12} sm={6} md={3} onClick={onClickNhanVien}>
+            <StatsCard text="Tổng nhân viên" value="0" type="4" ></StatsCard>
           </Grid>
         </Grid>
         <Grid container padding={2} spacing={2}>
