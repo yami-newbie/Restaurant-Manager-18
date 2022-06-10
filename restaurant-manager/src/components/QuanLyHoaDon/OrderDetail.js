@@ -24,6 +24,7 @@ import { formatter } from "../../services/uilts/formatPrice";
 import { useCT_OrderService } from "../../services/ct_hoadon.service";
 import { useOrderService } from "../../services/hoadon.service";
 import { useTableService } from "../../services/ban.serivce";
+import { useAlertService } from '../../services/alert.service'
 
 function OrderDetail({
   open = false,
@@ -44,11 +45,11 @@ function OrderDetail({
   const ct_dataService = useCT_OrderService();
   const order_dataService = useOrderService();
   const table_dataService = useTableService();
+  const alert = useAlertService();
 
   useEffect(() => {
     const list = table_dataService.tablesEnable;
     if(list){
-      console.log(list);
       setTables(list);
     }
   }, [table_dataService])
@@ -57,13 +58,13 @@ function OrderDetail({
     if(order){
       setListDish(ct_dataService.getCT_HoaDonByIdHoaDon(order.id));
       const data = order.data;
-      setName(data.TenKhachHang);
-      setState(data.ThanhToan);
-      setPhoneNumber(data.SoDienThoai);
-      setNameStaff(data.NhanVien);
-      setTotal(data.TongTien);
+      setName(data.TenKhachHang ? data.TenKhachHang : "");
+      setState(data.ThanhToan ? data.ThanhToan : false);
+      setPhoneNumber(data.SoDienThoai ? data.SoDienThoai : "");
+      setNameStaff(data.NhanVien ? data.NhanVien : "");
+      setTotal(data.TongTien ? data.TongTien : 0);
       setOrderId(order.id);
-      setTable(data.TenBan);
+      setTable(data.TenBan ? data.TenBan : "");
     }
   }, [ct_dataService, order])
 
@@ -83,6 +84,14 @@ function OrderDetail({
         TenKhachHang: name,
         SoDienThoai: phoneNumber,
         TenBan: table,
+        TongTien: total
+      }).then(() => {
+        listDish.forEach((e, index) => ct_dataService.updateCT_HoaDon(e.id, e.data).then(() => {
+          if(index === listDish.length - 1) {
+            alert.setAlert({ type: "success", body: "Cập nhật thông tin hóa đơn thành công"});
+            alert.showAlert();
+          }
+        }))
       })
     }
     onClose();
@@ -126,9 +135,6 @@ function OrderDetail({
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
             Chi tiết hóa đơn
           </Typography>
-          <Button autoFocus color="inherit" onClick={Save}>
-            lưu
-          </Button>
         </Toolbar>
       </AppBar>
 
@@ -202,7 +208,7 @@ function OrderDetail({
                       <InputLabel>Bàn đã chọn</InputLabel>
                       <Select
                         onChange={tableChange}
-                        value={table}
+                        value={table ? table : ""}
                         label="Bàn đã chọn"
                       >
                         {tables?.map((item, index) => (
@@ -213,7 +219,11 @@ function OrderDetail({
                       </Select>
                     </FormControl>
 
-                    <TextField value={nameStaff} fullWidth />
+                    <TextField
+                      value={nameStaff}
+                      fullWidth
+                      label="Tên nhân viên"
+                    />
                     <Stack direction="row" spacing={3}>
                       <Button
                         onClick={onCancel}
@@ -221,6 +231,13 @@ function OrderDetail({
                         variant="outlined"
                       >
                         Huỷ đơn
+                      </Button>
+                      <Button
+                        sx={{ width: "50%" }}
+                        variant="contained"
+                        onClick={Save}
+                      >
+                        lưu thông tin
                       </Button>
                       <Button
                         onClick={onPayment}

@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia } from '@mui/material'
+import { Card, CardContent, CardMedia, Rating, Typography } from '@mui/material'
 import React from 'react'
 
 function DishPreview() {

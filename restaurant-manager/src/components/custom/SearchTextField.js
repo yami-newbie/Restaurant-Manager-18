@@ -8,8 +8,17 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import { styled } from "@mui/system";
+
+
+const SelectC = styled(Select)`
+  & .MuiSelect-select {
+    padding: 5px 14px;
+  }
+  margin: 5px 0px;
+`;
 
 function SearchTextField(props) {
   const {
@@ -32,9 +41,9 @@ function SearchTextField(props) {
             value={search}
             onChange={onChange}
           />
-          <Select value={filter} onChange={handleChange}>
+          <SelectC value={filter} onChange={handleChange}>
             {filterList?.map((item, i) => <MenuItem key={i} value={item}>{item}</MenuItem>)}
-          </Select>
+          </SelectC>
           <IconButton onClick={onClear} sx={{ p: "10px" }} aria-label="search">
             <CloseIcon />
           </IconButton>

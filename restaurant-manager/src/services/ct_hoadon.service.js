@@ -7,6 +7,8 @@ import {
   deleteDoc,
   getDocs,
   onSnapshot,
+  query,
+  where,
 } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -54,6 +56,21 @@ function CT_HoaDonDataService() {
     return ct_orders.filter((ct) => ct.data.IDHoaDon === id);
   }
 
+  const getCT_HoaDonByListHoaDon = (listHoaDon) => {
+    const getByIDDB = query(
+      CT_HoaDonRef,
+      where(
+        "IDHoaDon",
+        "in",
+        listHoaDon.map((e) => e.id)
+      )
+    );
+
+    return getDocs(getByIDDB).then((res) =>
+      res.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
+    );
+  }
+
   const updateCT_HoaDon = async (id, updateCT_HoaDon) => {
     const docCT_HoaDon = doc(db, "CT_HoaDon", id);
     return await updateDoc(docCT_HoaDon, updateCT_HoaDon);
@@ -91,5 +108,6 @@ function CT_HoaDonDataService() {
     getCT_HoaDon,
     getCT_HoaDonByIdHoaDon,
     deleteCT_HoaDonByIdHoaDon,
+    getCT_HoaDonByListHoaDon,
   };
 }

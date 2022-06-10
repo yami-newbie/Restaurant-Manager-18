@@ -88,7 +88,7 @@ function DishInOrderItem({ ct, setCt }) {
               >
                 {name}
               </Typography>
-              <Rating readOnly value={rating} />
+              {/* <Rating readOnly value={rating} /> */}
             </Box>
           </Grid>
           <Grid item xs={5} md={5} sm={5}>
@@ -106,13 +106,35 @@ function DishInOrderItem({ ct, setCt }) {
                 sx={{ alignItems: "center", justifyContent: "right" }}
                 direction="row"
               >
-                <IconButton color="primary" onClick={RemoveAmount}>
+                <IconButton
+                  color="error"
+                  onClick={RemoveAmount}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "#f44336",
+                      color: "#fff",
+                    },
+                    padding: 0,
+                    margin: "8px",
+                  }}
+                >
                   <RemoveCircleOutlineRoundedIcon />
                 </IconButton>
                 <Typography variant="h7" component="div">
                   {amount}
                 </Typography>
-                <IconButton color="primary" onClick={AddAmount}>
+                <IconButton
+                  color="success"
+                  onClick={AddAmount}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "#2e7d32",
+                      color: "#fff",
+                    },
+                    padding: 0,
+                    margin: "8px",
+                  }}
+                >
                   <AddCircleOutlineRoundedIcon />
                 </IconButton>
               </Stack>
