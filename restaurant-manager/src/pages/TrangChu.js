@@ -13,10 +13,13 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-
+import { useDishService } from "../services/thucan.service";
+import { useCT_OrderService } from "../services/ct_hoadon.service";
+import { useOrderService } from "../services/hoadon.service";
+import { Timestamp } from "firebase/firestore";
+import { list } from "firebase/storage";
 
 const TrangChu = () => {
-  
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "rgba(0,0,0,0)",
@@ -40,7 +43,7 @@ const TrangChu = () => {
   if (minute < 10) minute = "0" + minute.toString();
   var second = date.getSeconds();
   var day = date.getDate();
-  var month = date.getMonth();
+  var month = date.getMonth() + 1;
   var year = date.getFullYear();
   const [boxState, setBoxState] = useState({
     boxShadow: "0",
@@ -57,11 +60,11 @@ const TrangChu = () => {
       case 2:
         return "#68BB59";
       case 3:
-        return "#6ac5fe"
+        return "#6ac5fe";
       default:
         return "white";
     }
-  }
+  };
 
   var labels = [
     mod(month - 6, 12) === 0 ? 12 : mod(month - 6, 12),
@@ -73,7 +76,7 @@ const TrangChu = () => {
     month,
   ];
   labels = labels.map((e) => (e = "Tháng " + e));
-  const data = {
+  var data = {
     labels,
     datasets: [
       {
@@ -133,17 +136,107 @@ const TrangChu = () => {
     createData(5, "Gingerbread", "Tráng miệng", 1000, 10),
   ];
 
-  const [time, setTime] = useState(new Date());
-  useEffect(() => {
-    return () => {
-      setInterval(() => setTime(new Date()), 1000);
-    };
-  }, []);
-
   const [value, setValue] = React.useState(0);
   const handleChange = (event) => {
     setValue(event.target.value);
   };
+  const [dishes, setDishes] = useState([]);
+  const [ct_orders, setCt_orders] = useState([]);
+  const [orders, setOrders] = useState([]);
+
+  const dishService = useDishService();
+  const ct_hoadon = useCT_OrderService();
+  const hoadon = useOrderService();
+
+
+  const getOrdersByMonth = (month, year) => {
+    if (orders) {
+      if (month <= 0){
+        if (month == 0) {
+          month = 12;
+          year -= 1;
+        }
+        month = month + 12;
+      }
+      return orders.filter((e) => {
+        const time = new Timestamp(e.data.ThoiGian.seconds, 0).toDate();
+        return time.getMonth() + 1 === month && time.getFullYear() === year;
+      });
+    }
+  };
+
+  useEffect(() => {
+    const listHoaDon = getOrdersByMonth(month, year);
+
+    if (listHoaDon.length > 0)
+      ct_hoadon.getCT_HoaDonByListHoaDon(listHoaDon).then((res) => {
+        setCt_orders(res);
+      });
+    else {
+      setCt_orders([]);
+    }
+  }, [orders]);
+
+  useEffect(() => {
+    const listHoaDonTheoThang = [];
+    for (let i = 0; i < 7; i++) {
+      const element = getOrdersByMonth(month-i, year);
+      listHoaDonTheoThang.push({data: element, Thang: (month-i)<=0? month-i+12 : month-i});
+      console.log(element)
+    }
+    const list = listHoaDonTheoThang.map(listHoaDon => {
+      if (listHoaDon.data.length > 0) {
+        return listHoaDon.data.length
+      }
+      else
+        return 0
+    });
+    setCurrentMonthData(list[0])
+    setLineData({...lineData, datasets: [{data: list.reverse(), borderColor: "rgba(211,211,211, 0.8)", backgroundColor: "rgba(51,51,51,0.8)" }]});
+  }, [orders])
+  
+  const [lineData, setLineData] = useState(data)
+  const [currentMonthData, setCurrentMonthData] = useState();
+
+  useEffect(() => {
+    const abc = dishService.dishes.filter((e) => {
+      switch (value) {
+        case 1:
+          return e.data.LoaiThucAn.toLowerCase() == "burger";
+        case 2:
+          return e.data.LoaiThucAn.toLowerCase() == "mì ống";
+        case 3:
+          return e.data.LoaiThucAn.toLowerCase() == "bít tết";
+        case 4:
+          return e.data.LoaiThucAn.toLowerCase() == "tráng miệng";
+        case 5:
+          return e.data.LoaiThucAn.toLowerCase() == "nước uống";
+        default:
+          return true;
+      }
+    });
+    const def = abc.map((e) => {
+      var sum = 0;
+      ct_orders
+        .filter((order) => order.data.IDThucAn == e.id)
+        .forEach((order) => {
+          sum += order.data.SoLuong;
+        });
+      return { ...e, SoLuong: sum };
+    });
+    const asn = def.sort((b, a) => {
+      return a.SoLuong - b.SoLuong;
+    });
+    setListSoLanGoiMon(asn);
+  }, [ct_orders, value]);
+
+  useEffect(() => {
+    if (hoadon) {
+      setOrders(hoadon.orders);
+    }
+  }, [hoadon]);
+
+  const [listSoLanGoiCacMon, setListSoLanGoiMon] = useState([]);
 
   return (
     <Box
@@ -223,7 +316,12 @@ const TrangChu = () => {
                   }}
                   size="small"
                 >
-                  <Select value={value} sx={{ color: "white" }} displayEmpty onChange={handleChange}>
+                  <Select
+                    value={value}
+                    sx={{ color: "white" }}
+                    displayEmpty
+                    onChange={handleChange}
+                  >
                     <MenuItem value={0}>All</MenuItem>
                     <MenuItem value={1}>Burger</MenuItem>
                     <MenuItem value={2}>Mì Ống</MenuItem>
@@ -250,43 +348,59 @@ const TrangChu = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {rows.map((row) => (
-                        <StyledTableRow key={row.name}>
-                          <StyledTableCell
-                            sx={{ color: rankColor(row.rank), fontWeight: "bold" }}
-                            align="center"
-                          >
-                            {row.rank}
-                          </StyledTableCell>
-                          <StyledTableCell
-                            sx={{ color: "white", fontWeight: "bold" }}
-                            align="center"
-                          >
-                            <Box display="flex" flexDirection="row" alignItems="center">
-                            <img style={{paddingRight: 3}} src="https://media.discordapp.net/attachments/945145709521432636/984539518696845382/3.png?" width="30px" height="30px"></img>
-                            {row.name}
-                            </Box>
-                          </StyledTableCell>
-                          <StyledTableCell
-                            sx={{ color: "white", fontWeight: "bold" }}
-                            align="center"
-                          >
-                            {row.category}
-                          </StyledTableCell>
-                          <StyledTableCell
-                            sx={{ color: "white", fontWeight: "bold" }}
-                            align="center"
-                          >
-                            {row.price}
-                          </StyledTableCell>
-                          <StyledTableCell
-                            sx={{ color: "white", fontWeight: "bold" }}
-                            align="center"
-                          >
-                            {row.soldAmount}
-                          </StyledTableCell>
-                        </StyledTableRow>
-                      ))}
+                      {listSoLanGoiCacMon.map((row, index) => {
+                        if (index < 5) {
+                          return (
+                          <StyledTableRow key={row.data.TenThucAn}>
+                            <StyledTableCell
+                              sx={{
+                                color: rankColor(index + 1),
+                                fontWeight: "bold",
+                              }}
+                              align="center"
+                            >
+                              {index + 1}
+                            </StyledTableCell>
+                            <StyledTableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                              align="center"
+                            >
+                              <Box
+                                display="flex"
+                                flexDirection="row"
+                                alignItems="center"
+                              >
+                                <img
+                                  style={{ paddingRight: 3 }}
+                                  src={row.data.ImgSrc}
+                                  width="30px"
+                                  height="30px"
+                                ></img>
+                                {row.data.TenThucAn}
+                              </Box>
+                            </StyledTableCell>
+                            <StyledTableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                              align="center"
+                            >
+                              {row.data.LoaiThucAn}
+                            </StyledTableCell>
+                            <StyledTableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                              align="center"
+                            >
+                              {row.data.Gia}
+                            </StyledTableCell>
+                            <StyledTableCell
+                              sx={{ color: "white", fontWeight: "bold" }}
+                              align="center"
+                            >
+                              {row.SoLuong}
+                            </StyledTableCell>
+                          </StyledTableRow>
+                          )
+                        }
+                      })}
                     </TableBody>
                   </Table>
                 </TableContainer>
@@ -324,7 +438,7 @@ const TrangChu = () => {
                           fontSize: 14,
                         }}
                       >
-                        {" 180 "}
+                        {" " + currentMonthData}
                       </span>{" "}
                       hóa đơn trong tháng này
                     </Typography>
@@ -332,7 +446,7 @@ const TrangChu = () => {
                 </Box>
               </Box>
               <Box paddingY={2} paddingX={2}>
-                <Line data={data} options={options} />
+                <Line data={lineData} options={options} />
               </Box>
             </Box>
           </Grid>
