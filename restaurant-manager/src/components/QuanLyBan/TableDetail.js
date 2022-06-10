@@ -1,7 +1,7 @@
 import { TextField } from '@material-ui/core';
 import { Button, Dialog, DialogTitle, InputLabel, MenuItem, Select } from '@mui/material';
 import React, { useEffect } from 'react'
-import { useTableService } from '../../services/ban.serivce';
+import { useTableService } from '../../services/ban.service';
 import { useAlertService } from "../../services/alert.service";
 
 function TableDetail(props) {

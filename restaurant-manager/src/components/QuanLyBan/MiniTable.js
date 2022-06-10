@@ -7,7 +7,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Menu } from '@material-ui/core';
 import TableDetail from './TableDetail';
 import { useAlertService } from '../../services/alert.service';
-import { useTableService } from '../../services/ban.serivce';
+import { useTableService } from '../../services/ban.service';
 
 function MiniTable(props) {
   const {table, enable, onClick, onDelete} = props;

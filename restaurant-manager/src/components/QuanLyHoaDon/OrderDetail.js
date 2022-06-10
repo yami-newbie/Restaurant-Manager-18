@@ -23,7 +23,7 @@ import { Box } from "@mui/system";
 import { formatter } from "../../services/uilts/formatPrice";
 import { useCT_OrderService } from "../../services/ct_hoadon.service";
 import { useOrderService } from "../../services/hoadon.service";
-import { useTableService } from "../../services/ban.serivce";
+import { useTableService } from "../../services/ban.service";
 import { useAlertService } from '../../services/alert.service'
 
 function OrderDetail({

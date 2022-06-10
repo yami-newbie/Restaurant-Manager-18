@@ -14,7 +14,7 @@ import Table2 from "../components/TableIcon/Table2";
 import Table4 from "../components/TableIcon/Table4";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { useTableService } from "../services/ban.serivce";
+import { useTableService } from "../services/ban.service";
 import { CT_DatBanService } from "../services/ct_datban.service";
 import { useCT_OrderService } from "../services/datban.service";
 
@@ -37,6 +37,9 @@ function BookTable() {
       getAllOrderByDate(new Date().toLocaleDateString());
     }
   }, [table]);
+  useEffect(()=>{
+    console.log(tableList);
+  }, [tableList])
 
   useEffect(() => {
     const tl = tableList.map((table) => {
@@ -114,6 +117,7 @@ function BookTable() {
   };
 
   const draw = (type, name, status) => {
+    console.log("ok all")
     switch (type) {
       case 1:
         return (
@@ -170,7 +174,7 @@ function BookTable() {
           <div className="dt">
             <div>
               <Grid container spacing={5}>
-                {tableList.map((table) => (
+                {tableList?.map((table) => (
                   <Grid item>
                     <div>
                       {draw(table.data.Loai, table.data.TenBan, table.status)}
