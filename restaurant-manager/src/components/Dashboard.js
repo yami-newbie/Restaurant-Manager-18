@@ -22,12 +22,19 @@ import LocalDiningIcon from "@mui/icons-material/LocalDining";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Role, useAuth } from "../services/account.service";
+import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 
 const data = [
   {
     icon: <LocalDiningIcon />,
     label: "Đặt món",
     navigate: "/menu",
+    role: Role.staff,
+  },
+  {
+    icon: <TableRestaurantIcon />,
+    label: "Đặt bàn",
+    navigate: "/ordertable",
     role: Role.staff,
   },
   {
@@ -151,13 +158,13 @@ export default function Dashboard() {
                 navigate("/");
               }}
             >
-              <ListItemIcon sx={{ fontSize: 20 }}>🔥</ListItemIcon>
+              <ListItemIcon sx={{ fontSize: 24 }}>💀</ListItemIcon>
               <ListItemText
-                sx={{ my: 0 }}
-                primary="Firebash"
+                sx={{ my: 2 }}
+                primary="Undertale"
                 primaryTypographyProps={{
-                  fontSize: 20,
-                  fontWeight: "medium",
+                  fontSize: 34,
+                  fontWeight: "bold",
                   letterSpacing: 0,
                 }}
               />
@@ -179,8 +186,8 @@ export default function Dashboard() {
                     <ListItemText
                       primary={item.label}
                       primaryTypographyProps={{
-                        fontSize: 14,
-                        fontWeight: "medium",
+                        fontSize: 18,
+                        fontWeight: "bold",
                       }}
                     />
                   </ListItemButton>
@@ -192,7 +199,10 @@ export default function Dashboard() {
                   <ListItemIcon>
                     <BarChartIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Thống kê" />
+                  <ListItemText primaryTypographyProps={{
+                        fontSize: 18,
+                        fontWeight: "bold",
+                      }} primary="Thống kê" />
                   {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
@@ -251,7 +261,10 @@ export default function Dashboard() {
                 <ListItemIcon>
                   <AccountCircleIcon />
                 </ListItemIcon>
-                <ListItemText>Tài khoản</ListItemText>
+                <ListItemText primaryTypographyProps={{
+                        fontSize: 18,
+                        fontWeight: "bold",
+                      }}>Tài khoản</ListItemText>
               </ListItemButton>
             </ListItem>
             

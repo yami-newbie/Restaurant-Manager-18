@@ -2,15 +2,20 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import CategoryCard from "../components/Menu/CategoryCard";
 import { Stack, Container, Button } from "@mui/material";
 import FoodCard from "../components/Menu/FoodCard";
 import Divider from "@mui/material/Divider";
 import { useDishService as useMenuService } from "../services/thucan.service";
 import { useOrderService } from "../services/hoadon.service";
+import { useTableService } from "../services/ban.serivce";
 import { useCT_OrderService } from "../services/ct_hoadon.service";
 import { formatter } from "../services/uilts/formatPrice";
-import { useAlertService } from '../services/alert.service'
+import { useAlertService } from "../services/alert.service";
 import { useAuth } from "../services/account.service";
 import CartItemCard from "../components/Menu/CartItemCard";
 
@@ -19,6 +24,15 @@ const Menu = () => {
   const [items, setItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState("0");
   const [onSubmit, setOnSubmit] = useState(false);
+  const [table, setTable] = useState();
+  const [tables, setTables] = useState();
+  const table_dataService = useTableService();
+  useEffect(() => {
+    const list = table_dataService.tablesEnable;
+    if (list) {
+      setTables(list);
+    }
+  }, [table_dataService]);
   const addItem = (item) => {
     const duplicate = items.filter((e) => e.name === item.name);
     if (duplicate.length == 0 || items.length == 0) {
@@ -42,8 +56,11 @@ const Menu = () => {
   const alert = useAlertService();
   const auth = useAuth();
 
+  const tableChange = (event) => {
+    setTable(event.target.value);
+  };
   const handleSubmit = () => {
-    if(!onSubmit){
+    if (!onSubmit) {
       setOnSubmit(true);
       hoaDonService
         .addHoaDon({
@@ -51,6 +68,7 @@ const Menu = () => {
           TongTien: totalPrice,
           ThanhToan: false,
           NhanVien: auth.data.displayName,
+          TenBan: table
         })
         .then((res) => {
           console.log(res);
@@ -65,7 +83,7 @@ const Menu = () => {
               .then(() => {
                 if (index == items.length - 1) {
                   setItems([]);
-                  setOnSubmit(false)
+                  setOnSubmit(false);
                   alert.setAlert({
                     type: "success",
                     body: "Đặt món thành công",
@@ -98,8 +116,16 @@ const Menu = () => {
       selected: 0,
       url: "https://cdn.discordapp.com/attachments/945145709521432636/984537556345565244/kindpng_1146167.png",
     },
-    { name: "Tráng Miệng", selected: 0, url: "https://cdn.discordapp.com/attachments/945145709521432636/984540062312202290/PngItem_5764661.png" },
-    { name: "Nước Uống", selected: 0, url: "https://cdn.discordapp.com/attachments/945145709521432636/984540460418740246/pngfind.com-drinks-png-8691.png" },
+    {
+      name: "Tráng Miệng",
+      selected: 0,
+      url: "https://cdn.discordapp.com/attachments/945145709521432636/984540062312202290/PngItem_5764661.png",
+    },
+    {
+      name: "Nước Uống",
+      selected: 0,
+      url: "https://cdn.discordapp.com/attachments/945145709521432636/984540460418740246/pngfind.com-drinks-png-8691.png",
+    },
   ]);
 
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -133,6 +159,8 @@ const Menu = () => {
     });
     setTotalPrice(totalPrice);
   }, [items]);
+
+  
 
   return (
     <Box
@@ -215,8 +243,8 @@ const Menu = () => {
                   spacing={2}
                   padding={2}
                   width="90%"
-                  height="55vh"
-                  maxHeight="55vh"
+                  height="45vh"
+                  maxHeight="45vh"
                   sx={{ overflowY: "auto", overflowX: "hidden" }}
                 >
                   {items.map((item, index) => (
@@ -231,6 +259,41 @@ const Menu = () => {
                   ))}
                 </Stack>
                 <Divider sx={{ width: "90%" }} />
+                <br></br>
+                <FormControl>
+                  <InputLabel
+                    sx={{
+                      color: "white",
+                      "&.Mui-focused": {
+                        color: "white",
+                        borderColor: "red"
+                      },
+                      "&:after": {
+                        borderColor: "white"
+                      },
+                    }}
+                  >
+                    Bàn đã chọn
+                  </InputLabel>
+                  <Select
+                    sx={{
+                      backgroundColor: "rgba(225,225,225,0.4)",
+                      width: "15rem",
+                      "&:after": {
+                        borderColor: "white"
+                      },
+                    }}
+                    onChange={tableChange}
+                    value={table ? table : ""}
+                    label="Bàn đã chọn"
+                  >
+                    {tables?.map((item, index) => (
+                      <MenuItem key={index} value={item.data.TenBan}>
+                        {item.data.TenBan}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 <Box
                   display="flex"
                   flexDirection="column"
