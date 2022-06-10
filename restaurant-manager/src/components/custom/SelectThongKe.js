@@ -32,14 +32,15 @@ function SelectThongKe(props) {
 
   const SelectMonth = () => {
     return (
-      <FormControl>
-        <InputLabel>Tháng</InputLabel>
+      <FormControl sx={{ color: "#000" }}>
+        <InputLabel sx={{color: "#000"}} >Tháng</InputLabel>
         <Select
           value={monthSelect}
           sx={{
             "& .MuiSelect-select": {
               minWidth: "50px",
             },
+            color: "#000",
           }}
           onChange={MonthChange}
           label="Tháng"
@@ -47,7 +48,9 @@ function SelectThongKe(props) {
           inputProps={{ "aria-label": "Without label" }}
         >
           {month.map((item, index) => (
-            <MenuItem key={index} value={item}>
+            <MenuItem
+              key={index} value={item}
+            >
               {item}
             </MenuItem>
           ))}
@@ -59,13 +62,14 @@ function SelectThongKe(props) {
   const SelectYear = () => {
     return (
       <FormControl>
-        <InputLabel>Năm</InputLabel>
+        <InputLabel sx={{ color: "#000" }}>Năm</InputLabel>
         <Select
           value={yearSelect}
           sx={{
             "& .MuiSelect-select": {
               minWidth: "50px",
             },
+            color: "#000",
           }}
           onChange={yearChange}
           label="Năm"
@@ -85,7 +89,7 @@ function SelectThongKe(props) {
   const SelectOtp = () => {
     return (
       <FormControl>
-        <InputLabel>Chọn</InputLabel>
+        <InputLabel sx={{ color: "#000" }}>Chọn</InputLabel>
         <Select
           value={otp}
           onChange={OtpChange}
@@ -94,6 +98,7 @@ function SelectThongKe(props) {
             "& .MuiSelect-select": {
               minWidth: "100px",
             },
+            color: "#000",
           }}
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
@@ -111,7 +116,7 @@ function SelectThongKe(props) {
       <Stack
         spacing={2}
         direction="row"
-        sx={{ m: 2, display: "flex", justifyContent: "end" }}
+        sx={{ display: "flex", justifyContent: "end" }}
       >
         {otp === Option.month ? (
           <>
@@ -126,7 +131,16 @@ function SelectThongKe(props) {
             inputFormat="dd/MM/yyyy"
             value={dateSelect}
             onChange={dateChange}
-            renderInput={(params) => <TextField {...params} />}
+            renderInput={(params) => (
+              <TextField
+                sx={{
+                  "& .MuiInputBase-input": { color: "#000" },
+                  "& .MuiInputBase-root": { "&:hover" : { borderColor: "#000"} },
+                  "& .MuiInputLabel-root": { color: "#000" },
+                }}
+                {...params}
+              />
+            )}
           />
         ) : null}
         <SelectOtp />

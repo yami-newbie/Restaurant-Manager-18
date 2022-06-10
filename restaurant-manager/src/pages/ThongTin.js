@@ -1,9 +1,17 @@
-import { Card, Grid, TextField, Container, Avatar, Badge, Button, Stack, Typography } from '@mui/material';
-import { Box, styled } from '@mui/system';
-import React, { useEffect, useState } from 'react'
-import { Role, useAuth } from '../services/account.service'
+import {
+  Grid,
+  Avatar,
+  Badge,
+  Button,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { Box, styled } from "@mui/system";
+import React, { useEffect, useState } from "react";
+import { Role, useAuth } from "../services/account.service";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import Input from '../components/custom/Input';
+import Input from "../components/custom/Input";
+import { useAlertService } from '../services/alert.service'
 
 const SmallAvatar = styled(Avatar)(({ theme }) => ({
   width: 32,
@@ -12,11 +20,11 @@ const SmallAvatar = styled(Avatar)(({ theme }) => ({
 }));
 
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  if (string) return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 const ButtonC = (props) => {
-  const {text, onClick} = props;
+  const { text, onClick } = props;
   return (
     <Button
       sx={{
@@ -35,28 +43,27 @@ const ButtonC = (props) => {
       {text}
     </Button>
   );
-}
-
-
+};
 
 function ThongTin() {
   const auth = useAuth();
   const [displayName, setDisplayName] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
-  const [address , setAddress] = useState();
+  const [address, setAddress] = useState();
   const [photoURL, setPhotoURL] = useState();
   const [file, setFile] = useState();
   const [onEdit, setOnEdit] = useState(false);
 
+  const alert = useAlertService();
+
   useEffect(() => {
-    if(auth) {
-      setDisplayName(auth.user.displayName);
+    if (auth) {
+      setDisplayName(auth.data?.displayName);
       setPhoneNumber(auth.data?.phoneNumber);
-      setPhotoURL(auth.user.photoURL);
+      setPhotoURL(auth.data.photoURL);
       setAddress(auth.data?.address);
     }
-    // console.log(auth)
-  }, [auth])
+  }, [auth]);
 
   const onChangeImg = (e) => {
     var _file = e.target.files[0];
@@ -69,43 +76,53 @@ function ThongTin() {
   };
 
   const onSave = () => {
-    if(file){
-      auth.uploadImg(file).then(res => {
-        setPhotoURL(res);
+    try {
+      if (file) {
+        auth.uploadImg(file).then((res) => {
+          setPhotoURL(res);
+          auth._updateProfile({
+            photoURL: res,
+            displayName: displayName,
+            phoneNumber: phoneNumber,
+            address: address,
+            email: auth.user.email,
+          });
+        });
+      } else {
         auth._updateProfile({
-          photoURL: res,
+          photoURL: photoURL,
           displayName: displayName,
           phoneNumber: phoneNumber,
-          address: address
+          address: address,
+          email: auth.user.email,
         });
-      });
+      }
+
+      alert.setAlert({type: "success", body: "Cập nhật tài khoản thành công"})
+      alert.showAlert();
     }
-    else {
-      auth._updateProfile({
-        photoURL: photoURL,
-        displayName: displayName,
-        phoneNumber: phoneNumber,
-        address: address,
-      });
+    catch(e) {
+      console.log(e)
     }
-    setOnEdit(false)
-  }
+    
+    setOnEdit(false);
+  };
 
   const onCancel = () => {
     setOnEdit(false);
-    setDisplayName(auth.user.displayName);
+    setDisplayName(auth.data.displayName);
     setPhoneNumber(auth.data?.phoneNumber);
-    setPhotoURL(auth.user.photoURL);
+    setPhotoURL(auth.data.photoURL);
     setAddress(auth.data?.address);
-  }
+  };
 
   const enableEdit = () => {
     setOnEdit(true);
   };
 
   return (
-    <Container sx={{ display: "flex", justifyContent: "center" }}>
-      <Box sx={{ width: "70%", py: 10, pl: "80px" }}>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Box sx={{ width: "70%", py: 5, pl: "80px" }}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Badge
             overlap="circular"
@@ -143,7 +160,7 @@ function ThongTin() {
           </Badge>
           <Box sx={{ pl: "40px" }}>
             <Typography variant="h4" component="div">
-              {capitalizeFirstLetter(auth.user.displayName)}
+              {capitalizeFirstLetter(auth.data.displayName)}
             </Typography>
             <Typography variant="h7" color={"#959595"} component="div">
               {auth.data.address}
@@ -206,7 +223,7 @@ function ThongTin() {
           spacing={3}
           sx={{ mt: 5 }}
         >
-          {onEdit ? <ButtonC text="Hủy" onClick={onCancel}/> : null}
+          {onEdit ? <ButtonC text="Hủy" onClick={onCancel} /> : null}
           <ButtonC
             onClick={onEdit ? onSave : enableEdit}
             text={onEdit ? "Lưu" : "Chỉnh sửa"}
@@ -214,8 +231,8 @@ function ThongTin() {
         </Stack>
         {/* <Input text="" /> */}
       </Box>
-    </Container>
+    </Box>
   );
 }
 
-export default ThongTin
+export default ThongTin;

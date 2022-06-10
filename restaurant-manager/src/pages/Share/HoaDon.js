@@ -89,8 +89,8 @@ function HoaDonPage({list}) {
         }}
         filterList={filterList}
       />
-      <Box sx={{ overflow: "auto", height: window.innerHeight }}>
-        <Box sx={{ mx: 2, mt: 2 }}>
+      <Box sx={{ overflowY: "auto", height: "91vh", overflowX: "hidden" }}>
+        <Box sx={{mx: 2, my: 2 }}>
           <ListOrder list={listOrder} />
         </Box>
       </Box>

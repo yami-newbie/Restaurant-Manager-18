@@ -1,8 +1,6 @@
 import {
   Box,
   IconButton,
-  Paper,
-  TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ListDish from "../../components/QuanLyMon/ListDish";
@@ -78,11 +76,12 @@ function QuanLyMonAn() {
       <div
         style={{
           display: "flex",
+          alignItems: "center",
           flexDirection: "column",
           width: "100%",
           overflowX: "hidden",
           overflowY: "auto",
-          height: window.innerHeight,
+          height: "91vh",
         }}
       >
         <ListDish listDish={dishList} />
@@ -90,15 +89,9 @@ function QuanLyMonAn() {
       <div style={{ position: "absolute", right: "32px", bottom: "32px" }}>
         <IconButton
           onClick={onCreateNewDish}
-          color="primary"
-          sx={{
-            "&:hover": {
-              backgroundColor: "rgba(28, 46, 80, 1)",
-              color: "white",
-            },
-          }}
+          color="secondary"
         >
-          <AddIcon sx={{ width: 40, height: 40 }} />
+          <AddIcon sx={{ width: 50, height: 50 }} />
         </IconButton>
       </div>
       <DishDetail add={true} onClose={onClose} open={open} />

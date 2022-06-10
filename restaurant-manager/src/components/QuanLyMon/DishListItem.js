@@ -65,10 +65,13 @@ function DishListItem({ dish }) {
           mb: 1,
           width: 200,
           borderRadius: "1.5rem",
+          backgroundColor: "rgba(0,0,0,0.6)",
         }}
       >
-        <CardContent sx={{ mt: 6 }}>
-          <Divider sx={{ mb: 1 }} />
+        <CardContent sx={{ mt: 6, px: 3 }}>
+          <Divider
+            sx={{ backgroundColor: "#fff", mb: 1, borderBottomWidth: 1 }}
+          />
           <Typography
             sx={{ fontWeight: "bolder !important" }}
             component="div"
@@ -83,8 +86,10 @@ function DishListItem({ dish }) {
           >
             {formatter.format(price)}
           </Typography>
+          <Divider
+            sx={{ backgroundColor: "#fff", mt: 2 }}
+          />
         </CardContent>
-        <Divider variant="middle" />
         <CardActions sx={{ justifyContent: "space-between", ml: 1.5 }}>
           <IconButton
             onClick={() => {
@@ -93,19 +98,23 @@ function DishListItem({ dish }) {
                 // dataService.deleteThucAn(dish.id);
               }
             }}
-            color="primary"
+            color="error"
             aria-label="delete"
           >
             <DeleteIcon />
           </IconButton>
           <IconButton
-            color="primary"
+            sx={{ color: "#f7ab48" }}
             aria-label="edit"
             onClick={handleClickOpen}
           >
             <EditIcon />
           </IconButton>
-          <Switch checked={checked} onChange={onCheckedChange} />
+          <Switch
+            color="success"
+            checked={checked}
+            onChange={onCheckedChange}
+          />
         </CardActions>
       </Card>
       {imgSrc ? (
@@ -143,7 +152,7 @@ function DishListItem({ dish }) {
           setOpenConfirm(false);
         }}
       >
-        <DialogTitle sx={{ bgcolor: "rgba(28, 46, 80, 1)", color: "#FFF" }}>
+        <DialogTitle sx={{ bgcolor: "rgba(0, 0, 0, 1)", color: "#FFF" }}>
           <Typography variant="h5" component="div">
             Xác nhận xóa món ăn
           </Typography>
@@ -168,15 +177,14 @@ function DishListItem({ dish }) {
               try {
                 dataService.deleteThucAn(dish.id);
                 alert.setAlert({
-                  type: 'success',
-                  body: "Xóa món ăn thành công"
-                })
-              }
-              catch (e) {
+                  type: "success",
+                  body: "Xóa món ăn thành công",
+                });
+              } catch (e) {
                 alert.setAlert({
                   type: "error",
-                  body: `Có lỗi xảy ra, xóa thất bại`
-                })
+                  body: `Có lỗi xảy ra, xóa thất bại`,
+                });
                 console.log(e);
               }
 

@@ -38,7 +38,15 @@ function AppRoutes() {
       }}
     >
       {auth.user ? <Dashboard /> : null}
-      <Box sx={{ width: "100%" }}>
+      <Box
+        sx={{
+          width: "100%",
+          height: "100vh",
+          backgroundSize: "cover",
+          backgroundImage:
+            "url(https://cdn.discordapp.com/attachments/945145709521432636/984530926375677952/unknown.png)",
+        }}
+      >
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
@@ -50,7 +58,6 @@ function AppRoutes() {
             <Route path="/order/ongoing" element={<HoaDonChuaThanhToan />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/thongtin" element={<ThongTin />} />
-            <Route path="/account" element={<TaiKhoan/>}/>
 
             {auth.role === Role.admin ? (
               <>
@@ -59,7 +66,7 @@ function AppRoutes() {
                 <Route path="/coupon" element={<QuanLyMaGiamGia />} />
                 <Route path="/thongke/doanhthu" element={<ThongKeDoanhThu />} />
                 <Route path="/thongke/monan" element={<ThongKeMonAn />} />
-                
+                <Route path="/account" element={<TaiKhoan />} />
               </>
             ) : null}
           </Route>

@@ -5,20 +5,20 @@
             "white": "#fff"
         },
         "background": {
-            "paper": "#fff",
+            "paper": "rgba(0,0,0,0.8)",
             "default": "rgba(243, 244, 245, 1)"
         },
         "primary": {
-            "light": "rgba(39, 64, 112, 1)",
-            "main": "rgba(28, 46, 80, 1)",
-            "dark": "rgba(19, 31, 54, 1)",
+            "light": "rgba(29, 29, 29, 1)",
+            "main": "rgba(0, 0, 0, 1)",
+            "dark": "rgba(0, 0, 0, 1)",
             "contrastText": "#fff"
         },
         "secondary": {
             "light": "rgba(255, 255, 255, 1)",
             "main": "rgba(255, 255, 255, 1)",
             "dark": "rgba(243, 244, 245, 1)",
-            "contrastText": "rgba(28, 46, 80, 1)"
+            "contrastText": "rgba(0, 0, 0, 1)"
         },
         "error": {
             "light": "#e57373",
@@ -27,10 +27,10 @@
             "contrastText": "#fff"
         },
         "text": {
-            "primary": "rgba(0, 0, 0, 0.87)",
-            "secondary": "rgba(0, 0, 0, 0.54)",
+            "primary": "rgba(255, 255, 255, 1)",
+            "secondary": "rgba(255, 255, 255, 1)",
             "disabled": "rgba(0, 0, 0, 0.38)",
-            "hint": "rgba(0, 0, 0, 0.38)"
+            "hint": "rgba(255, 255, 255, 1)"
         }
     }
 }

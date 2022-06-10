@@ -10,13 +10,15 @@ import { useDishService as useMenuService } from "../services/thucan.service";
 import { useOrderService } from "../services/hoadon.service";
 import { useCT_OrderService } from "../services/ct_hoadon.service";
 import { formatter } from "../services/uilts/formatPrice";
-
+import { useAlertService } from '../services/alert.service'
+import { useAuth } from "../services/account.service";
 import CartItemCard from "../components/Menu/CartItemCard";
 
 const Menu = () => {
   const [foodList, setFoodList] = useState([]);
   const [items, setItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState("0");
+  const [onSubmit, setOnSubmit] = useState(false);
   const addItem = (item) => {
     const duplicate = items.filter((e) => e.name === item.name);
     if (duplicate.length == 0 || items.length == 0) {
@@ -37,30 +39,43 @@ const Menu = () => {
 
   const hoaDonService = useOrderService();
   const ctHoaDonService = useCT_OrderService();
+  const alert = useAlertService();
+  const auth = useAuth();
 
   const handleSubmit = () => {
-    hoaDonService
-      .addHoaDon({
-        ThoiGian: new Date(),
-        TongTien: totalPrice,
-        ThanhToan: false,
-      })
-      .then((res) => {
-        console.log(res);
-        items.forEach((e, index) => {
-          ctHoaDonService
-            .addCT_HoaDon({
-              Gia: e.price,
-              IDHoaDon: res.id,
-              IDThucAn: e.id,
-              SoLuong: e.amount,
-            })
-            .then(() => {
-              if (index == items.length - 1) setItems([]);
-            });
+    if(!onSubmit){
+      setOnSubmit(true);
+      hoaDonService
+        .addHoaDon({
+          ThoiGian: new Date(),
+          TongTien: totalPrice,
+          ThanhToan: false,
+          NhanVien: auth.data.displayName,
+        })
+        .then((res) => {
+          console.log(res);
+          items.forEach((e, index) => {
+            ctHoaDonService
+              .addCT_HoaDon({
+                Gia: e.price,
+                IDHoaDon: res.id,
+                IDThucAn: e.id,
+                SoLuong: e.amount,
+              })
+              .then(() => {
+                if (index == items.length - 1) {
+                  setItems([]);
+                  setOnSubmit(false)
+                  alert.setAlert({
+                    type: "success",
+                    body: "Đặt món thành công",
+                  });
+                  alert.showAlert();
+                }
+              });
+          });
         });
-      });
-    alert("ok!");
+    }
   };
 
   const removeItem = (item) => {
@@ -122,11 +137,11 @@ const Menu = () => {
   return (
     <Box
       height="100vh"
-      sx={{
-        backgroundSize: "cover",
-        backgroundImage:
-          "url(https://cdn.discordapp.com/attachments/945145709521432636/984530926375677952/unknown.png)",
-      }}
+      // sx={{
+      //   backgroundSize: "cover",
+      //   backgroundImage:
+      //     "url(https://cdn.discordapp.com/attachments/945145709521432636/984530926375677952/unknown.png)",
+      // }}
     >
       <Container>
         <Box padding={2}>

@@ -1,14 +1,14 @@
-import { Grid } from '@mui/material'
-import React from 'react'
+import { Grid } from "@mui/material";
+import React from "react";
 import DishListItem from "./DishListItem";
 
 function ListDish({ listDish = [] }) {
   return (
-    <Grid container spacing={2} sx={{ m: 2 }}>
+    <Grid container spacing={2} columns={10} sx={{ my: 2, width: "95%" }}>
       {listDish.map((dish, index) => {
         return (
-          <Grid item key={index}>
-            <DishListItem dish={dish}/>
+          <Grid item key={index} sm={5} md={2}>
+            <DishListItem dish={dish} />
           </Grid>
         );
       })}
@@ -16,4 +16,4 @@ function ListDish({ listDish = [] }) {
   );
 }
 
-export default ListDish
+export default ListDish;

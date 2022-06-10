@@ -1,6 +1,7 @@
 import {
   Box,
   Divider,
+  FormControl,
   IconButton,
   InputBase,
   MenuItem,
@@ -17,7 +18,10 @@ const SelectC = styled(Select)`
   & .MuiSelect-select {
     padding: 5px 14px;
   }
-  margin: 5px 0px;
+
+  & .MuiInputBase {
+    border-color: #fff;
+  }
 `;
 
 function SearchTextField(props) {
@@ -33,7 +37,10 @@ function SearchTextField(props) {
 
   return (
     <Box>
-      <Paper component="form" sx={{ m: 1, p: "2px 4px" }}>
+      <Paper
+        component="form"
+        sx={{ m: 1, p: "2px 4px", backgroundColor: "rgba(0,0,0,0.7)" }}
+      >
         <Box sx={{ display: "flex" }}>
           <InputBase
             sx={{ ml: 1, flex: 1, width: "100%", pl: 1 }}
@@ -41,9 +48,29 @@ function SearchTextField(props) {
             value={search}
             onChange={onChange}
           />
-          <SelectC value={filter} onChange={handleChange}>
-            {filterList?.map((item, i) => <MenuItem key={i} value={item}>{item}</MenuItem>)}
-          </SelectC>
+          <FormControl
+            sx={{
+              backgroundColor: "rgba(255,255,255,0.2)",
+              margin: "5px 0px",
+              borderRadius: "4px",
+            }}
+          >
+            <SelectC value={filter} onChange={handleChange}>
+              {filterList?.map((item, i) => (
+                <MenuItem
+                  sx={{
+                    "&.Mui-selected": {
+                      backgroundColor: "rgba(255, 255, 255, 0.3)",
+                    },
+                  }}
+                  key={i}
+                  value={item}
+                >
+                  {item}
+                </MenuItem>
+              ))}
+            </SelectC>
+          </FormControl>
           <IconButton onClick={onClear} sx={{ p: "10px" }} aria-label="search">
             <CloseIcon />
           </IconButton>
