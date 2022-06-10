@@ -17,6 +17,7 @@ import { Box } from "@mui/system";
 import Dashboard from "../Dashboard";
 import Menu from "../../pages/menu";
 import ThongTin from "../../pages/ThongTin";
+import TaiKhoan from "../../pages/TrangQuanLy/TaiKhoan";
 
 function AppRoutes() {
   const auth = useAuth();
@@ -49,6 +50,7 @@ function AppRoutes() {
             <Route path="/order/ongoing" element={<HoaDonChuaThanhToan />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/thongtin" element={<ThongTin />} />
+            <Route path="/account" element={<TaiKhoan/>}/>
 
             {auth.role === Role.admin ? (
               <>
@@ -57,6 +59,7 @@ function AppRoutes() {
                 <Route path="/coupon" element={<QuanLyMaGiamGia />} />
                 <Route path="/thongke/doanhthu" element={<ThongKeDoanhThu />} />
                 <Route path="/thongke/monan" element={<ThongKeMonAn />} />
+                
               </>
             ) : null}
           </Route>
