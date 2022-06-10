@@ -17,8 +17,9 @@ const Input = (props) => {
     bold = false,
     hideLabel = false,
     textAlign = "center",
-    items = []
+    items = [],
   } = props;
+
   return (
     <Box sx={{ justifyContent: "center", display: "flex" }}>
       <Box sx={{ width: width }}>
@@ -50,9 +51,16 @@ const Input = (props) => {
             },
             "& input": { textAlign: textAlign },
             width: "100%",
+            "& .Mui-disabled": {
+              "-webkit-text-fill-color": "#000",
+            },
           }}
         >
-          {items?.map((e,i) => <MenuItem key={i} value={e}>{e}</MenuItem>)}
+          {items?.map((e, i) => (
+            <MenuItem key={i} value={e}>
+              {e}
+            </MenuItem>
+          ))}
         </TextField>
       </Box>
     </Box>

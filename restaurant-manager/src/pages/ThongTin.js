@@ -5,6 +5,8 @@ import {
   Button,
   Stack,
   Typography,
+  ThemeProvider,
+  createTheme,
 } from "@mui/material";
 import { Box, styled } from "@mui/system";
 import React, { useEffect, useState } from "react";
@@ -119,119 +121,129 @@ function ThongTin() {
   const enableEdit = () => {
     setOnEdit(true);
   };
+  const theme = createTheme();
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <Box sx={{ width: "70%", py: 5, pl: "80px" }}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Badge
-            overlap="circular"
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            badgeContent={
-              <>
-                <label htmlFor="load-file">
-                  <SmallAvatar
-                    sx={{
-                      cursor: "pointer",
-                      backgroundColor: "#FD6123",
-                      "&:hover": {
-                        backgroundColor: "#ED5B21",
-                      },
-                    }}
-                  >
-                    <EditOutlinedIcon />
-                  </SmallAvatar>
-                </label>
-                <input
-                  onChange={onChangeImg}
-                  accept="image/*"
-                  id="load-file"
-                  disabled={onEdit ? false : true}
-                  type="file"
-                  hidden
-                />
-              </>
-            }
-          >
-            <Avatar
-              src={photoURL}
-              sx={{ width: "140px", height: "140px", boxShadow: 5 }}
-            />
-          </Badge>
-          <Box sx={{ pl: "40px" }}>
-            <Typography variant="h4" component="div">
-              {capitalizeFirstLetter(auth.data.displayName)}
-            </Typography>
-            <Typography variant="h7" color={"#959595"} component="div">
-              {auth.data.address}
-            </Typography>
+    <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          height: "100vh",
+          backgroundColor: "rgba(255,255,255,1)",
+        }}
+      >
+        <Box sx={{ width: "70%", py: 5, pl: "80px" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Badge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              badgeContent={
+                <>
+                  <label htmlFor="load-file">
+                    <SmallAvatar
+                      sx={{
+                        cursor: "pointer",
+                        backgroundColor: "#FD6123",
+                        "&:hover": {
+                          backgroundColor: "#ED5B21",
+                        },
+                      }}
+                    >
+                      <EditOutlinedIcon />
+                    </SmallAvatar>
+                  </label>
+                  <input
+                    onChange={onChangeImg}
+                    accept="image/*"
+                    id="load-file"
+                    disabled={onEdit ? false : true}
+                    type="file"
+                    hidden
+                  />
+                </>
+              }
+            >
+              <Avatar
+                src={photoURL}
+                sx={{ width: "140px", height: "140px", boxShadow: 5 }}
+              />
+            </Badge>
+            <Box sx={{ pl: "40px" }}>
+              <Typography variant="h4" component="div">
+                {capitalizeFirstLetter(auth.data.displayName)}
+              </Typography>
+              <Typography variant="h7" color={"#959595"} component="div">
+                {auth.data.address}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
 
-        <Grid container spacing={5} columns={12} sx={{ mt: "0px" }}>
-          <Grid justifyContent="center" item xs={6}>
-            <Input
-              text="Tên"
-              onChange={(e) => {
-                setDisplayName(e.target.value);
-              }}
-              disabled={onEdit}
-              value={displayName}
-            />
+          <Grid container spacing={5} columns={12} sx={{ mt: "0px" }}>
+            <Grid justifyContent="center" item xs={6}>
+              <Input
+                text="Tên"
+                onChange={(e) => {
+                  setDisplayName(e.target.value);
+                }}
+                disabled={onEdit}
+                value={displayName}
+              />
+            </Grid>
+            <Grid justifyContent="center" item xs={6}>
+              <Input
+                text="Địa chỉ"
+                onChange={(e) => {
+                  setAddress(e.target.value);
+                }}
+                disabled={onEdit}
+                value={address}
+              />
+            </Grid>
+            <Grid justifyContent="center" item xs={6}>
+              <Input
+                text="Số điện thoại"
+                type="phone"
+                onChange={(e) => {
+                  setPhoneNumber(e.target.value);
+                }}
+                disabled={onEdit}
+                value={phoneNumber}
+              />
+            </Grid>
+            <Grid justifyContent="center" item xs={6}>
+              <Input
+                text="Chức vụ"
+                disabled={onEdit}
+                readOnly={true}
+                value={auth.role === Role.admin ? "Quản lý" : "Nhân viên"}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Input
+                disabled={onEdit}
+                text="Email"
+                readOnly={true}
+                value={auth.user.email}
+              />
+            </Grid>
           </Grid>
-          <Grid justifyContent="center" item xs={6}>
-            <Input
-              text="Địa chỉ"
-              onChange={(e) => {
-                setAddress(e.target.value);
-              }}
-              disabled={onEdit}
-              value={address}
+          <Stack
+            direction="row"
+            justifyContent="center"
+            spacing={3}
+            sx={{ mt: 5 }}
+          >
+            {onEdit ? <ButtonC text="Hủy" onClick={onCancel} /> : null}
+            <ButtonC
+              onClick={onEdit ? onSave : enableEdit}
+              text={onEdit ? "Lưu" : "Chỉnh sửa"}
             />
-          </Grid>
-          <Grid justifyContent="center" item xs={6}>
-            <Input
-              text="Số điện thoại"
-              type="phone"
-              onChange={(e) => {
-                setPhoneNumber(e.target.value);
-              }}
-              disabled={onEdit}
-              value={phoneNumber}
-            />
-          </Grid>
-          <Grid justifyContent="center" item xs={6}>
-            <Input
-              text="Chức vụ"
-              disabled={onEdit}
-              readOnly={true}
-              value={auth.role === Role.admin ? "Quản lý" : "Nhân viên"}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Input
-              disabled={onEdit}
-              text="Email"
-              readOnly={true}
-              value={auth.user.email}
-            />
-          </Grid>
-        </Grid>
-        <Stack
-          direction="row"
-          justifyContent="center"
-          spacing={3}
-          sx={{ mt: 5 }}
-        >
-          {onEdit ? <ButtonC text="Hủy" onClick={onCancel} /> : null}
-          <ButtonC
-            onClick={onEdit ? onSave : enableEdit}
-            text={onEdit ? "Lưu" : "Chỉnh sửa"}
-          />
-        </Stack>
-        {/* <Input text="" /> */}
+          </Stack>
+          {/* <Input text="" /> */}
+        </Box>
       </Box>
-    </Box>
+    </ThemeProvider>
   );
 }
 
