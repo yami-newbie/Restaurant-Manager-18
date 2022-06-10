@@ -48,6 +48,7 @@ const Input = (props) => {
             "& .MuiInputBase-root": {
               borderRadius: "10px",
               height: height,
+              color: "#000"
             },
             "& input": { textAlign: textAlign },
             width: "100%",
