@@ -12,6 +12,7 @@ import {
   Paper,
   Select,
   Stack,
+  styled,
   TextField,
   Toolbar,
   Typography,
@@ -25,6 +26,27 @@ import { useCT_OrderService } from "../../services/ct_hoadon.service";
 import { useOrderService } from "../../services/hoadon.service";
 import { useTableService } from "../../services/ban.service";
 import { useAlertService } from '../../services/alert.service'
+
+const TextFieldC = styled(TextField)`
+  & .MuiOutlinedInput-root {
+    &.Mui-focused fieldset {
+      border-color: #fff;
+    }
+
+    & fieldset {
+      border-color: #fff;
+    }
+  }
+
+  & .MuiInputLabel-root {
+    &.Mui-focused {
+      color: #fff;
+    }
+  }
+`;
+      
+    
+
 
 function OrderDetail({
   open = false,
@@ -116,7 +138,11 @@ function OrderDetail({
   return (
     <Dialog
       PaperProps={{
-        style: { backgroundColor: "#f0f2f5" },
+        style: {
+          backgroundSize: "cover",
+          backgroundImage:
+            "url(https://cdn.discordapp.com/attachments/945145709521432636/984530926375677952/unknown.png)",
+        },
       }}
       fullScreen
       onClose={onClose}
@@ -179,14 +205,14 @@ function OrderDetail({
                     Thông tin khách hàng
                   </Typography>
                   <Stack spacing={3}>
-                    <TextField
+                    <TextFieldC
                       label="Tên khách hàng"
                       value={name}
                       onChange={(e) => {
                         setName(e.target.value);
                       }}
                     />
-                    <TextField
+                    <TextFieldC
                       label="Số điện thoại"
                       value={phoneNumber}
                       fullWidth
@@ -203,23 +229,35 @@ function OrderDetail({
                     Thông tin hoá đơn
                   </Typography>
                   <Stack spacing={3}>
-                    <TextField label="Mã hóa đơn" value={orderId} />
-                    <FormControl>
-                      <InputLabel>Bàn đã chọn</InputLabel>
-                      <Select
-                        onChange={tableChange}
-                        value={table ? table : ""}
-                        label="Bàn đã chọn"
-                      >
-                        {tables?.map((item, index) => (
-                          <MenuItem key={index} value={item.data.TenBan}>
-                            {item.data.TenBan}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                    <TextFieldC label="Mã hóa đơn" value={orderId} />
+                    <TextFieldC
+                      select
+                      onChange={tableChange}
+                      value={table ? table : ""}
+                      label="Bàn đã chọn"
+                    >
+                      {tables?.map((item, index) => (
+                        <MenuItem
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: "rgba(255,255,255,0.5)",
+                            },
+                            "&.Mui-selected": {
+                              backgroundColor: "rgba(255,255,255,0.3)",
+                              "&:hover": {
+                                backgroundColor: "rgba(255,255,255,0.5)",
+                              },
+                            },
+                          }}
+                          key={index}
+                          value={item.data.TenBan}
+                        >
+                          {item.data.TenBan}
+                        </MenuItem>
+                      ))}
+                    </TextFieldC>
 
-                    <TextField
+                    <TextFieldC
                       value={nameStaff}
                       fullWidth
                       label="Tên nhân viên"
@@ -228,6 +266,7 @@ function OrderDetail({
                       <Button
                         onClick={onCancel}
                         sx={{ width: "50%" }}
+                        color="secondary"
                         variant="contained"
                       >
                         Huỷ đơn
@@ -235,6 +274,7 @@ function OrderDetail({
                       <Button
                         sx={{ width: "50%" }}
                         variant="contained"
+                        color="secondary"
                         onClick={Save}
                       >
                         lưu

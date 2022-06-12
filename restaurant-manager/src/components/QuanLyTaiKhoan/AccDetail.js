@@ -40,7 +40,7 @@ function AccDetail(props) {
       setPhotoURL(data.photoURL);
       setPhoneNumber(data.phoneNumber);
       setEmail(data.email);
-      setRole(data.role)
+      setRole(data.role);
     }
   }, [acc]);
 
@@ -53,6 +53,8 @@ function AccDetail(props) {
       sx={{
         "& .MuiPaper-root": {
           borderRadius: "15px",
+          backgroundColor: "#fff",
+          color: "#000"
         },
       }}
     >
