@@ -9,6 +9,7 @@ import {
   MenuItem,
   Paper,
   Stack,
+  styled,
   TextField,
   Tooltip,
   Typography,
@@ -17,9 +18,31 @@ import React, { useEffect, useState } from "react";
 import { useAlertService } from "../../services/alert.service";
 import { danhmuc } from "../../services/Const";
 import { useDishService } from "../../services/thucan.service";
+
+
 const srcDefault =
   "https://firebasestorage.googleapis.com/v0/b/quanlynhahang-b44c4.appspot.com/o/images%2Fmeal-food.png?alt=media&token=f3f76cc9-c74d-4b08-9de9-b408e7745c42";
-function DishDetail({
+
+
+const TextFieldC = styled(TextField)`
+  & .MuiInputBase-root {
+    &.Mui-focused fieldset {
+      border-color: #fff;
+    }
+
+    & fieldset {
+      border-color: #fff;
+    }
+  }
+
+  & .MuiInputLabel-root {
+    &.Mui-focused {
+      color: #fff;
+    }
+  }
+`;
+
+  function DishDetail({
   onClose = null,
   open = false,
   dish = null,
@@ -75,15 +98,26 @@ function DishDetail({
   }, [dish]);
 
   const onUpdate = () => {
-    if(onSubmit) return
+    if (onSubmit) return;
     try {
       if (dish && dish.data) {
         setOnSubmit(true);
-      if (ImgSrc !== dish.data.ImgSrc) {
-        service.uploadImg(file).then((res) => {
+        if (ImgSrc !== dish.data.ImgSrc) {
+          service.uploadImg(file).then((res) => {
+            const after = {
+              TenThucAn: TenThucAn,
+              ImgSrc: res,
+              Gia: Number(Gia),
+              Enable: Enable,
+              GioiThieu: GioiThieu,
+              LoaiThucAn: LoaiThucAn,
+            };
+            const newDish = { ...dish.data, ...after };
+            service.updateThucAn(id, newDish).then((_) => setOnSubmit(false));
+          });
+        } else {
           const after = {
             TenThucAn: TenThucAn,
-            ImgSrc: res,
             Gia: Number(Gia),
             Enable: Enable,
             GioiThieu: GioiThieu,
@@ -91,37 +125,26 @@ function DishDetail({
           };
           const newDish = { ...dish.data, ...after };
           service.updateThucAn(id, newDish).then((_) => setOnSubmit(false));
+        }
+        alert.setAlert({
+          type: "success",
+          body: "Cập nhất thông tin món ăn thành công",
         });
-      } else {
-        const after = {
-          TenThucAn: TenThucAn,
-          Gia: Number(Gia),
-          Enable: Enable,
-          GioiThieu: GioiThieu,
-          LoaiThucAn: LoaiThucAn,
-        };
-        const newDish = { ...dish.data, ...after };
-        service.updateThucAn(id, newDish).then((_) => setOnSubmit(false));
+        alert.showAlert(3000);
       }
-      alert.setAlert({
-        type: "success",
-        body: "Cập nhất thông tin món ăn thành công",
-      });
-      alert.showAlert(3000);
-    }
-    } catch(e) {
+    } catch (e) {
       alert.setAlert({
         type: "error",
         body: `Có lỗi xảy ra ${e.message}`,
       });
       alert.showAlert(3000);
     }
-    
+
     onClose();
   };
 
   const onAdd = () => {
-    if(onSubmit) return
+    if (onSubmit) return;
     try {
       setOnSubmit(true);
       if (ImgSrc !== "") {
@@ -135,7 +158,7 @@ function DishDetail({
             GioiThieu: GioiThieu,
             LoaiThucAn: LoaiThucAn,
           };
-          service.addThucAn(newDish).then(_ => setOnSubmit(false));
+          service.addThucAn(newDish).then((_) => setOnSubmit(false));
         });
       } else {
         const newDish = {
@@ -151,11 +174,10 @@ function DishDetail({
       }
 
       alert.setAlert({
-        type: 'success',
-        body: "Thêm món ăn thành công"
-      })
+        type: "success",
+        body: "Thêm món ăn thành công",
+      });
       alert.showAlert(3000);
-
     } catch (e) {
       alert.setAlert({
         type: "error",
@@ -185,42 +207,42 @@ function DishDetail({
   };
 
   return (
-    <>
-      <Dialog
-        fullWidth={true}
-        maxWidth={"sm"}
-        PaperComponent="div"
-        onClose={onClose}
-        open={open}
+    <Dialog
+      fullWidth={true}
+      maxWidth={"sm"}
+      PaperComponent="div"
+      onClose={onClose}
+      open={open}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
       >
-        <Box
-          sx={{
-            position: "absolute",
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Tooltip placement="top" title="Bấm để thay đổi hình ảnh">
-            <>
-              <label htmlFor="load-file">
-                <Avatar
-                  sx={{ width: sizeImg, height: sizeImg, cursor: "pointer" }}
-                  src={ImgSrc}
-                />
-              </label>
-              <input
-                onChange={onChangeImg}
-                accept="image/*"
-                id="load-file"
-                type="file"
-                hidden
+        <Tooltip placement="top" title="Bấm để thay đổi hình ảnh">
+          <>
+            <label htmlFor="load-file">
+              <Avatar
+                sx={{ width: sizeImg, height: sizeImg, cursor: "pointer" }}
+                src={ImgSrc}
               />
-            </>
-          </Tooltip>
-        </Box>
-        <Paper sx={{ mt: "40px", pt: "60px", borderRadius: "1rem" }}>
-          <DialogTitle>
+            </label>
+            <input
+              onChange={onChangeImg}
+              accept="image/*"
+              id="load-file"
+              type="file"
+              hidden
+            />
+          </>
+        </Tooltip>
+      </Box>
+      <Paper sx={{ mt: "40px", pt: "60px", borderRadius: "1rem" }}>
+        <DialogTitle sx={{ pb: "0px" }}>
+          <Box>
             <Typography
               textAlign="center"
               variant="h5"
@@ -229,77 +251,103 @@ function DishDetail({
             >
               Chi tiết món ăn
             </Typography>
-          </DialogTitle>
-          <DialogContent>
-            <Stack spacing={2}>
-              <TextField
-                variant="standard"
-                value={TenThucAn}
-                fullWidth
-                label="Tên món ăn"
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-              />
-              <TextField
-                variant="standard"
-                type="number"
-                value={Gia}
-                fullWidth
-                label="Giá"
-                onChange={(e) => {
-                  setPrice(e.target.value);
-                }}
-              />
-              <TextField
-                variant="standard"
-                select
-                value={Enable}
-                onChange={onSelectStateChange}
-                fullWidth
-                label="Trạng thái"
-              >
-                <MenuItem value={true}>Kinh doanh</MenuItem>
-                <MenuItem value={false}>Tạm dừng</MenuItem>
-              </TextField>
-              <TextField
-                variant="standard"
-                select
-                value={LoaiThucAn}
-                onChange={onSelectDanhMucChange}
-                fullWidth
-                label="Loại thức ăn"
-              >
-                {danhmuc.map((e, i) => (
-                  <MenuItem key={i} value={e}>
-                    {e}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                variant="outlined"
-                fullWidth
-                value={GioiThieu}
-                multiline
-                rows={5}
-                label="Giới thiệu"
-                onChange={(e) => {
-                  setDescription(e.target.value);
-                }}
-              />
-            </Stack>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={onClose}>Hủy</Button>
-            <Button onClick={() => (update ? onUpdate() : onAdd())}>
-              Xác nhận
-            </Button>
-          </DialogActions>
-        </Paper>
-      </Dialog>
-
-      {true ? <></> : null}
-    </>
+          </Box>
+        </DialogTitle>
+        <DialogContent>
+          <Stack spacing={2} sx={{ mt: 1 }}>
+            <TextFieldC
+              variant="outlined"
+              value={TenThucAn}
+              fullWidth
+              label="Tên món ăn"
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+            <TextFieldC
+              variant="outlined"
+              type="number"
+              value={Gia}
+              fullWidth
+              label="Giá"
+              onChange={(e) => {
+                setPrice(e.target.value);
+              }}
+            />
+            <TextFieldC
+              variant="outlined"
+              select
+              value={Enable}
+              onChange={onSelectStateChange}
+              fullWidth
+              label="Trạng thái"
+            >
+              <MenuItem value={true}>Kinh doanh</MenuItem>
+              <MenuItem value={false}>Tạm dừng</MenuItem>
+            </TextFieldC>
+            <TextFieldC
+              variant="outlined"
+              select
+              value={LoaiThucAn}
+              onChange={onSelectDanhMucChange}
+              fullWidth
+              label="Loại thức ăn"
+            >
+              {danhmuc.map((e, i) => (
+                <MenuItem
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "rgba(255,255,255,0.5)",
+                    },
+                    "&.Mui-selected": {
+                      backgroundColor: "rgba(255,255,255,0.3)",
+                      "&:hover": {
+                        backgroundColor: "rgba(255,255,255,0.5)",
+                      },
+                    },
+                  }}
+                  key={i}
+                  value={e}
+                >
+                  {e}
+                </MenuItem>
+              ))}
+            </TextFieldC>
+            <TextFieldC
+              variant="outlined"
+              fullWidth
+              value={GioiThieu}
+              multiline
+              rows={3}
+              label="Giới thiệu"
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+            />
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            sx={{
+              color: "#fff",
+              "&:hover": { backgroundColor: "rgba(255,255,255,0.6)" },
+            }}
+            onClick={onClose}
+          >
+            Hủy
+          </Button>
+          <Button
+            sx={{
+              color: "#fff",
+              "&:hover": { backgroundColor: "rgba(255,255,255,0.6)" },
+            }}
+            onClick={() => (update ? onUpdate() : onAdd())}
+          >
+            Xác nhận
+          </Button>
+        </DialogActions>
+      </Paper>
+    </Dialog>
   );
 }
 

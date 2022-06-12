@@ -27,12 +27,14 @@ const Menu = () => {
   const [table, setTable] = useState();
   const [tables, setTables] = useState();
   const table_dataService = useTableService();
+
   useEffect(() => {
     const list = table_dataService.tablesEnable;
     if (list) {
       setTables(list);
     }
   }, [table_dataService]);
+
   const addItem = (item) => {
     const duplicate = items.filter((e) => e.name === item.name);
     if (duplicate.length == 0 || items.length == 0) {
@@ -149,7 +151,7 @@ const Menu = () => {
   const menuService = useMenuService();
 
   useEffect(() => {
-    setFoodList(menuService.dishes);
+    setFoodList(menuService.dishes.filter(e => e.data.Enable));
   }, [menuService]);
 
   useEffect(() => {
