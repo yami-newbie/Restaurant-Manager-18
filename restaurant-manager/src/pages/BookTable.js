@@ -32,6 +32,7 @@ function BookTable() {
   const ct_datban = CT_DatBanService();
 
   useEffect(() => {
+    
     if (table.tables) {
       setTableList(table.tables);
       getAllOrderByDate(new Date().toLocaleDateString());
@@ -152,7 +153,7 @@ function BookTable() {
               onChange={(newValue) => {
                 setDay(newValue);
               }}
-              renderInput={(params) => <TextField {...params} />}
+              renderInput={(params) => <TextField {...params} sx={{backgroundColor:"white"}}/>}
             />
           </LocalizationProvider>
         </div>
@@ -195,11 +196,11 @@ function BookTable() {
       </div>
       <div className="button-list">
         <Stack spacing={2} direction="row">
-          <Button variant="outlined">Trở lại</Button>
-          <Button variant="contained" onClick={handleConfirm}>
+          <Button variant="outlined" color="secondary">Trở lại</Button>
+          <Button variant="contained" onClick={handleConfirm} color="secondary">
             Xác nhận
           </Button>
-          <Link href="#" underline="hover" sx={{ marginTop: "5px" }}>
+          <Link href="#" underline="hover" sx={{ marginTop: "5px" }} color="secondary">
             {"Bỏ qua"}
           </Link>
         </Stack>

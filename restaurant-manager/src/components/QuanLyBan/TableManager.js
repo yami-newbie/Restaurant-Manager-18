@@ -128,13 +128,13 @@ function TableManager() {
     <div className="table-manager">
       <div className="left-panel">
         <div className="table-list">
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <LocalizationProvider dateAdapter={AdapterDateFns} >
             <DatePicker
               value={day}
               onChange={(newValue) => {
                 setDay(newValue);
               }}
-              renderInput={(params) => <TextField {...params} />}
+              renderInput={(params) => <TextField {...params} sx={{backgroundColor:"white"}}/>}
             />
           </LocalizationProvider>
 
@@ -186,6 +186,7 @@ function TableManager() {
                       <Button
                         variant="outlined"
                         onClick={() => handleShowDetail(order.data.time)}
+                        color="secondary"
                       >
                         {order.data.time[0]}-{order.data.time[1]}
                       </Button>

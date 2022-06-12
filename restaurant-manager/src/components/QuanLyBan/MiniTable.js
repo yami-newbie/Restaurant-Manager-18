@@ -4,10 +4,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import DetailsIcon from '@mui/icons-material/Details';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { Menu } from '@material-ui/core';
+import { CardContent, Menu } from '@material-ui/core';
 import TableDetail from './TableDetail';
 import { useAlertService } from '../../services/alert.service';
 import { useTableService } from '../../services/ban.service';
+import InfoIcon from "@mui/icons-material/Info";
 
 function MiniTable(props) {
   const {table, enable, onClick, onDelete} = props;
@@ -75,20 +76,27 @@ function MiniTable(props) {
         
       ):(
         <div 
-          style={{width:'100%', height:'100%', padding:"10px", '&:hover':{cursor:'pointer'}}}
+          style={{width:'100%', height:'100%', marginTop:'20px'}}
         >
-          <Typography variant="h5">
-            {table.data.TenBan}
-          </Typography>
-          <Typography variant="subtitle2" 
-          sx={{paddingTop:'20px' }}>
-              {table.count} lượt đặt
-          </Typography>
+          <div style={{display:'flex', justifyContent:'center'}}>
+            <Typography variant="h5">
+              {table.data.TenBan}
+            </Typography>
+          </div>
+          <Divider color="white" sx={{ml: 4, mr: 4, mt: 2}}/>
+          <div style={{display:'flex', justifyContent:'center'}}>
+            <Typography variant="subtitle2" 
+            sx={{paddingTop:'20px' }}>
+                {table.count} lượt đặt
+            </Typography>
+          </div>
+          <Divider color="white" sx={{ml: 4, mr: 4, mt: 2}}/>
           <div className='button-group'>
-            <IconButton onClick={handleClick}>
-              <DetailsIcon/>  
+
+            <IconButton onClick={handleClick} color="info">
+              <InfoIcon/>  
             </IconButton>
-            <IconButton onClick={handleClickOpen}>
+            <IconButton onClick={handleClickOpen} sx={{ color: "#f7ab48" }}>
               <EditIcon/>
             </IconButton>
             <IconButton 
@@ -96,7 +104,9 @@ function MiniTable(props) {
                 if (table && table.data) {
                   setOpenConfirm(true);
                 }
-              }}>
+              }}
+              color="error"
+              >
               <DeleteIcon/>
             </IconButton>
           </div>

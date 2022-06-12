@@ -103,7 +103,7 @@ function TableDetail(props) {
     }
   return (
     <Dialog onClose={handleClose} open={open}>
-        <DialogTitle>{(add)?("Thêm bàn"):("Sửa bàn")}</DialogTitle>
+        <DialogTitle sx={{backgroundColor: "#2b3236"}}>{(add)?("Thêm bàn"):("Sửa bàn")}</DialogTitle>
         <div className='add-dialog'>
             <div className='ban'>
                 <TextField label="Tên bàn" variant="outlined" onChange={handleNameChange} value={name}></TextField>

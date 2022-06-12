@@ -12,7 +12,7 @@ import FoodCard from "../components/Menu/FoodCard";
 import Divider from "@mui/material/Divider";
 import { useDishService as useMenuService } from "../services/thucan.service";
 import { useOrderService } from "../services/hoadon.service";
-import { useTableService } from "../services/ban.serivce";
+import { useTableService } from "../services/ban.service";
 import { useCT_OrderService } from "../services/ct_hoadon.service";
 import { formatter } from "../services/uilts/formatPrice";
 import { useAlertService } from "../services/alert.service";
