@@ -21,6 +21,9 @@ function AccPreview(props) {
 
   const [name, setName] = useState();
   const [role, setRole] = useState();
+  const removeAccount = () => {
+    
+  }
 
   useEffect(() => {
     if (acc) {
