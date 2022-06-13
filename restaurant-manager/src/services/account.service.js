@@ -133,7 +133,12 @@ function useProvideAuth() {
   }, []);
 
   useEffect(() => {
-    setData(taiKhoan?.filter(e => e.id === user.uid)[0].data)
+    const res = taiKhoan?.filter((e) => e.id === user.uid);
+    console.log(res)
+    if(res){
+      if(res.length > 0)
+      setData(res[0].data)
+    }
   }, [taiKhoan, user])
 
   useEffect(() => {

@@ -32,42 +32,42 @@ function BookTable() {
   const ct_datban = CT_DatBanService();
 
   useEffect(() => {
-    
     if (table.tables) {
       setTableList(table.tables);
       getAllOrderByDate(new Date().toLocaleDateString());
     }
+
   }, [table]);
-  useEffect(()=>{
-    console.log(tableList);
-  }, [tableList])
 
   useEffect(() => {
-    const tl = tableList.map((table) => {
-      const value = getOrderPerTableByDay(table.data.TenBan);
-      const kq = value?.map((v) => {
-        const timeline = v.data.time;
-        if (time[0] > time[1]) time.reverse();
-        if (time[0] <= timeline[0] && timeline[0] < time[1]) {
-          return 0;
-        }
-        if (time[0] < timeline[1] && timeline[1] <= time[1]) {
-          return 0;
+    if(tableList.length > 0 && tableList){
+      const tl = tableList.map((table) => {
+        const value = getOrderPerTableByDay(table.data.TenBan);
+        const kq = value?.map((v) => {
+          const timeline = v.data.time;
+          if (time[0] > time[1]) time.reverse();
+          if (time[0] <= timeline[0] && timeline[0] < time[1]) {
+            return 0;
+          }
+          if (time[0] < timeline[1] && timeline[1] <= time[1]) {
+            return 0;
+          }
+        });
+        if (kq?.filter((e) => typeof e != "undefined").length > 0) {
+          return {
+            ...table,
+            status: -1,
+          };
+        } else {
+          return {
+            ...table,
+            status: 0,
+          };
         }
       });
-      if (kq?.filter((e) => typeof e != "undefined").length > 0) {
-        return {
-          ...table,
-          status: -1,
-        };
-      } else {
-        return {
-          ...table,
-          status: 0,
-        };
-      }
-    });
-    setTableList(tl);
+      setTableList(tl);
+    }
+    
   }, [time]);
 
   useEffect(() => {

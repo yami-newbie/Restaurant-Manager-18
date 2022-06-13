@@ -17,7 +17,6 @@ import { useDishService } from "../services/thucan.service";
 import { useCT_OrderService } from "../services/ct_hoadon.service";
 import { useOrderService } from "../services/hoadon.service";
 import { Timestamp } from "firebase/firestore";
-import { list } from "firebase/storage";
 
 const TrangChu = () => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -182,7 +181,6 @@ const TrangChu = () => {
     for (let i = 0; i < 7; i++) {
       const element = getOrdersByMonth(month-i, year);
       listHoaDonTheoThang.push({data: element, Thang: (month-i)<=0? month-i+12 : month-i});
-      console.log(element)
     }
     const list = listHoaDonTheoThang.map(listHoaDon => {
       if (listHoaDon.data.length > 0) {
